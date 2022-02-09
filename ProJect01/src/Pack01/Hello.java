@@ -8,29 +8,26 @@ public class Hello {
 	}
 }
 */
-// ex22) switch 활용
 public class Hello {
 	public static void main(String[] args) {
 		Random rnd = new Random();
-		// 0~9숫자 랜덤하게
-		int num = rnd.nextInt(30);
-		switch(num%2) {
-		case 0: {
-			for (int i = 0; i < 10; i++) {
-				System.out.println(num + "*" + i + "="+ num*i);
-			}
-			
-		} break; // 한줄 이상일 경우에는 중괄호 묶고 뒤에 바로 break
-		case 1:{
-			int sum = 0;
-			for (int i = 1; i <= num; i++) {
-				sum += i;
-			}
-			System.out.println(num + "까지의 합은"+sum);
-		} break;
-		default:
-			break;
+		int[]  arr = new int[10];
+		for (int i = 0; i < arr.length; i++) {
+			arr[i] = rnd.nextInt(20);
 		}
+		for (int i = 0;  i < arr.length; i++) {
+			System.out.print(arr[i]+" ");
+		}System.out.println();
+		int sum = 0;
+		
+		for (int i = 0; i < arr.length/2; i++) {
+			sum += arr[i] + arr[arr.length-i-1];
+			System.out.print(sum+" ");
+			sum = 0;
+			
+		}
+
+		
 	}
 }
 /*
@@ -525,6 +522,78 @@ public class Hello {
 			System.out.println("F");
 			break;
 		}
+	}
+}
+
+// ex22) switch 활용
+public class Hello {
+	public static void main(String[] args) {
+		Random rnd = new Random();
+		// 0~9숫자 랜덤하게
+		int num = rnd.nextInt(30);
+		switch(num%2) {
+		case 0: {
+			for (int i = 0; i < 10; i++) {
+				System.out.println(num + "*" + i + "="+ num*i);
+			}
+			
+		} break; // 한줄 이상일 경우에는 중괄호 묶고 뒤에 바로 break
+		case 1:{
+			int sum = 0;
+			for (int i = 1; i <= num; i++) {
+				sum += i;
+			}
+			System.out.println(num + "까지의 합은"+sum);
+		} break;
+		default:
+			break;
+		}
+	}
+}
+
+// ex23) 배열(array)
+public class Hello {
+	public static void main(String[] args) {
+		// 1.  정석
+		int[] arr = new int[10]; // A[] arr = new A[1]
+		
+		// 2. 예제 샘플에서 사용
+		int[] brr = new int[] {10, 20, 30};
+		
+		// 3.
+		int[] crr = {40, 50, 60};
+		
+		// arr은 변수가 10개 있다.
+		
+		arr[0] = 10;
+		System.out.println(arr[0]);
+		System.out.println(arr[1]); // 미 설정시 초기화 0 -> 속도 저하 원인
+		
+		arr[9] = 20;
+		System.out.println(arr[9]);
+		
+		// ArrayIndexOutOfBoundsException, 프로그램 중단됨
+		//arr[-5] = 100; 
+		//arr[10] = 100;
+		System.out.println("호랑이");
+		
+		// 인덱스로 변수 사용 및 산술연산 가능
+		int num = 4;
+		arr[num*2] = 10;
+		arr[num*2-7] = 999;
+		System.out.println(arr[8]); // 10
+		
+		arr[5] = 7;
+		arr[7] = 777;
+		arr[arr[5]*2-7] = 888;
+		System.out.println(arr[7]); /// 888
+		
+		System.out.println(arr.length); //10
+		
+		for (int i = 0; i < arr.length; i++) {
+			System.out.print(arr[i] + " ");
+		}System.out.println(); // 줄바꿈까지 하나의 쌍으로
+		System.out.println("독수리");
 	}
 }
  */
