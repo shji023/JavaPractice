@@ -1081,7 +1081,7 @@ public class Hello {
 	}
 }
 
-// ex37) 함수 오버로딩 예제
+//ex37) 함수 오버로딩 예
 class Tiger{
 	int getRectangle(int w, int h) {
 		return w * h;
@@ -1092,6 +1092,7 @@ class Tiger{
 		int height = y2-y1+1;
 		return width * height;
 	}
+	// 단, 리턴 값이 다른경우에는 오버로딩 불가능
 }
 public class Hello {
 	public static void main(String[] args) {
