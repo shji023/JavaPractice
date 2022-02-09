@@ -3,34 +3,16 @@ package Pack01;
 import java.util.Random;
 
 /*
+class Tiger{
+
+}
 public class Hello {
 	public static void main(String[] args) {
+	Tiger t1 = new Tiger();
 	}
 }
 */
-public class Hello {
-	public static void main(String[] args) {
-		Random rnd = new Random();
-		int[]  arr = new int[10];
-		for (int i = 0; i < arr.length; i++) {
-			arr[i] = rnd.nextInt(20);
-		}
-		for (int i = 0;  i < arr.length; i++) {
-			System.out.print(arr[i]+" ");
-		}System.out.println();
-		int sum = 0;
-		
-		for (int i = 0; i < arr.length/2; i++) {
-			sum += arr[i] + arr[arr.length-i-1];
-			System.out.print(sum+" ");
-			sum = 0;
-			
-		}
 
-		
-	}
-}
-/*
 // ex1) hello world
 public class Hello {
 	public static void main(String[] args) {
@@ -596,4 +578,184 @@ public class Hello {
 		System.out.println("독수리");
 	}
 }
- */
+
+// ex24)
+public class Hello {
+	public static void main(String[] args) {
+		Random rnd = new Random();
+		int[]  arr = new int[10];
+		// 데이터 갱신과 출력은 따로 구분
+		for (int i = 0; i < arr.length; i++) {
+			//데이터 갱신
+			arr[i] = rnd.nextInt(20);
+		}
+		for (int i = 0;  i < arr.length; i++) {
+			// 데이터 출력
+			System.out.print(arr[i]+" ");
+		}System.out.println();
+		
+		// 맨앞+맨뒤, 그다음 앞+그다음 뒤, ...
+		int sum = 0;
+		for (int i = 0; i < arr.length/2; i++) {
+			sum += arr[i] + arr[arr.length-i-1];
+			System.out.print(sum+" ");
+			sum = 0;
+			
+		}
+
+		
+	}
+}
+
+// 클래스의 첫글자는 대문자
+class Airplane {
+	// 1. 필드(변수) >> 속성
+	// 멤버 변수
+	int a; 
+	float b;
+	int seat;
+	// int[] arr; 메모리를 몇개 요청? 없다. new로 안만들면 할당되는 메모리 없음
+	int[] arr = new int[4];
+	
+	int num = 99;
+	// 2. 생성자
+	// 3. 메소드(함수)
+}
+// ex25) 클래스
+public class Hello {
+	public static void main(String[] args) {
+		// 실제 비행기가 만들어짐
+		Airplane air = new Airplane();
+		Airplane air2 = new Airplane();
+		
+		// air.a = 10; dot-체이닝
+		air.b = 20.0f;
+		air.seat = 30;
+		
+		System.out.println(air.a); // 0으로 초기화됨
+		System.out.println(air.b); // 20.0
+		
+		air2.seat = 40;
+		//air와 air2는 서로다른 메모리이다.
+		System.out.println(air.seat+" "+air2.seat);
+		
+		for (int i = 0; i < air.arr.length; i++) {
+			air.arr[i] = i*10;
+		}
+		for (int i = 0; i < air.arr.length; i++) {
+			System.out.print(air.arr[i]);
+		}System.out.println();
+		for (int i = 0; i < air2.arr.length; i++) {
+			System.out.print(air2.arr[i]);
+		}System.out.println();
+		
+		// 과거의 값들은 사라지고 새로운 메모리 할당됨
+		air.arr = new int[8];
+				
+		// 부가 설명
+		// int[]ar;
+		// ar = new int[10];
+		// ar을 사용했다고 치고 이전의 10개는 사라짐. 새로운 20개가 생성
+		// ar = new int [20];
+		
+		// 메모리 반납 코드
+		// delete ar; << 자바에서는 프로그래머가 신경쓸 부분이 아니다.
+		
+		// 값은 같기만 각각 다른 메모리안에 존재
+		System.out.println(air.num); // 99
+		System.out.println(air2.num); // 99
+	}
+}
+
+class Tiger {
+	// 1. void f1() {} / 리턴없다 f1(인수전달 없음) {}
+	// 2. void f1(int a) {} / 리턴없다 f1(인수전달 있음) {}
+	// 3. int f1() {} / 리턴있다 f1(인수전달 없음) {}
+	// 3. int f1(int a) {} / 리턴있다 f1(인수전달 있음) {}
+	
+	void method01() {
+		System.out.println("method01");
+	}
+	void method02() {
+		System.out.println("method02");
+	}
+}
+// ex26) class 1
+public class Hello {
+	public static void main(String[] args) {
+		// 코드의 재활용
+		// 함수(메소드): 자주 사용되는 코드를 저장해서 재활용한다.
+		Tiger t1 = new Tiger();
+		System.out.println(1000);
+		t1.method01(); // 함수를 호출한다. method01로 프로그램 분기가 일어남
+		System.out.println(2000);
+		
+		Tiger t2 = new Tiger();
+		t2.method01(); // 함수 메모리는 딱 한번만 만들어짐
+		t1.method02();
+		t2.method02();
+	}
+}
+
+// ex27) class2
+class Tiger{
+	void m1() {
+		System.out.println("멍");
+	}
+	void m2(int num) {
+		//num은 지역변수
+		System.out.println("멍" + num);
+	}
+	void m3(int num) {
+		for (int i = 0; i < num; i++) {
+			System.out.print("멍");
+		}
+	}
+	// 두개의 인수에 각각 다 type을 붙여주어야함
+	void m4(int a, int b) {
+		System.out.println(a*b);
+	}
+	void m5(int width, int height, char ch, boolean b) {
+		for (int i = 0; i < height; i++) {
+			for (int j = 0; j < width; j++) {
+				System.out.print(ch + " ");
+			}System.out.println();
+		}
+	}
+	void m6(int num) {
+		for (int i = 0; i < 10; i++) {
+			System.out.println(num+" * "+i+" = "+i*num);
+
+		}
+	}
+	void m7(int num) {
+		int sum = 0;
+		for (int i = 1; i <= num; i++) {
+			sum += i;
+			System.out.println(sum);
+		}
+	}
+	void m8(int w, int h, char ch1, char ch2) {
+		for (int i = 0; i < h; i++) {
+			for (int j = 0; j < w; j++) {
+				System.out.print(
+						(i+j) % 2 == 0? ch1+" ": ch2+ " "
+				);	
+			}System.out.println();
+		}
+	}
+}
+public class Hello {
+	public static void main(String[] args) {
+		Tiger t1 = new Tiger();
+		t1.m1();
+		t1.m2(3);
+		t1.m3(8);
+		t1.m4(3, 4);
+		// 가로, 세로
+		t1.m5(5, 4, '*', true);
+		t1.m6(5);
+		t1.m7(10);
+		t1.m8(8, 7, 'O', 'X');
+	}
+}
