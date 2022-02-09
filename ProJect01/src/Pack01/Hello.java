@@ -8,7 +8,7 @@ class Tiger{
 }
 public class Hello {
 	public static void main(String[] args) {
-	Tiger t1 = new Tiger();
+		Tiger t1 = new Tiger();
 	}
 }
 */
@@ -698,7 +698,7 @@ public class Hello {
 }
 
 // ex27) class2
-class Tiger{
+class Tiger {
 	void m1() {
 		System.out.println("멍");
 	}
@@ -757,5 +757,346 @@ public class Hello {
 		t1.m6(5);
 		t1.m7(10);
 		t1.m8(8, 7, 'O', 'X');
+	}
+}
+// ex28) 
+class Tiger {
+	void func01() {
+	}
+	// 정수 리턴 해야함.
+	int func02() {
+		return 100;
+	}
+	// 메소드에서 return 키워드를 만나면 함수가 중단된다. 
+	
+	int func03() {
+		if (3>2) {
+			return 100;
+		} else if ( false ) {
+			return 200;
+		}else {
+			System.out.println(1000); // 어떤 식으로 코드가 진행 되더라도 return을 만나야함
+			//return 300;
+		}
+		return 2000;
+	}
+	 // void 이지만 return 키워드를 사용할 수 있다.
+	void func04() {
+		for (int i = 0; i < 10; i++) {
+			if(i==5) {
+				break; // for문 탈출 
+				// return; func04 중단
+			}
+		}
+		System.out.println("for 중단됨");
+	}
+	int func05(int num) {
+		// return num * num;
+		int result = num * num;
+		return result;
+	}
+	int func06(int num) {
+		return num * num;
+	}
+	// 규칙을 만든다 (음수면 -1리턴 등등) 
+	// -1이 리턴된 경우는 음수인 경우이다. 
+	int func07(int num) {
+		if(num < 0) {
+			System.out.println("음수임");
+			return -1; 
+		}
+		if (num % 2 == 0) {
+			System.out.println("짝");
+		} else {
+			System.out.println("홀");
+		}
+		return 1;
+	}
+}
+public class Hello {
+	public static void main(String[] args) {
+		Tiger t1 = new Tiger();
+		
+		int num = t1.func02();
+		System.out.println(num);
+		
+		System.out.println(t1.func02());
+		System.out.println(100);
+		
+		// 왜 에러냐 -> 리턴값이 없는데 출력하려하기 때문
+		// System.out.println(t1.func01());
+		
+		t1.func04();
+		t1.func05(5);
+		t1.func07(-4);
+		
+		if(t1.func07(-4)==-1) {
+			// 출력문을 main에서 써야 응용이 가능함
+			// 함수에서 쓰면 무조건 한번 쓴대로만 써야하기에 응용이 쉽지 않음
+			System.out.println("음수입니다.");
+		}
+	}
+}
+
+// ex29)
+class Tiger {
+	void f1() {
+		System.out.println(1);
+	}
+	void f2() {
+		f1();
+		System.out.println(2);
+	}
+	void f3() {
+		f2();
+		System.out.println(3);
+	}
+	// 상호호출 - 무한 루프
+	void f4() {
+		System.out.println(4);
+		f5();
+	}
+	void f5() {
+		System.out.println(5);
+		f4();
+	}
+	// 재귀 호출(recursive call)
+	void f6() {
+		System.out.println(6);
+		f6();
+	}
+
+}
+public class Hello {
+	public static void main(String[] args) {
+		Tiger t1 = new Tiger();
+		t1.f3(); // 1 2 3
+		
+	}
+}
+
+// ex30)
+class Tiger {
+	int a, b;
+	void showData() {
+		System.out.println(a+" "+b);
+	}
+	int add() {
+		return a+b;
+	}
+	void m1(int a, int b) {
+		// 이름 중첩 시 지역변수 먼저 사용
+		// 인수값이 먼저 사용된다.
+		int result = a + b;
+		System.out.println(result); // 500
+		// 필드의 a, b를 사용하고 싶으면?
+		// this 사용
+	}
+}
+public class Hello {
+	public static void main(String[] args) {
+		Tiger t1 = new Tiger();
+		t1.a = 10;
+		t1.b = 20;
+		t1.showData();
+		System.out.println(t1.add());
+		t1.m1(100, 400);
+		
+	}
+}
+
+// ex31)
+public class Hello {
+	public static void main(String[] args) {
+		Tiger t1 = new Tiger();
+		// String: 문자열을 전문적으로 관리한다. 첫글자 대문자!( =클래스)
+		// 만든적이 없는데? => 표준으로 제공되는 클래스
+		// 도움될만한 method가 뭐가 있을까
+		
+		String s1 = new String();
+		s1 = "호랑이";
+		System.out.println(s1);
+		System.out.println(s1.length());
+		
+		// 약식 표현
+		String s2 = "앵무새";
+		System.out.println(s2);
+		
+		Math m;
+	}
+}
+
+// ex32)
+class Tiger {
+	// String을 인수로 받을 수 있다는 얘기는 class를 받는것
+	// 인수로 받을 수 있는것 : primitive type + class
+	void m1(float a, String s) {
+		System.out.println(a+" "+s);
+		System.out.println(s.length());
+	}
+	String m2() {
+		String s = "호랑이";
+		return s;
+	}
+	String m3() {
+		return null; // 초기에 null로 세팅
+	}
+}
+public class Hello {
+	public static void main(String[] args) {
+		Tiger t1 = new Tiger();
+		t1.m1(3.14f, "호랑이");
+		
+		String s = t1.m2();
+		System.out.println(s);
+		
+		// 앞으로 객체가 생성이 된다면 사용될 이름을 정의해놓은것
+		// 객체가 생성된 것은 아님
+		String s2;
+		// s2.length(); 에러
+		
+		// 아직 s2는 객체가 아니다라는 것을 명시적으로 표시
+		String s3 = null;
+		s3 = "코끼리";
+		// 적당하게 사용하다가..
+		s3 = null;
+	}
+}
+
+// ex33)
+class Tiger {
+
+}
+class Lion {
+	// Lion이 될까?
+	// Tiger t = new Tiger() => t는 newTiger()니까 newTiger()넘겨주면됨
+	void m1(int a, String s, Tiger t, Lion l) {
+		if(s != null) {
+		}
+	}
+	Tiger m2() {
+		return null;
+	}
+	Tiger m3() {
+		return new Tiger(); // 클래스 객체 리턴 가능
+	}
+	Tiger m4() {
+		Tiger t = new Tiger();
+		return t;
+	}
+	Tiger m5(Tiger t) {
+		return t;
+	}
+}
+public class Hello {
+	public static void main(String[] args) {
+		Lion t1 = new Lion();
+		// String으로 null을 넣어줘도 됨-> 사용을 안하려면
+		t1.m1(10, "호랑이", new Tiger(), new Lion());
+	}
+}
+
+// ex34)
+class Tiger{
+	int num = 100;
+}
+public class Hello {
+	public static void main(String[] args) {
+		Tiger t1 = new Tiger();
+		System.out.println(t1.hashCode());
+		
+		Tiger t2 = new Tiger();
+		System.out.println(t2.hashCode());
+	
+		Tiger t3 = null;
+		// System.out.println(t3.hashCode()); err=>해시코드를 얻어낼 수 없어 에러 검출 불가능
+		t3 = t1; // 해시코드 값 부여 
+		//메모리를 참조한다.(공유한다)
+		System.out.println(t3.hashCode());
+		System.out.println(t1.num);
+		System.out.println(t3.num);
+		t1.num = 200;
+		System.out.println(t3.num);// t1을 바꿔도 변화됨
+	}
+}
+// ex35)
+class Tiger{
+	int number;
+}
+class Lion{
+	// Tiger bbb = aaa; 자료 공유
+	Tiger m1(Tiger bbb) {
+		System.out.println(bbb.number);
+		System.out.println(bbb.hashCode());
+		bbb.number  = 888;
+		return bbb;
+	}
+}
+
+public class Hello {
+	public static void main(String[] args) {
+		Lion t1 = new Lion();
+		Tiger aaa = new Tiger();
+		aaa.number = 999;
+		System.out.println("aaa hashCode = "+aaa.hashCode());
+		Tiger ccc = t1.m1(aaa);
+		System.out.println("ccc hashCode = "+ccc.hashCode());
+		System.out.println("ccc number = "+ccc.number);
+		
+	}
+}
+
+// ex36) 오버로딩(Overloading): 함수이름을 동일하게 작명 가능한 경우
+class Tiger{
+	void showMeTheMoney() {
+		System.out.println(1);
+	}
+	// 인수 전달 개수 다를 시 동일한 이름의 함수 사용 가능
+	void showMeTheMoney(int a) {
+		System.out.println(2);
+	}
+	void showMeTheMoney(int a, int b) {
+		System.out.println(3);
+	}
+	// 인수 개수 같아도 타입이 다를 시 동일한 이름의 함수 사용 가능
+	void showMeTheMoney(float a) {
+		System.out.println(4);
+	}
+	void showMeTheMoney(Tiger t) {
+		System.out.println(5);
+	}
+}
+public class Hello {
+	public static void main(String[] args) {
+		Tiger t1 = new Tiger();
+		t1.showMeTheMoney();
+		t1.showMeTheMoney(10);
+		t1.showMeTheMoney(10, 20);
+		t1.showMeTheMoney(3.14f);
+		t1.showMeTheMoney(new Tiger());
+		float f = 3; // 모호하게 3.0f로 안쓰고
+		t1.showMeTheMoney((float)3); // type casting을 할수도 있음
+		// type casting할 바엔 3.0f 정확하게 쓰는게 낫다
+		
+	}
+}
+
+// ex37) 함수 오버로딩 예제
+class Tiger{
+	int getRectangle(int w, int h) {
+		return w * h;
+	}
+	// 작명-> 오버로딩이 없었을 때는 getRectangle2 이런식으로 했음
+	int getRectangle(int x1, int y1, int x2, int y2){
+		int width = x2-x1+1;
+		int height = y2-y1+1;
+		return width * height;
+	}
+}
+public class Hello {
+	public static void main(String[] args) {
+		Tiger t1 = new Tiger();
+		System.out.println(t1.getRectangle(10, 5));
+		System.out.println(t1.getRectangle(10, 5, 20, 15));
 	}
 }
