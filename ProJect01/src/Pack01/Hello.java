@@ -1587,3 +1587,149 @@ public class Hello {
 	// 첫번째 인수에 this가 있으면 
 	// 상대방 클래스에 나의 정보를 던져주는 것이다.
 }
+
+// ex47) 상속
+class Aaa { // 부모
+	void f1() {
+		System.out.println(1);
+	}
+	// 함수 원형(prototype) - void f3() 
+	void f3() {
+		System.out.println(31);
+	} // 직접적으로는 호출 불가 자식에 f3 있기 때문
+	
+	String f5(int a, int b, String t) {
+		return null;
+	}
+}
+class Bbb extends Aaa { // 자식
+	void f2() {
+		System.out.println(2);
+	}
+	// 오버라이딩 (overriding) - 부모이름과 똑같음
+	void f3() {
+		System.out.println(32);
+	}
+	void f4() {
+		f3(); // 바로 위에 32, = this.f3();
+		super.f3(); // 부모의 f3 31
+	}
+	// 오버라이딩 해서 사용하기 
+	// 오버라이딩 된 함수라는 것을 알리기 위해 @Override 적어줌 
+	@Override
+	String f5(int a, int b, String t) {
+		return null;
+	}
+	// 오버라이드 한다고 해놓고 인수 제대로 다 안쓰면 에러
+}
+public class Hello {
+	public static void main(String[] args) {
+		Bbb t1 = new Bbb();
+		t1.f1(); // 1
+		t1.f2(); // 2
+		t1.f3(); // 32
+		t1.f4();
+	}
+}
+
+// ex48)
+class Aaa { // 조부
+	void f1() {
+		System.out.println(1);
+	}
+}
+class Bbb extends Aaa { // 부모
+	
+}
+class Ccc extends Bbb {
+	
+}
+class Ddd extends Bbb {
+	
+}
+
+public class Hello {
+	public static void main(String[] args) {
+		Ccc t1 = new Ccc();
+		t1.f1();
+	}
+}
+
+// ex49)
+// 생성자가 호출되는 실행 순서: 부모 >> 자식 --- 잘못된 해석
+// 자식 - 부모임
+class Aaa {
+	Aaa() {
+		System.out.println(1);
+	}
+	Aaa(int a) {
+		System.out.println(3);
+	}
+}
+class Bbb extends Aaa {
+	Bbb() {
+		// 부모 생성자를 콜하는 코드가 생략되었다.
+		// 만약에 생략을 안했다면
+		super(100); // 인수 정해주면 밑에 Aaa
+		System.out.println(2);
+	}
+	Bbb(int a, int b) {
+		super(); 
+		System.out.println(2);
+	}
+}
+public class Hello {
+	public static void main(String[] args) {
+		Bbb b1 = new Bbb(); // 3 2
+		Bbb b2 = new Bbb(3, 4); // 1 2
+	}
+}
+
+// ex50)
+//class Aaa extends Object {
+//	
+//}
+// 실질적으로 작성하는 모든 class는 자식 클래스
+class Aaa {
+	void f1() {}
+}
+class Bbb extends Aaa {
+	void f2() {}
+}
+class Ccc extends Bbb {
+	void f3() {}
+	void f4() {}
+}
+public class Hello {
+	public static void main(String[] args) {
+		Ccc t1 = new Ccc();
+		StringBuffer sb;
+	}
+}
+
+// ex51) this용법 4
+class Tiger {
+	int num;
+	int age;
+	Tiger() {
+		age = 1000; // 이렇게 쓰면 모든 생성자가 다 기본 1000이 됨 -> this로 Tiger()을 부르니까
+		System.out.println(1);
+	}
+	Tiger(int a) {
+		this(); // 반드시 코드의 첫줄에 와야함
+		num = a;
+		System.out.println(2);	
+	}
+	Tiger(int b, int c) {
+		// 위에 Tiger(int a)를 콜하고 싶다면
+		this(b*c);
+		System.out.println(3);
+	}
+}
+public class Hello {
+	public static void main(String[] args) {
+		Tiger t1 = new Tiger(10, 30);
+		Tiger t2 = new Tiger();
+		System.out.println(t2.age);
+	}
+}
