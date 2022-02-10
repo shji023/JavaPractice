@@ -13,6 +13,33 @@ public class Hello {
 }
 */
 
+// ex46-3)this용법 3
+class Man {
+	void f1() {
+		Woman w = new Woman();
+		// this -> 다른 클래스에 나의 정보를 던질 때 사용
+		boolean result = w.marry(this);
+		System.out.println(result ? "^^":"ㅜ.ㅜ");
+	}
+	String 성격() {
+		return "포악";
+	}
+}
+class Woman {
+	boolean marry(Man info) {
+		String str = info.성격();
+		return str == "포악" ? false : true;
+	}
+}
+public class Hello {
+	public static void main(String[] args) {
+		Man t1 = new Man();
+		t1.f1();
+	}
+}
+
+
+/*
 // ex1) hello world
 public class Hello {
 	public static void main(String[] args) {
@@ -1282,3 +1309,275 @@ public class Hello {
 		
 	}
 }
+
+//ex43) static (설계도 안에 들어있는 관제탑 한개만 만들어 놓으세요. 매번 객체 생성할때마다 그리지 말고)
+class Tiger {
+	
+	static int n1; // 필드명도 static 활용가능, 모든 객체는 n1을 공용으로 사용한다.
+	int n2;
+	// static-컴파일이 되면 클래스 외부로 나가버리는 코드 
+	// 모든 객체는 관제탑을 공용으로 사용한다.
+	static void 관제탑() {
+		System.out.println("콜");
+	}
+	void fly() {
+		
+	}
+}
+public class Hello {
+	public static void main(String[] args) {
+		// 밑에 주석해서 객체 생성 안하면 fly 사용 불가
+		// Tiger t1 = new Tiger();
+		Tiger.관제탑(); // 객체 생성 안해도 사용가능
+		// 컴파일 시 외부에서 이미 존재하기 때문에
+		// fly쓰고 싶으면 객체 생성시켜서 써야함
+		Tiger t1 = new Tiger();
+		t1.fly();
+		t1.관제탑(); // 객체로도 관제탑 접근 가능
+		System.out.println(Tiger.n1);
+		System.out.println(t1.n2);
+	}
+}
+
+// ex43-1)
+class Tiger {
+	// 필드는 객체 만드는대로 생기는데 
+	// 함수는 한번만 만들어짐
+	// 그러면 왜 한번만 만들어지는 static을 사용해야할까?
+	// 객체를 생성시키는 new 문장의 비용이 매우 높음
+	// static->시스템의 속도를 요구할 때 사용함
+	static void f1() {
+		
+	}
+	void f2() {
+		
+	}
+}
+public class Hello {
+	// 아래 코드 모두 작성 가능
+	int age;
+	Hello() {
+		
+	}
+	void  f1() {
+		
+	}
+	// 진입점(Entry Point)
+	// static - 객체를 생성시키지 않아도 메모리를 가짐
+	// main 호출은 OS
+	// Hello h = new Hello();
+	// h.main();
+	// Hello.main()
+	public static void main(String[] args) {
+		// 객체 생성 비용이 많이 든다.
+		Tiger t1 = new Tiger();
+		Tiger t2 = new Tiger();
+	}
+	// 메인 아래 코드 작성해도 무방
+	void f2() {
+		
+	}
+}
+
+// ex43-2)
+class Tiger {
+	int n1;
+	static int n2;
+	static void f1() {
+		// n1 = 100; 없는 메모리를 들고 나가기 때문에 에러 
+		n2 = 200;
+		// f2();
+		f3();
+		// static안에서는 static만 사용가능
+	}
+	void f2() {
+		f1();
+	}
+	static void f3() {}
+}
+public class Hello {
+	public static void main(String[] args) {
+		Tiger t1 = new Tiger();
+	}
+}
+// ex43-3)
+class Tiger {
+	void f1() {
+		Tiger t = new Tiger();
+	}
+}
+public class Hello {
+	int n1;
+	static int n2;
+	void f1() {};
+	static void f2() {};
+ 	public static void main(String[] args) {
+		//f1();
+		f2();
+		//n1 = 10;
+		n2 = 10;
+		Hello h = new Hello(); // hello 객체 두개-> window객체 생성, 새로 생성
+		h.n1 = 10;
+		h.n2 = 20;
+		h.f1();
+		h.f1();
+	}
+}
+
+//ex43-4)
+class Tiger {
+	static int count = 0;
+	int num = 0;
+	Tiger() {
+		count++;
+		num++;
+	}
+}
+public class Hello {
+	public static void main(String[] args) {
+		Tiger t1 = new Tiger();
+		Tiger t2 = new Tiger();
+		Tiger t3 = new Tiger();
+		// 공용으로 사용하기에 count 누적 증가
+		System.out.println("생성된 객체 수는: "+Tiger.count);
+		System.out.println(t1.num);
+		System.out.println(t2.num);
+		System.out.println(t3.num);
+	}
+}
+
+// ex44)
+class Tiger {
+	private Tiger() {	
+	}
+}
+public class Hello {
+	public static void main(String[] args) {
+		// Tiger t1 = new Tiger(); tiger객체생성 불가-> private
+		// Math m = new Math();
+		// m.abs();
+		System.out.println(Math.abs(-10));
+		Math.abs(-10);
+		
+	}
+}
+
+// ex45)
+class Lion {
+	
+}
+class Tiger {
+	Lion lion;
+	Tiger tiger;
+	Tiger() {
+		// this = ???; new 쓰기전
+		// this = t1; new 쓴 후
+		// this = t2
+		System.out.println(this.hashCode()); // 1586600255
+	}
+	// Tiger this; 생략된 코드 내부적으로 만들어짐
+}
+public class Hello {
+	public static void main(String[] args) {
+		Tiger t1 = new Tiger();
+		System.out.println(t1.hashCode()); // 1586600255
+		
+		Tiger t2 = new Tiger();
+		System.out.println(t2.hashCode());
+	}
+}
+
+// ex46-1) this용법 1
+// 함수의 전달 인수와 필드를 구분하기 위한 용도
+// 자동생성: 생성자, getter setter, toString
+class Tiger {
+	String name;
+	int age;
+	// 가독성이 떨어지는 코드, 인수명이 무엇을 의미하는지 모름
+	//	Tiger(String n, int a) {
+	//		
+	//	}
+	// 필드명과 인수 이름 똑같이 사용하는게 원칙으로 
+	
+	Tiger(String name, int age) {
+		this.name = name; // 필드 <= 인수
+		this.age = age; // 필드 <= 인수
+	}
+	
+	void f1() {
+		// System.out.println(name+""+age);
+		System.out.println(this.name+""+this.age);
+		// 인수명이랑 구분할 필요도 없는데 왜 붙이냐 
+		System.out.println(name+""+age);
+	}
+	
+	// source -> generate constructor using field
+//	public Tiger(String name, int age) {
+//		super();
+//		this.name = name;
+//		this.age = age;
+//	}
+
+	void f2() {
+		f1();
+		this.f1();
+	}
+	void f3(String name, int age) {
+		this.name = name;
+		this.age = age; 
+	}
+
+	@Override
+	public String toString() {
+		return "Tiger [name=" + name + ", age=" + age + "]";
+	}
+	
+}
+public class Hello {
+	public static void main(String[] args) {
+		Tiger t1 = new Tiger("호랑이", 10);
+		System.out.println(t1);
+		t1.f3("독수리",20);
+		System.out.println(t1);
+	}
+}
+
+// ex46-2) this용법2
+// chaining을 목적으로 함
+class Tiger {
+	// Tiger this;
+	Tiger f1() {
+		System.out.println("아침");
+		// return null;
+		// return new Tiger();
+		return this;
+	}
+	
+	Tiger f2() {
+		System.out.println("점심");
+		return this; // 뒤에 체이닝을 걸 수 있다는 말
+	}
+	void f3() {
+		System.out.println("저녁");
+	}
+}
+public class Hello {
+	public static void main(String[] args) {
+		Tiger t1 = new Tiger();
+		t1.f1().f2().f3(); // f1이 newTiger리턴했으니까
+		// 체이닝
+		t1.f1().f1().f1().f2().f1().f3();
+		// 밑에 처럼 해도 되는데 왜 체이닝을?
+		t1.f1();
+		t1.f2();
+		t1.f3();
+		// 끼어들기 가능. 이질감이 있는 코드가 끼어들 수 있음
+		// 끼어들기 막기 위해 체이닝 사용
+		// 일괄적인 작업을 유도 시킬 때 
+		t1.f1();
+		System.out.println("끼어들기");
+		t1.f2();
+		t1.f3();
+	}
+}
+*/
