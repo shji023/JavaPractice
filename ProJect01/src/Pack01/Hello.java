@@ -3,7 +3,7 @@ package Pack01;
 import java.util.Random;
 
 /*
-class Tiger{
+class Tiger {
 
 }
 public class Hello {
@@ -997,7 +997,7 @@ public class Hello {
 }
 
 // ex34)
-class Tiger{
+class Tiger {
 	int num = 100;
 }
 public class Hello {
@@ -1020,10 +1020,10 @@ public class Hello {
 	}
 }
 // ex35)
-class Tiger{
+class Tiger {
 	int number;
 }
-class Lion{
+class Lion {
 	// Tiger bbb = aaa; 자료 공유
 	Tiger m1(Tiger bbb) {
 		System.out.println(bbb.number);
@@ -1047,7 +1047,7 @@ public class Hello {
 }
 
 // ex36) 오버로딩(Overloading): 함수이름을 동일하게 작명 가능한 경우
-class Tiger{
+class Tiger {
 	void showMeTheMoney() {
 		System.out.println(1);
 	}
@@ -1082,7 +1082,7 @@ public class Hello {
 }
 
 //ex37) 함수 오버로딩 예
-class Tiger{
+class Tiger {
 	int getRectangle(int w, int h) {
 		return w * h;
 	}
@@ -1099,5 +1099,186 @@ public class Hello {
 		Tiger t1 = new Tiger();
 		System.out.println(t1.getRectangle(10, 5));
 		System.out.println(t1.getRectangle(10, 5, 20, 15));
+	}
+}
+// ex38) 생성자 
+// 1. 사용 목적: 필드 초기화
+// 2. 생성자 메소드 => 함수이다.
+// 3. 함수의 이름은 반드시 클래스 이름과 동일
+// 4. 인수를 전달 받을 수 있지만, return을 가질 수 없음.
+// 5. 인수 전달이 없는 생성자를 디폴트 생성자라고 함.
+// 6. 호출은 new키워드를 사용할 때 딱 1번 호출됨.
+// 	  프로그래머가 임의로 호출할 수 없음.
+// 7. 함수이기때문에 오버로딩을 할 수 있음
+// 8. 생성자코드를 작성하지 않으면 자동으로 작성됨.
+//	  <-> 생성자 코드를 작성하면 자동으로 생성자 코드가 만들어지지 않음
+class Tiger {
+	// 필드
+	int age;
+	
+	// 디폴트 생성자
+	Tiger() {
+		System.out.println("생성자 콜");
+		age = 100;
+	}
+	// 메소드
+}
+public class Hello {
+	public static void main(String[] args) {
+		System.out.println(1);
+		Tiger t1 = new Tiger(); // new 때문에 생성자 호출됨. Tiger()함수 호출하시오.
+		System.out.println(2);
+		
+		// 객체를 한번 더 만들면?
+		Tiger t2 = new Tiger(); // 또 생성자 호출
+		System.out.println(3);
+		
+		for (int i = 0; i < 3; i++) {
+			Tiger temp = new Tiger();
+			System.out.println(temp.hashCode());
+		}
+	}
+}
+// ex39)
+class Tiger{
+	// 생성자에서 값 변경할 수 있도록 int age = 100; 이런식으로x
+	int age;                // 초기화방법1(먼저실행)
+	Tiger() {				// 초기화방법2(나중실행)
+		System.out.println(1);
+		age = 100;
+	}
+	Tiger(int data) {
+		System.out.println(2);
+		age = data;
+	}
+}
+public class Hello {
+	public static void main(String[] args) {
+		Tiger t1 = new Tiger();
+		System.out.println(t1.age); //100
+		Tiger t2 = new Tiger(200);
+		System.out.println(t2.age); //200
+	}
+}
+
+// ex40)
+class Tiger {
+	int age = 10; // 초기에 값을 넣어버리면 출발이 무조건 10
+	Tiger() {
+		System.out.println(age); //10
+		age = 20;
+	}
+	Tiger(int data) {
+		age = data;
+	}
+}
+public class Hello {
+	public static void main(String[] args) {
+		Tiger t1 = new Tiger();
+		System.out.println(t1.age); //20
+		Tiger t2 = new Tiger(200);
+		System.out.println(t2.age);
+	}
+}
+// ex41)
+class Tiger {
+	String name;
+	int age;
+	
+	// 안적으면 자동으로 생성됨
+	// 적으면 자동으로 안만들어지기 때문에 Tiger t1 = new Tiger(); 에러뜸
+	Tiger(){} // 그냥 적어줌, 일반적으로 미리 적어준다.
+	Tiger(int data) {
+		//name = null;
+		name = "익명";
+		age = data; 
+	}
+	Tiger(String n, int data) {
+		name = n;
+		age = data;
+	}
+	//멤버를 출력할 수 있는 전용함수를 만들다
+	void showData() {
+		System.out.println(name+" "+age);
+	}
+	
+	// 해당함수 드래그하고 우클릭->source->generate toString
+	@Override
+	public String toString() {
+		return "Tiger [name=" + name + ", age=" + age + "]";
+	}
+}
+public class Hello {
+	public static void main(String[] args) {
+		Tiger t1 = new Tiger(100);
+		System.out.println(t1.name+" "+t1.age);
+		Tiger t2 = new Tiger("홍길동", 200);
+		t2.showData();
+		
+		System.out.println(t1.toString());
+		System.out.println(t1);
+	}
+
+	@Override
+	public String toString() {
+		return "Hello [toString()=" + super.toString() + "]";
+	}
+}
+
+// 42)
+class Tiger {
+	// 부품 취급
+	// 밖에서 직접적으로 사용하는 것은 금기
+	// data, 변수들은 밖으로 노출 되는 것을 꺼림
+	// data 은닉 필요
+	private int age; // 뒤에있는 필드는 클래스 안에서만 사용하기
+	// 다 공용으로 사용할 수 있을 때는 public. 원래 default 키워드 사용,  
+	private String name; 
+	
+	// getter setter 메소드
+	// get(read), set(write)으로 외부의 값 오픈하는것에 대한 경우의수 4가지 나옴
+	// 외부에서 접근해도 되겠다 싶은 것들 선택적으로 오픈 가능
+	int getAge() {
+		return age;
+	}
+	void setAge(int data) {
+		age = data;
+	}
+	Tiger() {
+		age = 100;
+	}
+	
+	void setName(String n) {
+		name = n;
+	}
+	String getName() {
+		return name;
+	}
+	
+	// f1, f2는 f3을 목적으로 쓰는것이기에 private으로 은닉
+	private void f1() {
+	}
+	private void f2() {
+	}
+	void f3() {
+		f1();
+		f2();
+	}
+}
+public class Hello {
+	public static void main(String[] args) {
+		Tiger t1 = new Tiger();
+		// 멤버필드는 객체를 생성시켜서
+		// 직접 사용하는 것은 거의 xx
+		// System.out.println(t1.age);
+		// 클래스에서 속성은 밖으로 드러지 않음
+		// t1.money = 200;
+		// 객체를 만드는 사람은 클래스 안에 필드내용을 모르고도 사용할 줄 알아야함
+		// 함수를 사용함으로써
+		
+		// t1.f1(); private이라 접근 불가
+		t1.setAge(1000);
+		System.out.println(t1.getAge());
+		
 	}
 }
