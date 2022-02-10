@@ -13,6 +13,8 @@ public class Hello {
 }
 */
 
+
+/*
 // ex1) hello world
 public class Hello {
 	public static void main(String[] args) {
@@ -1733,3 +1735,4 @@ public class Hello {
 		System.out.println(t2.age);
 	}
 }
+*/
