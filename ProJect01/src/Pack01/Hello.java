@@ -13,33 +13,6 @@ public class Hello {
 }
 */
 
-// ex46-3)this용법 3
-class Man {
-	void f1() {
-		Woman w = new Woman();
-		// this -> 다른 클래스에 나의 정보를 던질 때 사용
-		boolean result = w.marry(this);
-		System.out.println(result ? "^^":"ㅜ.ㅜ");
-	}
-	String 성격() {
-		return "포악";
-	}
-}
-class Woman {
-	boolean marry(Man info) {
-		String str = info.성격();
-		return str == "포악" ? false : true;
-	}
-}
-public class Hello {
-	public static void main(String[] args) {
-		Man t1 = new Man();
-		t1.f1();
-	}
-}
-
-
-/*
 // ex1) hello world
 public class Hello {
 	public static void main(String[] args) {
@@ -1580,4 +1553,37 @@ public class Hello {
 		t1.f3();
 	}
 }
-*/
+
+// ex46-3)this용법 3
+class Man {
+	void f1() {
+		Woman w = new Woman();
+		// this -> 다른 클래스에 나의 정보를 던질 때 사용
+		boolean result = w.marry(this);
+		System.out.println(result ? "^^":"ㅜ.ㅜ");
+	}
+	String 성격() {
+		return "포악";
+	}
+}
+class Woman {
+	boolean marry(Man info) {
+		String str = info.성격();
+		return str == "포악" ? false : true;
+	}
+}
+public class Hello {
+	public static void main(String[] args) {
+		Man t1 = new Man();
+		t1.f1();
+		
+		Control con = new Control();
+		// 여기서 this는 hello객체 던지는 것
+		con.makeButton(this, "텍스트", "색상") {
+			this.칠하다();
+		}
+	}
+	void 칠하다() {}
+	// 첫번째 인수에 this가 있으면 
+	// 상대방 클래스에 나의 정보를 던져주는 것이다.
+}
