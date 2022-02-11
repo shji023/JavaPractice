@@ -14,29 +14,32 @@ public class Hello2 {
 	}
 }
 */
-// ex67-7)의존주입 template
-class Aaa {
-	Bbb bbb;
-	Aaa(Bbb bbb) {
-		this.bbb = bbb;
-	}
-	void f2() {
-		bbb.f1();
-	}
-}
-
-interface Bbb {
+// ex69)
+interface Tiger {
 	void f1();
 }
-class Ccc implements Bbb {
-	public void f1() {
-		System.out.println("의존주입");
-	};
+class Lion {
+	void f1(Tiger t) {
+		t.f1(); // 문제없음
+	}
 }
 public class Hello2 {
 	public static void main(String[] args) {
-		Aaa t = new Aaa(new Ccc());
-		t.f2();
+		Lion lion = new Lion();
+		// lion.f1(new Tiger()); err 객체 만들 수 없기에
+		// 익명 클래스 만들어서 전달
+		lion.f1( new Tiger() {
+			@Override
+			public void f1() {
+				System.out.println("호랑이");
+			}
+		});
+		lion.f1( new Tiger() {
+			@Override
+			public void f1() {
+				System.out.println("독수리");
+			}
+		});
 	}
 }
 /*
@@ -779,6 +782,9 @@ class Baduk {
 	// 생성자에서 인수전달을 처음부터 해버림
 	Ai ai;
 //생성자는 주입을 받고있다. injection + 의존적, 의존 주입(DI)
+//	Baduk() {
+//		System.out.println("대국을 시작합니다.");
+//	}
 	Baduk(Ai ai) {
 		this.ai = ai;
 		System.out.println("대국을 시작합니다.");
@@ -835,6 +841,78 @@ public class Hello2 {
 		Baduk baduk2 = new Baduk(new BetaGo());
 		baduk2.play();
 		baduk2.stop();
+	}
+}
+
+// ex67-7)의존주입 template
+class Aaa {
+	Bbb bbb;
+	Aaa(Bbb bbb) {
+		this.bbb = bbb;
+	}
+	void f2() {
+		bbb.f1();
+	}
+}
+
+interface Bbb {
+	void f1();
+}
+class Ccc implements Bbb {
+	public void f1() {
+		System.out.println("의존주입");
+	};
+}
+public class Hello2 {
+	public static void main(String[] args) {
+		Aaa t = new Aaa(new Ccc());
+		t.f2();
+	}
+}
+
+//ex68)
+interface Tiger {
+	void f1();
+}
+class Lion implements Tiger{
+	public void f1() {}
+}
+public class Hello2 {
+	public static void main(String[] args) {
+		// 기준: 객체를 생성 시킬 수 없다. 
+		// Tiger t1 = new Tiger();
+		
+		// 인터페이스 사용1
+		Lion t1 = new Lion();
+		Tiger t2 = new Lion(); // 라이언 클래스 사용
+		
+		// 인터페이스 사용2
+		// Tiger t3 = new Tiger(); // err사용 못함
+		// 누구 클래스를 이용해서 interface를 사용한 것일까?
+		// 없다
+		// 익명 클래스 사용 
+		Tiger t3 = new Tiger() {
+			@Override
+			public void f1() {
+				System.out.println("t3");
+			}
+		};
+		t3.f1();
+		
+		// 인터페이스 사용3
+//		Tiger t4 = new Tiger() {
+//			@Override
+//			public void f1() {
+//				System.out.println("t4");
+//			}
+//		};
+		//익명객체
+		new Tiger() {
+		@Override
+		public void f1() {
+			System.out.println("t4");
+			}
+		}.f1(); // 즉시실행 함수
 	}
 }
 */
