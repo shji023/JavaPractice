@@ -49,6 +49,14 @@ public class Hello2 {
 			return s+n;
 		};
 		System.out.println(t4.f1("호랑이", 3000));
+		// 리턴 코드 1줄만 있는 경우 
+		// return 과 {}를 생략할 수 있다.
+//		Ccc t5 = ()-> {
+//			return 200;
+//		};
+		Ccc t5 = ()-> 200;
+		System.out.println(t5.f1());
+		t5.f1();
 	}
 }
 /*
