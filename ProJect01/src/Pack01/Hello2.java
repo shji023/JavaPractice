@@ -27,14 +27,48 @@ public class Hello2 {
 		
 		String s1 = "무궁화 꽃이 피었습니다.";
 		// ex1) int String.length()
-		System.out.println(s1.length());
+		System.out.println(s1.length()); // 13
 	
 		// ex2) char String.charAt(int index)
-		System.out.println(s1.charAt(5));
+		System.out.println(s1.charAt(5)); // 이
 		
 		// ex3) int String.indexOf(int ch)
-		System.out.println(s1.indexOf("이"));
-	}
+		System.out.println(s1.indexOf("이")); // 5
+		// 음수, 혹은 -1 값이 리턴된다 << 검색실패
+		System.out.println(s1.indexOf("뀨")); // -1
+		System.out.println(s1.indexOf("뀨")==-1?"검색실패":"검색성공"); // 검색실패
+	
+		// ex4)
+		// String replace {
+		//		CharSequence target,
+		//		CharSequence replacement}
+		s1.replace("꽃이", "나무가");
+		// 주의 : 원본 데이터를 변경하는가 하지 않는가?
+		// String 클래스는 절대로 원본을 변경하지 않는다.
+		// StringBuffer 클래스는 원본 데이터를 변경할 수 있다.
+		System.out.println(s1); // 무궁화 꽃이 피었습니다.
+		// s1 = "호랑이";
+		// System.out.println(s1); // 호랑이 -> 원본데이터가 변경된 것이 아님
+		// 1. s1의 메모리가 삭제된다
+		// 2. s1의 메모리는 재할당 받는다. (객체가 없어지고 새로운 객체가 만들어진 것임)
+		String s2 = s1.replace("꽃이", "나무가");
+		System.out.println(s2); // 무궁화 나무가 피었습니다.
+		System.out.println(s1.replace("꽃이","식물이")); // 무궁화 식물이 피었습니다.
+		System.out.println(s1); //무궁화 꽃이 피었습니다.
+		
+		// ex5) sub string
+		System.out.println(s1.substring(3)); // 인덱스3 부터 그 뒤에있는 글자 전부
+		System.out.println(s1.substring(3, 5)); // 인덱스 3부터 5까지 start~end-1
+		
+		// ex6)
+		s1 = "Apple";
+		System.out.println(s1.toLowerCase()); // 소문자로 
+		System.out.println(s1.toUpperCase()); // 대문자로
+		
+		// ex7)
+		s1 = "  A p p l e  ";
+		System.out.println(1000);
+ 	}
 }
 /*
 // ex52) 다형성 업캐스팅 ***** 매우중요 
