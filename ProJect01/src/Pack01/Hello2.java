@@ -14,46 +14,29 @@ public class Hello2 {
 	}
 }
 */
-// ex66)final(마지막)
-class Tiger {
-	// 1. 필드 final (값을 초기화 시키는 것이 여기가 마지막)
-	// 상수화 되어 버린다. (대입을 못받으면 상수이다.)
-	// const
-	final int NUM = 10; // 대문자로 적어주는 것이 암묵적인 약속
-	// 단 필드에서 초기 값을 안주었을때는 한번 대입 가능함
-	void f1() {
-		// this.num = 20; err
+// ex67-7)의존주입 template
+class Aaa {
+	Bbb bbb;
+	Aaa(Bbb bbb) {
+		this.bbb = bbb;
 	}
 	void f2() {
-		// this.num = 20; err
+		bbb.f1();
 	}
 }
-class Aaa {
-	
-}
-// 클래스 앞에 final -> 여기까지만 상속가능
-final class Bbb extends Aaa{
-	
-}
-//class Ccc extends Bbb { 
-//	err
-//}
-// class Ddd extends String{} // 에러, String final이라 상속 불가
-class Eee extends Thread{}; // 에러안뜸
 
-class Fff{
-	final void f1() {
-		// 오버라이딩이 여기서 마지막
-	}
+interface Bbb {
+	void f1();
 }
-class Ggg extends Fff{
-	// void f1() {} 위에서 오버라이딩 끝나서 에러
+class Ccc implements Bbb {
+	public void f1() {
+		System.out.println("의존주입");
+	};
 }
 public class Hello2 {
 	public static void main(String[] args) {
-		Tiger t1 = new Tiger();
-		// t1.num = 20; 에러
-	
+		Aaa t = new Aaa(new Ccc());
+		t.f2();
 	}
 }
 /*
@@ -652,6 +635,206 @@ class Lion implements ParentsTiger{
 public class Hello2 {
 	public static void main(String[] args) {
 		ParentsTiger t1 = new Tiger();
+	}
+}
+
+// ex66)final(마지막)
+class Tiger {
+	// 1. 필드 final (값을 초기화 시키는 것이 여기가 마지막)
+	// 상수화 되어 버린다. (대입을 못받으면 상수이다.)
+	// const
+	final int NUM = 10; // 대문자로 적어주는 것이 암묵적인 약속
+	// 단 필드에서 초기 값을 안주었을때는 한번 대입 가능함
+	void f1() {
+		// this.num = 20; err
+	}
+	void f2() {
+		// this.num = 20; err
+	}
+}
+class Aaa {
+	
+}
+// 클래스 앞에 final -> 여기까지만 상속가능
+final class Bbb extends Aaa{
+	
+}
+//class Ccc extends Bbb { 
+//	err
+//}
+// class Ddd extends String{} // 에러, String final이라 상속 불가
+class Eee extends Thread{}; // 에러안뜸
+
+class Fff{
+	final void f1() {
+		// 오버라이딩이 여기서 마지막
+	}
+	void f2() {
+		f1(); // 자식이 모르고 오버로딩으로 했을 때. 아예 업캐스팅으로 인해 자식의 f1을 호출하지 않기 위해 final을 줌 
+	}
+}
+class Ggg extends Fff{
+	// void f1() {} 위에서 오버라이딩 끝나서 에러
+}
+public class Hello2 {
+	public static void main(String[] args) {
+		Tiger t1 = new Tiger();
+		// t1.num = 20; 에러
+	
+	}
+}
+
+// ex67-1) 인공지능이 수정된 경우
+class Baduk {
+	Baduk() {
+		System.out.println("대국을 시작합니다.");
+	}
+	void play() {
+		System.out.println("인공지능은 알파고입니다.");
+	}
+}
+public class Hello2 {
+	public static void main(String[] args) {
+		Baduk baduk = new Baduk();
+		baduk.play();
+	}
+}
+
+// ex67-2) 다른 인공지능이 생길때 마다 클래스의 인수를 추가 해야하는 문제
+class Baduk {
+	Baduk() {
+		System.out.println("대국을 시작합니다.");
+	}
+	void play(AlphaGo alphaGo) {
+		alphaGo.play();
+	}
+	void play(BetaGo betaGo) {
+		betaGo.play();
+	}
+}
+
+class AlphaGo {
+	void play() {
+		System.out.println("인공지능은 알파고입니다.");
+	}
+}
+
+// ms
+class BetaGo {
+	void play() {
+		System.out.println("인공지능은 베타고입니다.");
+		
+	}
+}
+public class Hello2 {
+	public static void main(String[] args) {
+		Baduk baduk = new Baduk();
+		baduk.play(new AlphaGo());
+		baduk.play(new BetaGo());
+	}
+}
+
+// ex67-3) 문제 - 미구현 클래스가 존재하는 것이 문제
+class Baduk {
+	Baduk() {
+		System.out.println("대국을 시작합니다.");
+	}
+	// 업캐스팅, 새로운 인공지능이 추가되더라도 항상 부모가 받으면 새로운 함수를 추가할 필요가없음
+	void play(Ai alphaGo) {
+		alphaGo.play();
+	}
+}
+// ex67-4) 추상 클래스화 시킴
+//abstract class Ai {
+//	abstract void play();
+//}
+
+// ex67-5) 인터페이스화 시킴
+interface Ai {
+	void play();
+}
+class AlphaGo implements Ai {
+	public void play() {
+		System.out.println("인공지능은 알파고입니다.");
+	}
+}
+
+class BetaGo implements Ai {
+	public void play() {
+		System.out.println("인공지능은 베타고입니다.");
+		
+	}
+}
+public class Hello2 {
+	public static void main(String[] args) {
+		Baduk baduk = new Baduk();
+		baduk.play(new AlphaGo());
+		baduk.play(new BetaGo());
+	}
+}
+
+//ex67-6)
+//interface 없이 안돌아가는 클래스 - 의존적이다. 
+class Baduk {
+	// 생성자에서 인수전달을 처음부터 해버림
+	Ai ai;
+//생성자는 주입을 받고있다. injection + 의존적, 의존 주입(DI)
+	Baduk(Ai ai) {
+		this.ai = ai;
+		System.out.println("대국을 시작합니다.");
+	}
+	// 문제
+	// 인수전달 한 결과와 안한 결과가 똑같다면 인수전달을 하지 않는 것이 좋음
+	// 인수를 생성자에서 받았으니까 함수에서 인수를 받을 필요x
+//	void play(Ai ai) {
+//		ai.play();
+//	}
+//	void stop(Ai ai) {
+//		ai.stop();
+//	}
+	void play() {
+		ai.play();
+	}
+	void stop() {
+		ai.stop();
+	}
+}
+
+interface Ai {
+	void play();
+	void stop();
+}
+class AlphaGo implements Ai {
+	public void play() {
+		System.out.println("인공지능은 알파고입니다.");
+	}
+	public void stop() {
+		System.out.println("알파고가 점수를 계산합니다.");
+	}
+}
+
+class BetaGo implements Ai {
+	public void play() {
+		System.out.println("인공지능은 베타고입니다.");
+	}
+	public void stop() {
+		System.out.println("베타고가 점수를 계산합니다.");
+	}
+}
+public class Hello2 {
+	public static void main(String[] args) {
+		// 문제코드
+//		Baduk baduk = new Baduk();
+//		baduk.play(new AlphaGo());
+//		baduk.play(new BetaGo());
+//		baduk.stop(new AlphaGo());
+//		baduk.stop(new BetaGo());
+		Baduk baduk1 = new Baduk(new AlphaGo());
+		baduk1.play();
+		baduk1.stop();
+		Baduk baduk2 = new Baduk(new BetaGo());
+		baduk2.play();
+		baduk2.stop();
 	}
 }
 */
