@@ -14,7 +14,29 @@ public class Hello2 {
 	}
 }
 */
+// ex57)
+class Aaa {
+	void f1() {}
+}
 
+class Bbb extends Aaa {
+	void f2() {}
+}
+public class Hello2 {
+	public static void main(String[] args) {
+		
+		String s1 = "무궁화 꽃이 피었습니다.";
+		// ex1) int String.length()
+		System.out.println(s1.length());
+	
+		// ex2) char String.charAt(int index)
+		System.out.println(s1.charAt(5));
+		
+		// ex3) int String.indexOf(int ch)
+		System.out.println(s1.indexOf("이"));
+	}
+}
+/*
 // ex52) 다형성 업캐스팅 ***** 매우중요 
 class Aaa {
 	void f1() {}
@@ -271,3 +293,4 @@ public class Hello2 {
 		// Aaa t = new Aaa(); err
 	}
 }
+*/
