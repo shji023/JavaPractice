@@ -19,7 +19,7 @@ class Tiger {
 	// 1. 필드 final (값을 초기화 시키는 것이 여기가 마지막)
 	// 상수화 되어 버린다. (대입을 못받으면 상수이다.)
 	// const
-	final int num = 10;
+	final int NUM = 10; // 대문자로 적어주는 것이 암묵적인 약속
 	// 단 필드에서 초기 값을 안주었을때는 한번 대입 가능함
 	void f1() {
 		// this.num = 20; err
@@ -28,10 +28,32 @@ class Tiger {
 		// this.num = 20; err
 	}
 }
+class Aaa {
+	
+}
+// 클래스 앞에 final -> 여기까지만 상속가능
+final class Bbb extends Aaa{
+	
+}
+//class Ccc extends Bbb { 
+//	err
+//}
+// class Ddd extends String{} // 에러, String final이라 상속 불가
+class Eee extends Thread{}; // 에러안뜸
+
+class Fff{
+	final void f1() {
+		// 오버라이딩이 여기서 마지막
+	}
+}
+class Ggg extends Fff{
+	// void f1() {} 위에서 오버라이딩 끝나서 에러
+}
 public class Hello2 {
 	public static void main(String[] args) {
 		Tiger t1 = new Tiger();
 		// t1.num = 20; 에러
+	
 	}
 }
 /*
