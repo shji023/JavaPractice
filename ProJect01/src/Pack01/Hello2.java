@@ -14,67 +14,24 @@ public class Hello2 {
 	}
 }
 */
-// ex61)
-public class Hello2 {
-	static String hexaToBinary(int n) {
-		String s = Integer.toBinaryString(n);
-
-		while(s.length()<32) 
-			s = "0"+s;
-		
-		StringBuffer sb = new StringBuffer(s);
-		for (int i = 0; i < 7; i++) 
-			sb.insert((7-i)*4, " ");
-		
-		return sb.toString();
+// ex66)final(마지막)
+class Tiger {
+	// 1. 필드 final (값을 초기화 시키는 것이 여기가 마지막)
+	// 상수화 되어 버린다. (대입을 못받으면 상수이다.)
+	// const
+	final int num = 10;
+	// 단 필드에서 초기 값을 안주었을때는 한번 대입 가능함
+	void f1() {
+		// this.num = 20; err
 	}
+	void f2() {
+		// this.num = 20; err
+	}
+}
+public class Hello2 {
 	public static void main(String[] args) {
-		int n1 = 0x1234abcd;
-		System.out.println(n1 & 0xffff0000);
-		
-		System.out.println(hexaToBinary(n1));
-		System.out.println(hexaToBinary(0xffff0000)); // mask data (걸러낼 때 중간역할)
-		System.out.println(hexaToBinary(n1 & 0xffff0000));
-		
-		// 데이터 합성
-		System.out.println(hexaToBinary(n1 | 0xffff0000));
-		
-		int a = 0x000000f3;
-		int b = 0x00003600;
-		int c = 0x00EC0000;
-		int d = a | b | c;
-		System.out.println(hexaToBinary(d));
-		System.out.println("---------------------");
-		int e = 0xf09;
-		System.out.println(hexaToBinary(e));
-		System.out.println(hexaToBinary(e<<4)); // 데이터 4칸씩 왼쪽으로 이동
-		System.out.println(hexaToBinary(e>>4)); // 데이터 4칸씩 오른쪽으로 이동
-		
-		System.out.println("---------------------");
-		int data = 0xabcd;
-		// 0000 0000 0000 0000 1010 1011 1100 1101
-		// 뒤에서 다섯개의 비트는 10진수로 얼마일까 - 13
-		// 그 앞의 6개의 비트는 10진수로 얼마일까 - 30
-		// 그 앞의 5개의 비트는 10진수로 얼마일까 - 21
-		System.out.println(hexaToBinary(data));
-		
-		// 뒤에서 다섯개 비트 걸러내기
-		// 0000 0000 0000 0000 1010 1011 1100 1101
-		// 0000 0000 0000 0000 0000 0000 0001 1111 -> 0x1f
-		System.out.println(data & 0x1f); // 13
-		
-		// 뒤에서 다섯개 비트 걸러내기
-		// 0000 0000 0000 0000 1010 1011 1100 1101
-		// 0000 0000 0000 0000 0000 0111 1110 0000 -> 0x1f
-		System.out.println(data & 0x7E0); // 960, 30 나와야되는데 뒤에 0이 차지하고있어서 큰 숫자가 나옴 ->shift연산 필요
-		System.out.println((data & 0x7E0) >> 6);
-		
-		// 뒤에서 다섯개 비트 걸러내기
-		// 0000 0000 0000 0000 1010 1011 1100 1101
-		// 0000 0000 0000 0000 1111 1000 0000 0000 -> 0x1f
-		System.out.println(data & 0xF800); // 960, 30 나와야되는데 뒤에 0이 차지하고있어서 큰 숫자가 나옴 ->shift연산 필요
-		System.out.println((data & 0xF800) >>11);
-		
+		Tiger t1 = new Tiger();
+		// t1.num = 20; 에러
 	}
 }
 /*
@@ -517,6 +474,162 @@ public class Hello2 {
 		
 		// 처음      중간   끝
 		// 00 1f 7f 80 af ff
+	}
+}
+
+// ex61) & | >> << ~ ^
+public class Hello2 {
+	static String hexaToBinary(int n) {
+		String s = Integer.toBinaryString(n);
+
+		while(s.length()<32) 
+			s = "0"+s;
+		
+		StringBuffer sb = new StringBuffer(s);
+		for (int i = 0; i < 7; i++) 
+			sb.insert((7-i)*4, " ");
+		
+		return sb.toString();
+	}
+	public static void main(String[] args) {
+		int n1 = 0x1234abcd;
+		System.out.println(n1 & 0xffff0000);
+		
+		System.out.println(hexaToBinary(n1));
+		System.out.println(hexaToBinary(0xffff0000)); // mask data (걸러낼 때 중간역할)
+		System.out.println(hexaToBinary(n1 & 0xffff0000));
+		
+		// 데이터 합성
+		System.out.println(hexaToBinary(n1 | 0xffff0000));
+		
+		int a = 0x000000f3;
+		int b = 0x00003600;
+		int c = 0x00EC0000;
+		int d = a | b | c;
+		System.out.println(hexaToBinary(d));
+		System.out.println("---------------------");
+		int e = 0xf09;
+		System.out.println(hexaToBinary(e));
+		System.out.println(hexaToBinary(e<<4)); // 데이터 4칸씩 왼쪽으로 이동
+		System.out.println(hexaToBinary(e>>4)); // 데이터 4칸씩 오른쪽으로 이동
+		
+		System.out.println("---------------------");
+		int data = 0xabcd;
+		// 0000 0000 0000 0000 1010 1011 1100 1101
+		// 뒤에서 다섯개의 비트는 10진수로 얼마일까 - 13
+		// 그 앞의 6개의 비트는 10진수로 얼마일까 - 30
+		// 그 앞의 5개의 비트는 10진수로 얼마일까 - 21
+		System.out.println(hexaToBinary(data));
+		
+		// 뒤에서 다섯개 비트 걸러내기
+		// 0000 0000 0000 0000 1010 1011 1100 1101
+		// 0000 0000 0000 0000 0000 0000 0001 1111 -> 0x1f
+		System.out.println(data & 0x1f); // 13
+		
+		// 그 앞 여섯개 비트 걸러내기
+		// 0000 0000 0000 0000 1010 1011 1100 1101
+		// 0000 0000 0000 0000 0000 0111 1110 0000 -> 0x1f
+		System.out.println(data & 0x7E0); // 960, 30 나와야되는데 뒤에 0이 차지하고있어서 큰 숫자가 나옴 ->shift연산 필요
+		System.out.println((data & 0x7E0) >> 6);
+		
+		// 그 앞 다섯개 비트 걸러내기
+		// 0000 0000 0000 0000 1010 1011 1100 1101
+		// 0000 0000 0000 0000 1111 1000 0000 0000 -> 0x1f
+		System.out.println(data & 0xF800); 
+		System.out.println((data & 0xF800) >>11);
+		System.out.println((data & 0x0000F800) >>11); // 이런식으로 앞에 0000 채워야 가독성이 높아짐
+		System.out.println("---------------------");
+		System.out.println(hexaToBinary(~data)); // 비트 반전
+		// exclusive or 같으면 0, 다르면 1
+		System.out.println(hexaToBinary(data)); 
+		System.out.println(hexaToBinary(0x0000ffff));
+		System.out.println(hexaToBinary(data^0x0000ffff));
+	}
+}
+
+// ex62)
+class Aaa {
+	void f1() {}
+}
+
+class Bbb extends Aaa {
+	void f2() {}
+}
+public class Hello2 {
+	public static void main(String[] args) {
+		int num = 100;
+		// 순서가 바뀌었을 떄 속도가 달라짐
+		int r1  = num * 3; // num + num + num
+		int r2 = 3 * num; // 3 + 3 + 3
+		
+		System.out.println(r1);
+		System.out.println(r2);
+		
+		int test = 6;   //   0110(6)
+						//  01100(12) test << 1
+						// 011000(24) test << 2
+		System.out.println(test << 1); // 6 * 2의 1승
+		System.out.println(test << 2); // 6 * 2의 2승
+		System.out.println(test << 3); // 6 * 2의 3승
+		System.out.println(test << 4); // 6 * 2의 4승
+		
+		int a = 23;
+		for (int i = 0; i < 100; i++) {
+			for (int j = 0; j < 100; j++) {
+				System.out.println(a*800);
+				System.out.println((a<<9) + (a<<8) + (a<<5));
+			}
+		}
+	}
+}
+
+//ex64)
+class Aaa {
+	void f1() {}
+}
+
+interface Bbb {
+	void f2();
+}
+interface Ccc {
+	void f3();
+}
+class Ddd extends Aaa implements Bbb, Ccc{
+	public void f2() {}
+	public void f3() {}
+}
+
+@FunctionalInterface // 미구현 함수가 한개있다는 말
+interface Eee {
+	void f1();
+}
+public class Hello2 {
+	public static void main(String[] args) {
+		String s;
+		Thread t;
+	}
+}
+
+// ex65)
+// Tiger 클래스만 있어도되는데 의도적으로 ParentTiger interface implements하여 작성
+// 왜? => 업캐스팅과 관련된 문법을 구사하기 위해
+interface ParentsTiger {
+	void f1();
+}
+
+class Tiger implements ParentsTiger{
+	public void f1() {
+		
+	}
+}
+class Lion implements ParentsTiger{
+	public void f1() {
+		
+	}
+}
+public class Hello2 {
+	public static void main(String[] args) {
+		ParentsTiger t1 = new Tiger();
 	}
 }
 */
