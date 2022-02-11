@@ -14,7 +14,69 @@ public class Hello2 {
 	}
 }
 */
+// ex61)
+public class Hello2 {
+	static String hexaToBinary(int n) {
+		String s = Integer.toBinaryString(n);
 
+		while(s.length()<32) 
+			s = "0"+s;
+		
+		StringBuffer sb = new StringBuffer(s);
+		for (int i = 0; i < 7; i++) 
+			sb.insert((7-i)*4, " ");
+		
+		return sb.toString();
+	}
+	public static void main(String[] args) {
+		int n1 = 0x1234abcd;
+		System.out.println(n1 & 0xffff0000);
+		
+		System.out.println(hexaToBinary(n1));
+		System.out.println(hexaToBinary(0xffff0000)); // mask data (걸러낼 때 중간역할)
+		System.out.println(hexaToBinary(n1 & 0xffff0000));
+		
+		// 데이터 합성
+		System.out.println(hexaToBinary(n1 | 0xffff0000));
+		
+		int a = 0x000000f3;
+		int b = 0x00003600;
+		int c = 0x00EC0000;
+		int d = a | b | c;
+		System.out.println(hexaToBinary(d));
+		System.out.println("---------------------");
+		int e = 0xf09;
+		System.out.println(hexaToBinary(e));
+		System.out.println(hexaToBinary(e<<4)); // 데이터 4칸씩 왼쪽으로 이동
+		System.out.println(hexaToBinary(e>>4)); // 데이터 4칸씩 오른쪽으로 이동
+		
+		System.out.println("---------------------");
+		int data = 0xabcd;
+		// 0000 0000 0000 0000 1010 1011 1100 1101
+		// 뒤에서 다섯개의 비트는 10진수로 얼마일까 - 13
+		// 그 앞의 6개의 비트는 10진수로 얼마일까 - 30
+		// 그 앞의 5개의 비트는 10진수로 얼마일까 - 21
+		System.out.println(hexaToBinary(data));
+		
+		// 뒤에서 다섯개 비트 걸러내기
+		// 0000 0000 0000 0000 1010 1011 1100 1101
+		// 0000 0000 0000 0000 0000 0000 0001 1111 -> 0x1f
+		System.out.println(data & 0x1f); // 13
+		
+		// 뒤에서 다섯개 비트 걸러내기
+		// 0000 0000 0000 0000 1010 1011 1100 1101
+		// 0000 0000 0000 0000 0000 0111 1110 0000 -> 0x1f
+		System.out.println(data & 0x7E0); // 960, 30 나와야되는데 뒤에 0이 차지하고있어서 큰 숫자가 나옴 ->shift연산 필요
+		System.out.println((data & 0x7E0) >> 6);
+		
+		// 뒤에서 다섯개 비트 걸러내기
+		// 0000 0000 0000 0000 1010 1011 1100 1101
+		// 0000 0000 0000 0000 1111 1000 0000 0000 -> 0x1f
+		System.out.println(data & 0xF800); // 960, 30 나와야되는데 뒤에 0이 차지하고있어서 큰 숫자가 나옴 ->shift연산 필요
+		System.out.println((data & 0xF800) >>11);
+		
+	}
+}
 /*
 // ex52) 다형성 업캐스팅 ***** 매우중요 
 class Aaa {
@@ -331,5 +393,130 @@ public class Hello2 {
 		System.out.println(s1.trim());
 		System.out.println(2000);
  	}
+}
+
+// ex58) 진법( bit 연산 ) => 2(컴퓨터), 10(인간), 16(절충)
+class Tiger {
+	// 9 > a
+	// 1F > 20
+	// 9F > 1000
+	// fff > 1000
+	// cf > d0
+	// A 10
+	// B 11
+	// C 12
+	// D 13
+	// E 14
+	// F 15
+	
+	// 네자리씩 끊음
+	// 1 0101 0101 1110 1111
+	//		5    5    E    F
+} 
+public class Hello2 {
+	public static void main(String[] args) {
+		
+	}
+}
+
+// ex59)
+public class Hello2 {
+	public static void main(String[] args) {
+		int num1 = 100; 
+		System.out.println(num1); // 100
+		
+		int num2 = 0x100;
+		System.out.println(num2); // 256
+		
+		int num3 = 0xABCD;
+		System.out.println(num3); // 43981
+		
+		// 한자리당 4비트 
+		// 두자리면 8비트 - 1byte 
+		// int는 4byte까지이기에 4byte를 넘을 수 없음 (FF FF FF FF)
+		int num4 = 0x63CE7BCD;
+		System.out.println(num4); // 1674476493
+		// 0110 0011 1100 1110 0111 1011 1100 1101
+		
+		// 0x7f ff ff ff >> 0 ~ 80 00 00 00, 80 00 00 00 ~ FF FF FF FF
+		int num;
+		// 16진수로 만들어진 문자열을 리턴
+		// 110 0011 1100 1110 0111 1011 1100 1101
+		System.out.println(Integer.toBinaryString(num4));
+		int num5 = 0xab;
+		// 10101011 => 이 형태 말고 
+		// 0000 0000 0000 0000 0000 0000 1010 1011 => 이 형태로 
+		System.out.println(Integer.toBinaryString(num5));
+	}
+}
+
+// ex60) 32bit 해당하는 문자열 만들기
+public class Hello2 {
+	static String hexaToBinary(int n) {
+		String s = Integer.toBinaryString(n);
+		// System.out.println(s);
+		// System.out.println(s.length()); // 31
+		
+		// 32에 해당하는 문자열을 만든다.
+		while(s.length()<32) {
+			s = "0"+s;
+		}
+		// System.out.println(s.length()); // 32
+		// System.out.println(s);
+		// string buffer - 데이터 갱신 위해 
+		StringBuffer sb = new StringBuffer(s);
+		System.out.println(sb);
+		// StringBuffer: insert(); 제공, 중간에 띄어쓰기 추가하기 위해
+		// 뒤에서부터 인덱스 계산하기 
+		// 앞에서부터 하면 일정하게 x
+		for (int i = 0; i < 7; i++) {
+			sb.insert((7-i)*4, " ");
+		}
+		// return sb; 리턴 타입 불일치 String, StringBuffer
+		return sb.toString();
+	}
+	public static void main(String[] args) {
+		// >> 내가 원하는 포맷으로 2진수 출력
+		int num = 0x63CE7BCD;
+		System.out.println(hexaToBinary(num));
+	}
+}
+
+// ex60) 32bit 해당하는 문자열 만들기
+public class Hello2 {
+	static String hexaToBinary(int n) {
+		String s = Integer.toBinaryString(n);
+		// System.out.println(s);
+		// System.out.println(s.length()); // 31
+		
+		// 32에 해당하는 문자열을 만든다.
+		while(s.length()<32) {
+			s = "0"+s;
+		}
+		// System.out.println(s.length()); // 32
+		// System.out.println(s);
+		// string buffer - 데이터 갱신 위해 
+		StringBuffer sb = new StringBuffer(s);
+		System.out.println(sb);
+		// StringBuffer: insert(); 제공, 중간에 띄어쓰기 추가하기 위해
+		// 뒤에서부터 인덱스 계산하기 
+		// 앞에서부터 하면 일정하게 x
+		for (int i = 0; i < 7; i++) {
+			sb.insert((7-i)*4, " ");
+		}
+		// return sb; 리턴 타입 불일치 String, StringBuffer
+		return sb.toString();
+	}
+	public static void main(String[] args) {
+		// >> 내가 원하는 포맷으로 2진수 출력
+		int num = 0x63CE7BCD;
+		System.out.println(hexaToBinary(num));
+		
+		System.out.println(hexaToBinary(0xab));
+		int num2 = 100;
+		
+		// 처음      중간   끝
+		// 00 1f 7f 80 af ff
+	}
 }
 */
