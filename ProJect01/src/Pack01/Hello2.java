@@ -14,32 +14,41 @@ public class Hello2 {
 	}
 }
 */
-// ex69)
-interface Tiger {
+// ex70)
+interface Aaa {
 	void f1();
 }
-class Lion {
-	void f1(Tiger t) {
-		t.f1(); // 문제없음
-	}
+
+interface Bbb {
+	void f1(int num);
+}
+
+interface Ccc {
+	int f1();
+}
+interface Ddd {
+	String f1(String s, int n);
 }
 public class Hello2 {
 	public static void main(String[] args) {
-		Lion lion = new Lion();
-		// lion.f1(new Tiger()); err 객체 만들 수 없기에
-		// 익명 클래스 만들어서 전달
-		lion.f1( new Tiger() {
-			@Override
-			public void f1() {
-				System.out.println("호랑이");
-			}
-		});
-		lion.f1( new Tiger() {
-			@Override
-			public void f1() {
-				System.out.println("독수리");
-			}
-		});
+		Aaa t1 = ()-> {
+			System.out.println("람다연습");
+		};
+		t1.f1();
+		Bbb t2 = (numnum)-> {
+			System.out.println("인수 전달 람다연습");
+		};
+		t2.f1(100);
+		
+		Ccc t3 = ()-> {
+			return 200;
+		};
+		System.out.println(t3.f1());
+		
+		Ddd t4 = (s, n)-> {
+			return s+n;
+		};
+		System.out.println(t4.f1("호랑이", 3000));
 	}
 }
 /*
@@ -913,6 +922,85 @@ public class Hello2 {
 			System.out.println("t4");
 			}
 		}.f1(); // 즉시실행 함수
+	}
+}
+
+// ex69)
+interface Tiger {
+	void f1();
+}
+class Lion {
+	void f1(Tiger t) {
+		t.f1(); // 문제없음
+	}
+}
+public class Hello2 {
+	public static void main(String[] args) {
+		Lion lion = new Lion();
+		// lion.f1(new Tiger()); err 객체 만들 수 없기에
+		// 익명 클래스 만들어서 전달
+		lion.f1( new Tiger() {
+			@Override
+			public void f1() {
+				System.out.println("호랑이");
+			}
+		});
+		lion.f1( new Tiger() {
+			@Override
+			public void f1() {
+				System.out.println("독수리");
+			}
+		});
+	}
+}
+
+// ex69)
+interface Tiger {
+	void f1();
+}
+class Lion {
+	void f1(Tiger t) {
+		t.f1(); // 문제없음
+	}
+}
+public class Hello2 {
+	public static void main(String[] args) {
+		Lion lion = new Lion();
+		// lion.f1(new Tiger()); err 객체 만들 수 없기에
+		// 익명 클래스 만들어서 전달
+		lion.f1( new Tiger() {
+			@Override
+			public void f1() {
+				System.out.println("호랑이");
+			}
+		});
+		lion.f1( new Tiger() {
+			@Override
+			public void f1() {
+				System.out.println("독수리");
+			}
+		});
+		
+		
+		// Tiger t1 = new Tiger();
+		Tiger t1 = new Tiger() {
+			@Override
+			public void f1() {
+				System.out.println("앵무새");
+			}
+		};
+		// 위에거 약식 코드 arrow 사용
+		// 람다 함수
+		Tiger t2 = ()-> {
+				System.out.println("앵무새");
+		};
+		
+		Tiger t3 = () -> {
+			System.out.println("앵무새");
+		};
+		lion.f1(()->{
+			System.out.println("익명 클래스 만들어서 전달하는 것 lambda");
+		});
 	}
 }
 */
