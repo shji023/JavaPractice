@@ -56,7 +56,9 @@ public class Hello2 {
 //		};
 		Ccc t5 = ()-> 200;
 		System.out.println(t5.f1());
-		t5.f1();
+		
+		Ddd t6 = (s, n)->s+n;
+		System.out.println(t6.f1("¸¾¸ð½º", 4000));
 	}
 }
 /*
