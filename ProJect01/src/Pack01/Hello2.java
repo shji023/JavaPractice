@@ -14,54 +14,7 @@ public class Hello2 {
 	}
 }
 */
-// ex70)
-interface Aaa {
-	void f1();
-}
 
-interface Bbb {
-	void f1(int num);
-}
-
-interface Ccc {
-	int f1();
-}
-interface Ddd {
-	String f1(String s, int n);
-}
-public class Hello2 {
-	public static void main(String[] args) {
-		Aaa t1 = ()-> {
-			System.out.println("람다연습");
-		};
-		t1.f1();
-		Bbb t2 = (numnum)-> {
-			System.out.println("인수 전달 람다연습");
-		};
-		t2.f1(100);
-		
-		Ccc t3 = ()-> {
-			return 200;
-		};
-		System.out.println(t3.f1());
-		
-		Ddd t4 = (s, n)-> {
-			return s+n;
-		};
-		System.out.println(t4.f1("호랑이", 3000));
-		// 리턴 코드 1줄만 있는 경우 
-		// return 과 {}를 생략할 수 있다.
-//		Ccc t5 = ()-> {
-//			return 200;
-//		};
-		Ccc t5 = ()-> 200;
-		System.out.println(t5.f1());
-		
-		Ddd t6 = (s, n)->s+n;
-		System.out.println(t6.f1("맘모스", 4000));
-	}
-}
-/*
 // ex52) 다형성 업캐스팅 ***** 매우중요 
 class Aaa {
 	void f1() {}
@@ -1013,4 +966,51 @@ public class Hello2 {
 		});
 	}
 }
-*/
+
+// ex70)
+interface Aaa {
+	void f1();
+}
+
+interface Bbb {
+	void f1(int num);
+}
+
+interface Ccc {
+	int f1();
+}
+interface Ddd {
+	String f1(String s, int n);
+}
+public class Hello2 {
+	public static void main(String[] args) {
+		Aaa t1 = ()-> {
+			System.out.println("람다연습");
+		};
+		t1.f1();
+		Bbb t2 = (numnum)-> {
+			System.out.println("인수 전달 람다연습");
+		};
+		t2.f1(100);
+		
+		Ccc t3 = ()-> {
+			return 200;
+		};
+		System.out.println(t3.f1());
+		
+		Ddd t4 = (s, n)-> {
+			return s+n;
+		};
+		System.out.println(t4.f1("호랑이", 3000));
+		// 리턴 코드 1줄만 있는 경우 
+		// return 과 {}를 생략할 수 있다.
+//		Ccc t5 = ()-> {
+//			return 200;
+//		};
+		Ccc t5 = ()-> 200;
+		System.out.println(t5.f1());
+		
+		Ddd t6 = (s, n)->s+n;
+		System.out.println(t6.f1("맘모스", 4000));
+	}
+}
