@@ -1,5 +1,6 @@
 package Pack01;
 import java.io.*;
+import java.util.LinkedList;
 import java.util.Random;
 /*
 class Tiger {
@@ -1229,5 +1230,229 @@ public class Hello2 {
 			e.printStackTrace();
 		}
 		System.out.println(2000);
+	}
+}
+
+//ex77) Generic
+// int
+class Tiger {
+	private int data;
+	public int getData() {
+		return data;
+	}
+	public void setData(int data) {
+		this.data = data;
+	}
+}
+// 문자열
+class Lion {
+	private String data;
+	
+	public String getData() {
+		return data;
+	}
+	public void setData(String data) {
+		this.data = data;
+	}
+}
+
+class Cat {
+	private float data;
+	
+	public float getData() {
+		return data;
+	}
+	public void setData(float data) {
+		this.data = data;
+	}
+}
+// 타입은 객체를 생성할 때 알려줄게
+// class Dog<U,K> 타입 두개 사용할 경우
+// 꺽쇠<> -> 컨테이너
+// 컨테이너 사이에는 무조건 클래스만 들어갈 수 있음
+class Dog<T>{
+	private T data;
+	
+	public T getData() {
+		return data;
+	}
+	public void setData(T data) {
+		this.data = data;
+	}
+}
+public class Hello2 {
+	public static void main(String[] args) {
+		Tiger t1 = new Tiger();
+		t1.setData(100);
+		System.out.println(t1.getData());
+		
+		Lion t2 = new Lion();
+		t2.setData("사자");
+		System.out.println(t2.getData());
+		
+		// int, 문자열 말고 float로 관리하고 싶다면?
+		Cat t3 = new Cat();
+		t3.setData(3.14f);
+		System.out.println(t3.getData());
+		// 만들긴 만들 수 있음 
+		// 하지만 Tiger, Lion, Cat이 관리하는 타입만 다르고 코드가 똑같음
+		// 안에서 수행하는 코드의 역할은 똑같은데 데이터 타입만 다를때는 Generic사용
+	
+		// Dog<int> 원시타입은 쓸 수 없음
+		Dog<Integer> t4 = new Dog<Integer>();
+		t4.setData(100);
+		System.out.println(t4.getData());
+		
+		Dog<Float> t5 = new Dog<Float>();
+		t5.setData(100.0f);
+		System.out.println(t5.getData());
+		// Dog<Boolean>
+	}
+}
+
+// ex78)
+// c/c++
+// 1. 콜렉션 클래스를 내가 만들 수 있는가? >> 자료구조
+
+// Java - 자료구조가 없음
+// 2. 이미 만들어진 클래스를 잘 사용할 수 있는가?
+public class Hello2 {
+	public static void main(String[] args) {
+		LinkedList<Integer> mm = new LinkedList<Integer>();
+		// CRUD + 검색, 정렬
+		// Create
+		System.out.println(mm.size()); // 0
+		// create, add, insert ... -> add채택됨
+		mm.add(100);
+		System.out.println(mm.size()); // 1
+		for (int i = 0; i < 10; i++) {
+			mm.add(i*10+i);
+		}
+		System.out.println(mm.size());
+		
+		// Read
+		// 1. 활용도가 떨어진다.
+		System.out.println(mm); // mm.toString()
+		
+		// 2. read, get, select ...-> 자바에서는 get
+		for (int i = 0; i < mm.size(); i++) {
+			System.out.print(mm.get(i)+" ");
+		}System.out.println();
+		
+		// 3. for문의 간략화 버전
+		// data : 실제 데이터 or index
+		// 바로 데이터를 가져올 수 있음
+		for (Integer data : mm) {
+			System.out.println(data+" ");
+		} System.out.println();
+		
+		// 배열
+		int[] ar = {10, 20, 30};
+		// data, item, value ...-> 가장 많이 쓰는게 value
+		for (int data : ar) {
+			System.out.println(data + " ");
+		}System.out.println();
+		String s = "무궁화꽃이피었습니다.";
+//		for (char i : s) {
+//			
+//		} err -> 자바에서는 아직 미지원
+		
+		// Update
+		mm.set(5, 99); // 5번째 있는 내용을 99로 setting
+		
+		// Delete
+		// delete, erase, remove ... -> 자바에서는 remove
+		mm.remove(4);
+		
+		// 검색
+		for (Integer data : mm) {
+			if(data==77) {
+				System.out.println("find");
+				break;
+			}
+		}System.out.println();
+		
+		for (int i = 0; i < mm.size(); i++) {
+			Integer value = mm.get(i);
+			if(value == 77) {
+				System.out.println(i + " : find");
+				break;
+			}
+			if(i==mm.size()-1) {
+				System.out.println("not found");
+			}
+		}System.out.println();
+	}
+}
+
+
+// ex79-1) 검색 제거
+public class Hello2 {
+	public static void main(String[] args) {
+		LinkedList<Integer> mm = new LinkedList<Integer>();
+		for (int i = 0; i < 10; i++) {
+			mm.add(i*10+i);
+		}
+		System.out.println(mm);
+		
+		for (int i = 0; i < mm.size(); i++) {
+			if(mm.get(i)==55) {
+				mm.remove(i);
+				break;
+			}
+		}
+		System.out.println(mm);
+	}
+}
+
+// ex79-2) 짝수제거 안되는 코드
+public class Hello2 {
+	public static void main(String[] args) {
+		LinkedList<Integer> mm = new LinkedList<Integer>();
+		for (int i = 0; i < 6; i++) {
+			mm.add(i*10+i);
+		}
+		mm.add(100);
+		mm.add(102);
+		mm.add(104);
+		mm.add(106);
+		mm.add(108);
+		
+		System.out.println(mm);
+
+		// 제거 이후에 index번호가 새로 조정된다.
+		for (int i = 0; i < mm.size(); i++) {
+			if(mm.get(i)%2 == 0) {
+				mm.remove(i); // 한개씩 사이즈 줄어듬
+			}
+		}
+		System.out.println(mm);
+	}
+}
+
+//ex79-3) 짝수제거 되는 코드
+public class Hello2 {
+	public static void main(String[] args) {
+		LinkedList<Integer> mm = new LinkedList<Integer>();
+		for (int i = 0; i < 6; i++) {
+			mm.add(i*10+i);
+		}
+		mm.add(100);
+		mm.add(102);
+		mm.add(104);
+		mm.add(106);
+		mm.add(108);
+		
+		System.out.println(mm);
+
+		for (int i = 0; i < mm.size();) {
+			int num = mm.get(i);
+			if(num%2==0) {
+				mm.remove(i);
+			} else {
+				i++;
+			}
+		}
+		System.out.println(mm);
 	}
 }
