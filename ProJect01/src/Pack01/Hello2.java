@@ -2,6 +2,7 @@ package Pack01;
 import java.io.*;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.Scanner;
 /*
 class Tiger {
 }
@@ -251,7 +252,7 @@ public class Hello2 {
 	}
 }
 
-/ ex56)
+// ex56)
 // 4. 추상메소드가 있는 추상클래스에는 abstract 붙여야함
 abstract class Aaa {
 	// 1. 오버라이딩을 목표로 한다.
@@ -1454,5 +1455,239 @@ public class Hello2 {
 			}
 		}
 		System.out.println(mm);
+	}
+}
+
+// ex80-1)
+class Tiger {
+	
+}
+class Lion<T> {
+	T age;
+	void setAge(T age) {
+		this.age = age;
+	}
+}
+public class Hello2 {
+	public static void main(String[] args) {
+		Lion<Integer> t1 = new Lion<Integer>();
+		// 컨테이너 안에 클래스가 들어갈 수 있음 Lion<Tiger> 
+	}
+}
+
+//ex80-2)
+class Book {
+	String title;
+	String author; 
+	String publisher;
+	int price;
+	public Book(String title, String author, String publisher, int price) {
+		this.title = title;
+		this.author = author;
+		this.publisher = publisher;
+		this.price = price;
+	}
+	// void showInfo()
+	@Override
+	public String toString() {
+		return "Book [title=" + title + ", author=" + author + ", publisher=" + publisher + ", price=" + price + "]";
+	}
+	
+	
+}
+
+public class Hello2 {
+	public static void main(String[] args) {
+		LinkedList<Book> mm = new LinkedList<Book>();
+		// mm.add(100); Book 타입이어야 추가 가능 
+		mm.add(new Book("자바를 배운다", "홍길동","1출판사",100));
+		mm.add(new Book("늦잠 자는법", "게으름","2출판사",150));
+		mm.add(new Book("빅데이터란 무엇인가", "이순신","3출판사",300));
+		mm.add(new Book("남을 돕고 살자", "남남남","4출판사",1000));
+		System.out.println(mm.get(0).toString());
+		
+		System.out.println(mm.size());
+		// Read
+		for (Book book : mm) {
+			System.out.println(book);
+		}System.out.println();
+		
+		Book oneBook = mm.get(2);
+		System.out.println(oneBook);
+		
+		// Update
+		mm.set(1, new Book("일찍 깨는법", "일찍이"," 2출판사",200));
+		for (Book book : mm) {
+			System.out.println(book);
+		}System.out.println();
+		
+		// Delete
+		mm.remove(3);
+		for (Book book : mm) {
+			System.out.println(book);
+		}System.out.println();
+		
+		Book findBook = search(mm, "이순신");
+		if(findBook != null) {
+			System.out.println("찾았다.");
+			System.out.println(findBook);
+		} else {
+			System.out.println("못찾음");
+		}
+	}
+	static Book search(LinkedList<Book> mm, String name) {
+		for (Book book : mm) {
+			if(book.author.equals(name)) {
+				return book;
+			}
+		}
+		return null;
+	}
+}
+
+// ex81)
+public class Hello2 {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("숫자를 입력하세요");
+		
+		// Random rnd = new Random();
+		int random = new Random().nextInt(100); // 어떠한 함수를 바로 쓰고 버리고 싶을 때
+		// nextInt를 블로킹 함수이다.
+		// 블로킹함수란 약속된 특정 조건이 만족될때까지 프로그램이 더 이상 진행되지 못하도록 하는 함수
+		// sleep();
+		// 비동기
+		for (int i = 0; i < 100; i++) {
+			System.out.println("숫자를 입력하세요");
+			int num = sc.nextInt();
+			// int num = new Scanner(System.in).nextInt(); 메모리 누수 일어날 수 있음
+			System.out.println(num);
+			if(num==999) {
+				break;
+			}
+		}
+		int num = sc.nextInt();		
+		System.out.println(num);
+		
+		int num2 = sc.nextInt();
+		System.out.println(num+num2);
+		System.out.println("프로그램을 종료합니다.");
+	}
+}
+
+// ex82)
+class A {
+	void start() {
+		// System.out.println("start call");
+		run();
+	}
+	void run() {
+		System.out.println("A class Run Call");
+	}
+}
+class B extends A {
+	void run() {
+		System.out.println("B class Run Call");
+	}
+}
+public class Hello2 {
+	public static void main(String[] args) {
+		A t1 = new B();
+		t1.start(); // A라는 클래스 보여주지 않았을때 호출 가능 -> 이 함수는 부모가 갖고있다. start()->run(), run()은 오버라이딩 됨
+	}
+}
+
+// ex83) 
+class Tiger extends Thread{
+	public void run() {
+		System.out.println("thread start");
+		System.out.println("call");
+		System.out.println("tread end");
+	}
+}
+public class Hello2 {
+	public static void main(String[] args) {
+		Tiger t1 = new Tiger();
+		t1.start(); // Tiger에 start없는데도 호출 됨, => Thread에 있기 때문
+		System.out.println("thread start 보다 먼저 실행될까? - 전적으로 OS책임");
+		// 동시에 시작되었지만 OS가 위 출력문에 제어권을 먼저 주었기 때문에 먼저 실행됨
+	}
+}
+
+// ex84-1)
+class Tiger extends Thread{
+	public void run() {
+		for (int i = 0; i < 10; i++) {
+			System.out.println("호랑이 : " + i);
+			try {Thread.sleep(0);} catch (Exception e) {} // 가장 짧은 시간동안만 쉬어라 
+		}
+	}
+}
+public class Hello2 {
+	public static void main(String[] args) {
+		Tiger t1 = new Tiger();
+		
+		t1.start();
+		for (int i = 0; i < 10; i++) {
+			System.out.println("꼬끼리 : " + i);
+			try {Thread.sleep(0);} catch (Exception e) {} // 가장 짧은 시간동안만 쉬어라 
+		}
+	}
+}
+
+// ex84-2)
+class Lion extends Thread{
+	public void run() {
+		new Scanner(System.in).nextInt();
+		System.out.println("사자");
+	}
+}
+class Tiger extends Thread{
+	public void run() {
+		Lion t1 = new Lion();
+		t1.start();
+		new Scanner(System.in).nextInt();
+		System.out.println("호랑이");
+	}
+}
+public class Hello2 {
+	public static void main(String[] args) {
+		Tiger t1 = new Tiger();
+		
+		t1.start();
+		new Scanner(System.in).nextInt();
+		System.out.println("main");
+	}
+}
+
+// ex85)
+class Tiger extends Thread{
+	public void run() {
+		System.out.println(1);
+	}
+}
+public class Hello2 {
+	public static void main(String[] args) {
+		Tiger t1 = new Tiger();
+		t1.start();
+		
+		// 같은 코드
+		Thread t2 = new Tiger();
+		t2.start();
+		
+		// 익명 클래스 - 굳이 Tiger클래스를안만들고 사용하겠다.
+		Thread t3 = new Thread() {
+			public void run() {
+				System.out.println(2);
+			}
+		}; 
+		t3.start();
+		
+		// 위와 같은 코드
+		new Thread() {
+			public void run() {
+				System.out.println(3);
+			}
+		}.start(); 
 	}
 }
