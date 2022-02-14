@@ -1,6 +1,9 @@
 package Pack01;
+import java.io.*;
 import java.util.Random;
 /*
+class Tiger {
+}
 class Aaa {
 	void f1() {}
 }
@@ -1012,5 +1015,219 @@ public class Hello2 {
 		
 		Ddd t6 = (s, n)->s+n;
 		System.out.println(t6.f1("맘모스", 4000));
+	}
+}
+
+// ex70) Exception
+public class Hello2 {
+	public static void main(String[] args) {
+		int[] ar = new int[3]; // 0, 1, 2
+		// 1. ArrayIndexOutOfBoundsException
+		System.out.println("exception 전"); // 출력됨
+		ar[3] = 10; // >> 여기서 중단됨.
+		System.out.println("exception 후"); // 출력안됨 -> exception을 만나면 프로그램이 중단됨.
+		// 2. ArithmeticException
+		System.out.println(5/0);
+		
+		// 3. NullPointerException
+		String s = null;
+		s.length();
+		
+		// exception이 발생하면 프로그램이 중단되어야하는가?
+		// 프로그래머가 예외처리를 하자
+		// try catch
+		int[] arr = new int[3];
+		try {
+			// exception이 발생할 수 있는 소지가 있는 코드
+			arr[3] = 10;
+		} catch (Exception e) {
+			// TODO: handle exception
+			// exception이 발생하면 catch 블록으로 들어온다
+			System.out.println("exception 발생");
+			e.printStackTrace(); // exception을 화면에 출력
+		}
+		// 배열 사용할때마다 try catch사용해야하나?
+		// ㄴㄴ, 반드시 걸어야하는 예외 없음
+		
+		// narrowing
+		s = new String("s는 null이 아닐 가능성이 없지만");
+		if(s!=null) {
+			s.length();
+		}
+	}
+}
+
+// ex71)
+class Tiger {
+	// 방법1
+	void f1() {
+		System.out.println("함수 1");
+		try {
+			throw new Exception(); // catch가 받음
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+	}
+	
+	// 방법2 - 이 함수를 호출한 쪽에서 exception처리
+	// exception 떠넘기기
+	// 보통 이방법 사용
+	// exception의 종류가 다양한데 함수안에서 다 처리하는것이 아니라 이 함수를 호출한 측에서 다양한 예외에 대한 처리를 하는 것이 나음
+	void f2() throws Exception {
+		System.out.println("함수 2");
+		throw new Exception();
+	}
+}
+public class Hello2 {
+	// 운영체제에 exception 떠넘기기
+	public static void main(String[] args) throws Exception{
+		Tiger t1 = new Tiger();
+		t1.f1();
+		System.out.println("함수가 종료는 안됨"); 
+	
+		// Unhandled exception
+		// t1.f2(); exception받아줘야함
+		try {
+			t1.f2();
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("exception 발생");
+		}
+		t1.f2();
+		
+	}
+}
+
+// ex72)
+class Tiger {
+	
+}
+public class Hello2 {
+	public static void main(String[] args) {
+		// Thread.sleep(1000); // 1초, Unhandled exception
+		for (int i = 0; i < 4; i++) {
+			System.out.println(i);
+			try {Thread.sleep(1000);} catch (Exception e) {}
+		}
+		
+	}
+}
+
+// ex73)
+public class Hello2 {
+	static int m1() {
+		return 100;
+	}
+	static void m2(int a, int b) {
+		System.out.println("초기");
+		if(a>b) {
+			System.out.println("a>b");
+		}else {
+			// 함수실행 중단
+			return;
+		}System.out.println("리턴을 만났으니 출력안되는 문장");
+	}
+	static void m3(int a, int b) {
+		try {
+			System.out.println("초기");
+			if(a>b) {
+				System.out.println("a>b");
+			}else {
+				// 함수실행 중단
+				return;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			System.out.println("리턴을 만났지만 finally때문에 출력됨");
+		}
+	}
+	public static void main(String[] args) {
+		System.out.println(m1());
+		m2(3, 2);
+		m2(1, 2); // 리턴을 만났으니 출력안되는 문장을 출력하게 하고 싶으면 m3
+		m3(1, 2);
+		
+//		try {
+//			System.out.println(2/0);
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			System.out.println("catch");
+//		} finally {
+//			System.out.println("finally");
+//		}
+//		System.out.println("외부");
+//		// finally를 사용하는 이유?
+	}
+}
+
+// ex74) Writer
+public class Hello2 {
+	public static void main(String[] args) {
+		System.out.println(1);
+		try {
+			// 파일열고 한꺼번에 사용할 수 있는 갯수 제한있음
+			// 열면 닫아주어야함
+			// open
+			// 부모 - 자식 업캐스팅
+			// 사실상 조부모 - 손자
+			Writer writer = new FileWriter("sample.txt");
+			
+			writer.write("apple");
+			writer.write("\n");
+			writer.write("banana");
+			
+			
+			// close
+			writer.close();
+		} catch (Exception e) {	
+		}
+		System.out.println(2);
+	}
+}
+
+// ex75)
+public class Hello2 {
+	public static void main(String[] args) {	
+		try {
+			Writer writer = new FileWriter("sample.txt");
+			for (int i = 0; i < 5; i++) {
+				for (int j = 0; j < 5; j++) {
+						writer.write((i+j)%2==0 ?"O":"X");
+				}
+				writer.write("\n");
+			}
+			writer.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}	
+	}
+}
+
+// ex76) bmp 파일을 read, bmp파일을 직접 만들 수 있으면 굳
+public class Hello2 {
+	public static void main(String[] args) {
+		try {
+			// FileNotFoundException
+			// Reader reader = new FileReader("s.txt");
+			Reader reader = new FileReader("sample.txt");
+			
+			// int java.io.Reader.read() throws IOException
+			// 한글자 씩 출력
+			while(true) {
+				int readData = reader.read();
+				if(readData == -1) { // 파일 끝에 도달하면 return 값 -1, EOF
+					System.out.println("파일끝까지 모두 읽음");
+					break;
+				}
+				System.out.println((char)readData);
+			}
+			reader.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		System.out.println(2000);
 	}
 }
