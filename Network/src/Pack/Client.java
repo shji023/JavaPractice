@@ -39,13 +39,13 @@ public class Client extends Application {
 		
 		Button btn2 = new Button("데이터 전송");
 		btn2.setOnAction(new EventHandler<ActionEvent>() {
-			
+			int count = 0;
 			@Override
 			public void handle(ActionEvent arg0) {
 				// 전송할 수 있는 타입은 딱한가지 byte타입
 				try {
 					OutputStream os = cs.getOutputStream();
-					String s = "apple";
+					String s = "apple"+count++;
 					byte[]data = s.getBytes(); // 문자열을 바이트로 변환이 되어 배열로
 					os.write(data);
 					System.out.println("데이터 보냄");
@@ -53,7 +53,16 @@ public class Client extends Application {
 				
 			}
 		});
-		root.getChildren().addAll(btn1, btn2);
+		
+		Button btn3 = new Button("접속종료");
+		btn3.setOnAction(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent arg0) {
+				try {cs.close();} catch (Exception e) {}
+			}
+		});
+		root.getChildren().addAll(btn1, btn2, btn3);
 //		btn1.setOnAction(new EventHandler<ActionEvent>() {
 //			@Override
 //			public void handle(ActionEvent arg0) {
