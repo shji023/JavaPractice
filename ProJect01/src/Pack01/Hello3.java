@@ -64,17 +64,6 @@ public class Hello3 extends Application {
 }
 */
 
-// ex89)
-public class Hello3 { 
-	public static void main(String[] args) {
-		System.out.println("여기는 헬로우");
-		Scanner sc = new Scanner(System.in);
-		sc.nextInt();		
-		System.out.println("헬로우 종료");
-	}
-}
-
-/*
 // swing과 충돌 나는지 확인
 // ex86) UI
 // Swing라이브러리 => JavaFx
@@ -484,4 +473,13 @@ public class Hello3 extends Application {
 		System.out.println("Exit"); // 창을 닫기 전까지 2가 안나타남
 	}
 }
-*/
+
+// ex89)
+public class Hello3 { 
+	public static void main(String[] args) {
+		System.out.println("여기는 헬로우");
+		Scanner sc = new Scanner(System.in);
+		sc.nextInt();		
+		System.out.println("헬로우 종료");
+	}
+}
