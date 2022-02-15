@@ -1,7 +1,9 @@
 package Pack;
 
+import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.Scanner;
 
 import javafx.application.Application;
@@ -35,8 +37,27 @@ public class Server extends Application {
 							// 버튼에서 빠져나오지 못하니까 다음버튼을 누르지 못함
 							// 무한루프에 빠짐
 							// 쓰레드로 해결
-							ss.accept();
+							Socket socket = ss.accept(); // 데이터를 주고 받을 소켓
 							System.out.println("누군가 접속을 시도했음");
+							
+							// 데이터를 받는 쓰레드 또 필요하다.
+							new Thread() {
+								@Override
+								public void run() {
+									try {
+										InputStream is = socket.getInputStream();
+										byte[]recvData = new byte[512];
+										// read 블로킹 함수
+										int size = is.read(recvData);
+										
+										String s = new String(recvData, 0, size); // 읽을 데이터의 크기
+										System.out.println(s);
+									} catch (Exception e) {
+										// TODO: handle exception
+									}
+									
+								};
+							}.start();
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -44,6 +65,7 @@ public class Server extends Application {
 				}.start();
 			}
 		});
+		
 		root.getChildren().add(btn1);
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
