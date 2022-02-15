@@ -4,10 +4,10 @@ import java.util.Scanner;
 
 public class World {
 	public static void main(String[] args) {
-		System.out.println("여기는 월드");
+		System.out.println("this is world");
 		Scanner sc = new Scanner(System.in);
 		sc.nextInt();		
-		System.out.println("헬로우 종료");
+		System.out.println("hello end");
 	}
 
 }
