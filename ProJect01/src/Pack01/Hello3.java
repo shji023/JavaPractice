@@ -431,7 +431,7 @@ class Tiger extends Thread {
 		// btn.setText("btn1을 몰라서 속성변경을 할 수 없음");
 		// 방법 1. 버튼을 인수로 넘겨줌 
 		Platform.runLater(()->{
-			Hello3.btn1.setText("g호랑이");
+			hello.btn1.setText("g호랑이");
 			//Hello3.btn2.setText("g호랑이");
 		});
 		
