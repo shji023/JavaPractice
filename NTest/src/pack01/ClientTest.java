@@ -60,6 +60,10 @@ public class ClientTest extends Application {
 							try {
 								cs = new Socket();
 								cs.connect(new InetSocketAddress("192.168.0.79",5001));
+								DataOutputStream os  = new DataOutputStream( cs.getOutputStream());
+								String s = userName.getText();
+								
+								os.writeUTF(s);
 								receive();
 
 							} catch (Exception e) {
@@ -82,7 +86,7 @@ public class ClientTest extends Application {
 				try {
 					 
 					DataOutputStream os  = new DataOutputStream( cs.getOutputStream());
-					String s = userName.getText() + " : " + textInput.getText();
+					String s = textInput.getText();
 					
 					os.writeUTF(s);
 					textInput.setText("");

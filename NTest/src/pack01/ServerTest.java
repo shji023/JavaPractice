@@ -73,9 +73,6 @@ class ConnectThread extends Thread {
          }
       } catch (IOException e) {
       }
-
-
-
    }
 
    public void revMsg(DataInputStream in,Socket client){
@@ -99,7 +96,7 @@ class ConnectThread extends Thread {
          }
       } catch (IOException e) {
          if(nameCheck) {
-         System.out.println(socket+"´Ô Á¢¼Ó Á¾·á");
+         System.out.println(name+"´Ô Á¢¼Ó Á¾·á");
          
          Platform.runLater(()->{
             --id;
