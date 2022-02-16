@@ -21,7 +21,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Client extends Application {
-	Socket cs; // 필드로 정의, 모든데에서 다쓰기 때문에
+	Socket cs;
 	TextArea textArea;
 	
 	@Override
@@ -39,15 +39,28 @@ public class Client extends Application {
 		userName.setPromptText("닉네임을 입력하세요");
 
 		
-		
-		Button btn1 = new Button("접속버튼");
-		// 블로킹이 아니기 때문에 쓰레드를 만들 필요가 없다.
-		btn1.setOnAction(new EventHandler<ActionEvent>() {
+		// 서버 접속
+		Button startButton = new Button("접속버튼");
+		startButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
 				try {
-					cs = new Socket();
-					cs.connect(new InetSocketAddress("192.168.0.3",5001));
+//					cs = new Socket();
+//					cs.connect(new InetSocketAddress("localhost",5001));
+//					ConnectThread ct = new ConnectThread();
+//					ct.start();	
+					new Thread() {
+						public void run() {
+							try {
+								cs = new Socket();
+								cs.connect(new InetSocketAddress("192.168.0.79",5001));
+								receive();
+
+							} catch (Exception e) {
+								// TODO: handle exception
+							}
+						};
+					}.start();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -55,7 +68,7 @@ public class Client extends Application {
 			}
 		});
 		
-		//Button btn2 = new Button("데이터 전송");
+		// 입력 테스트 전송
 		textInput.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
@@ -63,7 +76,7 @@ public class Client extends Application {
 				try {
 					OutputStream os = cs.getOutputStream();
 					String s = userName.getText() + " : " + textInput.getText();
-					byte[]data = s.getBytes(); // 문자열을 바이트로 변환이 되어 배열로
+					byte[]data = s.getBytes();
 					os.write(data);
 					textInput.setText("");
 					System.out.println("데이터 보냄");
@@ -73,17 +86,24 @@ public class Client extends Application {
 		});
 		
 
-		Button btn3 = new Button("접속종료");
-		btn3.setOnAction(new EventHandler<ActionEvent>() {
+		// 접속 종료
+		Button stopButton = new Button("접속종료");
+		stopButton.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
 			public void handle(ActionEvent arg0) {
-				try {cs.close();} catch (Exception e) {}
+				try {
+					OutputStream os = cs.getOutputStream();
+					String s = userName.getText() + "님이 접속 종료했습니다. ";
+					byte[]data = s.getBytes(); 
+					os.write(data);
+					cs.close();
+					} catch (Exception e) {}
 			}
 		});
 		
 
-		root.getChildren().addAll(userName, btn1, btn3, textInput, textArea);
+		root.getChildren().addAll(userName, startButton, stopButton, textInput, textArea);
 		
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
@@ -112,8 +132,10 @@ public class Client extends Application {
 				int length = in.read(buffer);
 				if (length == -1) throw new IOException();
 				String message = new String(buffer,0,length,"UTF-8");
+				System.out.println(message);
 				Platform.runLater(()->{
 					textArea.appendText(message);
+					textArea.appendText("\n");
 				});
 			}catch(Exception e) {
 				stopClient();
