@@ -14,6 +14,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -26,12 +27,16 @@ import javafx.stage.Stage;
 public class ClientTest extends Application {
 	Socket cs;
 	TextArea textArea;
-	
+	Scene scene1, scene2;
+
 	@Override
 	public void start(Stage stage) throws Exception {
 		VBox root = new VBox();
 		HBox root2 = new HBox();
 		HBox root3 = new HBox();
+		VBox win = new VBox();
+
+		win.setPrefSize(400, 300);
 		root.setPrefSize(400, 300);
 		root.setSpacing(5);
 
@@ -42,14 +47,15 @@ public class ClientTest extends Application {
 		TextField userName = new TextField();
 		userName.setPrefWidth(100);
 		userName.setPromptText("닉네임을 입력하세요");
-
-		
+// scene1 -----------------------------------------------------------------
+// scene2 -----------------------------------------------------------------
 		// 서버 접속
 		Button startButton = new Button("접속버튼");
 		startButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
 				try {
+					stage.setScene(scene2);
 					userName.setDisable(true);
 //					cs = new Socket();
 //					cs.connect(new InetSocketAddress("localhost",5001));
@@ -128,14 +134,22 @@ public class ClientTest extends Application {
 	         }
 	      });
 		
-		root2.getChildren().addAll(startButton,stopButton);
-		root3.getChildren().addAll(textInput,sendButton);
-		root.getChildren().addAll(userName, root2, textArea, root3);
+	      
+	      win.getChildren().addAll(userName, startButton);
+	      win.setPadding(new Insets(100, 100, 100, 100));
 
-		Scene scene = new Scene(root);
-		stage.setScene(scene);
-		stage.setTitle("Client");
-		stage.show();
+
+	      root2.getChildren().addAll(stopButton);
+	      root3.getChildren().addAll(textInput,sendButton);
+	      root.getChildren().addAll(root2, textArea, root3);
+
+	      scene1 = new Scene(win);
+	      scene2 = new Scene(root);
+
+	      //Scene scene = new Scene(root);
+	      stage.setScene(scene1);
+	      stage.setTitle("Client");
+	      stage.show();
 
 	}
 
