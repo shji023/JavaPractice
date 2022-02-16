@@ -17,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -27,6 +28,8 @@ public class Client extends Application {
 	@Override
 	public void start(Stage stage) throws Exception {
 		VBox root = new VBox();
+		HBox root2 = new HBox();
+		HBox root3 = new HBox();
 		root.setPrefSize(400, 300);
 		root.setSpacing(5);
 
@@ -45,6 +48,7 @@ public class Client extends Application {
 			@Override
 			public void handle(ActionEvent arg0) {
 				try {
+					userName.setDisable(true);
 //					cs = new Socket();
 //					cs.connect(new InetSocketAddress("localhost",5001));
 //					ConnectThread ct = new ConnectThread();
@@ -101,10 +105,25 @@ public class Client extends Application {
 					} catch (Exception e) {}
 			}
 		});
+		// 보내기 버튼
+		Button sendButton = new Button("전송");
+	      sendButton.setOnAction(new EventHandler<ActionEvent>() {
+	         @Override
+	         public void handle(ActionEvent arg0) {
+	            try {
+	               OutputStream os = cs.getOutputStream();
+	               String s = textInput.getText();
+	               byte[] data = s.getBytes(); // 생략된건 보류하고.
+	               os.write(data);
+	               System.out.println("데이터 보냄");
+	            } catch (Exception e) {   e.printStackTrace(); }
+	         }
+	      });
 		
+		root2.getChildren().addAll(startButton,stopButton);
+		root3.getChildren().addAll(textInput,sendButton);
+		root.getChildren().addAll(userName, root2, textArea, root3);
 
-		root.getChildren().addAll(userName, startButton, stopButton, textInput, textArea);
-		
 		Scene scene = new Scene(root);
 		stage.setScene(scene);
 		stage.setTitle("Client");
