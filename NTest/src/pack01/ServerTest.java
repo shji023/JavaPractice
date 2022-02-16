@@ -85,32 +85,39 @@ class ConnectThread extends Thread {
             if(nameCheck) {
                name = msg;
                nameCheck = false;
+               sendMsg(client,name+"님이 접속했습니다.");
             }
             else if(!msg.equals("")) {
                sendMsg(client,name+": "+msg);
                System.out.println(msg);
+            }
+            else if(msg=="종료")
+            {
+            	sendMsg(client,name+ " 종료함.");
+            	System.out.println("msg 종료");
             }
             else {
                System.out.println("빈 내용을 입력하지 말아주세요!");
             }
          }
       } catch (IOException e) {
-         if(nameCheck) {
-         System.out.println(name+"님 접속 종료");
-         
-         Platform.runLater(()->{
-            --id;
-            SPJ.lab.setText("인원수: "+id+"\n");
-            });
-         }
-         else {
-         System.out.println(name +"님 접속 종료");
-         
-         Platform.runLater(()->{
-            --id;
-            SPJ.lab.setText("인원수: "+id+"\n");
-            });
-         }
+    	  if(nameCheck) {
+    		  System.out.println(name+"님 접속 종료");
+
+    		  Platform.runLater(()->{
+    			  --id;
+    			  SPJ.lab.setText("인원수: "+id+"\n");
+    		  });
+    	  }
+    	  else {
+    		  System.out.println(name +"님 접속 종료 115번째 줄");
+    		  sendMsg(client, name+"님이 접속 종료 했습니다.");
+
+    		  Platform.runLater(()->{
+    			  --id;
+    			  SPJ.lab.setText("인원수: "+id+"\n");
+    		  });
+    	  }
       }
    }
    public void sendMsg(Socket client,String msg){

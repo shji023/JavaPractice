@@ -47,20 +47,15 @@ public class ClientTest extends Application {
 		TextField userName = new TextField();
 		userName.setPrefWidth(100);
 		userName.setPromptText("닉네임을 입력하세요");
-// scene1 -----------------------------------------------------------------
-// scene2 -----------------------------------------------------------------
+
 		// 서버 접속
-		Button startButton = new Button("접속버튼");
+		Button startButton = new Button("로그인");
 		startButton.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent arg0) {
 				try {
 					stage.setScene(scene2);
 					userName.setDisable(true);
-//					cs = new Socket();
-//					cs.connect(new InetSocketAddress("localhost",5001));
-//					ConnectThread ct = new ConnectThread();
-//					ct.start();	
 					new Thread() {
 						public void run() {
 							try {
@@ -73,7 +68,7 @@ public class ClientTest extends Application {
 								receive();
 
 							} catch (Exception e) {
-								// TODO: handle exception
+								e.printStackTrace();
 							}
 						};
 					}.start();
@@ -106,12 +101,11 @@ public class ClientTest extends Application {
 		// 접속 종료
 		Button stopButton = new Button("접속종료");
 		stopButton.setOnAction(new EventHandler<ActionEvent>() {
-			
 			@Override
 			public void handle(ActionEvent arg0) {
 				try {
 					DataOutputStream os  = new DataOutputStream( cs.getOutputStream());
-					String s = userName.getText() + "님이 접속 종료했습니다. ";
+					String s = userName.getText();
 					
 					os.writeUTF(s);
 					cs.close();
