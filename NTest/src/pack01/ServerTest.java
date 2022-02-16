@@ -91,11 +91,6 @@ class ConnectThread extends Thread {
                sendMsg(client,name+": "+msg);
                System.out.println(msg);
             }
-            else if(msg=="종료")
-            {
-            	sendMsg(client,name+ " 종료함.");
-            	System.out.println("msg 종료");
-            }
             else {
                System.out.println("빈 내용을 입력하지 말아주세요!");
             }
@@ -110,7 +105,6 @@ class ConnectThread extends Thread {
     		  });
     	  }
     	  else {
-    		  System.out.println(name +"님 접속 종료 115번째 줄");
     		  sendMsg(client, name+"님이 접속 종료 했습니다.");
 
     		  Platform.runLater(()->{
