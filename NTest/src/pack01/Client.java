@@ -1,17 +1,21 @@
 package pack01;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -22,148 +26,194 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Client extends Application {
-	Socket cs;
-	TextArea textArea;
-	
-	@Override
-	public void start(Stage stage) throws Exception {
-		VBox root = new VBox();
-		HBox root2 = new HBox();
-		HBox root3 = new HBox();
-		root.setPrefSize(400, 300);
-		root.setSpacing(5);
+   Socket cs;
+   TextArea textArea, textArea2;
+   Scene scene1, scene2;
 
-		textArea = new TextArea();
-		textArea.setEditable(false);
-		
-		TextField textInput = new TextField();
-		TextField userName = new TextField();
-		userName.setPrefWidth(100);
-		userName.setPromptText("닉네임을 입력하세요");
+   @Override
+   public void start(Stage stage) throws Exception {
+      VBox root = new VBox();
+      HBox root2 = new HBox();
+      HBox root3 = new HBox();
+      HBox root4 = new HBox();
+      VBox win = new VBox();
+      
+      Button startButton = new Button("로그인");
+      Button backButton = new Button("뒤로가기");
+      Button stopButton = new Button("접속종료");
+      Button sendButton = new Button("전송");
 
-		
-		// 서버 접속
-		Button startButton = new Button("접속버튼");
-		startButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent arg0) {
-				try {
-					userName.setDisable(true);
-//					cs = new Socket();
-//					cs.connect(new InetSocketAddress("localhost",5001));
-//					ConnectThread ct = new ConnectThread();
-//					ct.start();	
-					new Thread() {
-						public void run() {
-							try {
-								cs = new Socket();
-								cs.connect(new InetSocketAddress("192.168.0.79",5001));
-								receive();
+      win.setPrefSize(400, 300);
+      root.setPrefSize(400, 300);
+      root.setSpacing(5);
 
-							} catch (Exception e) {
-								// TODO: handle exception
-							}
-						};
-					}.start();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+      textArea = new TextArea();
+      textArea.setEditable(false);
+      textArea.setPrefSize(300, 200);
+      
+      
+      textArea2 = new TextArea();
+      textArea2.setPrefSize(100, 200);
 
-			}
-		});
-		
-		// 입력 테스트 전송
-		textInput.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent arg0) {
-				// 전송할 수 있는 타입은 딱한가지 byte타입
-				try {
-					OutputStream os = cs.getOutputStream();
-					String s = userName.getText() + " : " + textInput.getText();
-					byte[]data = s.getBytes();
-					os.write(data);
-					textInput.setText("");
-					System.out.println("데이터 보냄");
-				} catch (Exception e) {e.printStackTrace();}
-				
-			}
-		});
-		
+      TextField textInput = new TextField();
+      TextField userName = new TextField();
+      userName.setPrefWidth(100);
+      userName.setPromptText("닉네임을 입력하세요");
 
-		// 접속 종료
-		Button stopButton = new Button("접속종료");
-		stopButton.setOnAction(new EventHandler<ActionEvent>() {
-			
-			@Override
-			public void handle(ActionEvent arg0) {
-				try {
-					OutputStream os = cs.getOutputStream();
-					String s = userName.getText() + "님이 접속 종료했습니다. ";
-					byte[]data = s.getBytes(); 
-					os.write(data);
-					cs.close();
-					} catch (Exception e) {}
-			}
-		});
-		// 보내기 버튼
-		Button sendButton = new Button("전송");
-	      sendButton.setOnAction(new EventHandler<ActionEvent>() {
-	         @Override
-	         public void handle(ActionEvent arg0) {
-	            try {
-	               OutputStream os = cs.getOutputStream();
-	               String s = textInput.getText();
-	               byte[] data = s.getBytes(); // 생략된건 보류하고.
-	               os.write(data);
-	               System.out.println("데이터 보냄");
-	            } catch (Exception e) {   e.printStackTrace(); }
-	         }
-	      });
-		
-		root2.getChildren().addAll(startButton,stopButton);
-		root3.getChildren().addAll(textInput,sendButton);
-		root.getChildren().addAll(userName, root2, textArea, root3);
+      // 서버 접속
+      startButton.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent arg0) {
+            try {
+               stage.setScene(scene2);
+               //userName.setDisable(true);
+               new Thread() {
+                  public void run() {
+                     try {
+                        cs = new Socket();
+                        cs.connect(new InetSocketAddress("192.168.0.3",5002));
+                        DataOutputStream os  = new DataOutputStream( cs.getOutputStream());
+                        String s = userName.getText();
+                        
+                        if (s.startsWith("!#")) {
+                           System.out.println("입력할수 없습니다.");
+                        }
+                        os.writeUTF(s);
+                        receive();
 
-		Scene scene = new Scene(root);
-		stage.setScene(scene);
-		stage.setTitle("Client");
-		stage.show();
+                     } catch (Exception e) {
+                        e.printStackTrace();
+                     }
+                  };
+               }.start();
+            } catch (Exception e) {
+               e.printStackTrace();
+            }
+            backButton.setDisable(true);
+            stopButton.setDisable(false);
 
-	}
+         }
+      });
 
-	// 클라이언트 프로그램 종료
-	public void stopClient() {
-		try {
-			if(cs != null && !cs.isClosed()) {
-				cs.close();
-			}
-		}catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-	}
-	// 서버로부터 메시지 받음
-	public void receive() {
-		while(true) {
-			try {
-				InputStream in= cs.getInputStream();
-				byte[] buffer = new byte[512];
-				int length = in.read(buffer);
-				if (length == -1) throw new IOException();
-				String message = new String(buffer,0,length,"UTF-8");
-				System.out.println(message);
-				Platform.runLater(()->{
-					textArea.appendText(message);
-					textArea.appendText("\n");
-				});
-			}catch(Exception e) {
-				stopClient();
-				break;
-			}
-		}
-	}
-	public static void main(String[] args) {
-		launch();
-	}
+      // 입력 테스트 전송
+      textInput.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent arg0) {
+            // 전송할 수 있는 타입은 딱한가지 byte타입
+            try {
+
+               DataOutputStream os  = new DataOutputStream( cs.getOutputStream());
+               String s = textInput.getText();
+
+               os.writeUTF(s);
+               textInput.setText("");
+               System.out.println("데이터 보냄");
+            } catch (Exception e) {e.printStackTrace();}
+
+         }
+      });
+
+
+      // 접속 종료
+      stopButton.setOnAction(new EventHandler<ActionEvent>() {
+
+         @Override
+         public void handle(ActionEvent arg0) {
+            try {
+               DataOutputStream os  = new DataOutputStream( cs.getOutputStream());
+               //String s = userName.getText() + "님이 접속 종료했습니다. ";
+
+               //os.writeUTF(s);
+               cs.close();
+            } catch (Exception e) {}
+            backButton.setDisable(false);
+            stopButton.setDisable(true);
+         }
+         
+      });
+      // 보내기 버튼
+      sendButton.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent arg0) {
+            try {
+               DataOutputStream os  = new DataOutputStream( cs.getOutputStream());
+               String s = textInput.getText();
+
+               os.writeUTF(s);
+               textInput.setText("");
+               System.out.println("데이터 보냄");
+            } catch (Exception e) {   e.printStackTrace(); }
+         }
+      });
+
+      // 뒤로가기 버튼
+      backButton.setOnAction(new EventHandler<ActionEvent>() {
+         @Override
+         public void handle(ActionEvent arg0) {
+            stage.setScene(scene1);
+            userName.setText("");
+            stopButton.setDisable(true);
+         }
+      });
+
+      backButton.setDisable(true);
+
+      win.getChildren().addAll(userName, startButton);
+      win.setPadding(new Insets(100, 100, 100, 100));
+
+
+      root2.getChildren().addAll(stopButton, backButton);
+      root3.getChildren().addAll(textInput,sendButton);
+      root4.getChildren().addAll(textArea, textArea2);
+      root.getChildren().addAll(root2, root4, root3);
+
+      scene1 = new Scene(win);
+      scene2 = new Scene(root);
+
+      //Scene scene = new Scene(root);
+      stage.setScene(scene1);
+      stage.setTitle("17점 드가자");
+      stage.show();
+
+   }
+
+   // 클라이언트 프로그램 종료
+   public void stopClient() {
+      try {
+         if(cs != null && !cs.isClosed()) {
+            cs.close();
+         }
+      }catch (Exception e) {
+         e.printStackTrace();
+      }
+
+   }
+   // 서버로부터 메시지 받음
+   public void receive() {
+      while(true) {
+         try {
+            DataInputStream in=new DataInputStream(cs.getInputStream());
+            String message = in.readUTF();
+
+            System.out.println(message);
+            Platform.runLater(()->{
+               if ( message.startsWith("!#") == false) {   
+                  textArea.appendText(message);
+                  textArea.appendText("\n");
+               }
+               else {   
+                  textArea2.setText("");
+                  textArea2.appendText(message.substring(2));
+               }
+            });
+         }catch(Exception e) {
+            stopClient();
+            break;
+         }
+      }
+   }
+   public static void main(String[] args) {
+      launch();
+   }
 
 }
