@@ -2,14 +2,10 @@ package pack01;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Map;
-import java.util.Scanner;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -18,7 +14,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import java.util.Set;
@@ -123,10 +118,14 @@ class ConnectThread extends Thread {
                });
                nameCheck = false;
             }
+            else if (msg.equals("호랑이")) {
+               sendMsg(client,msg);
+            }
             // 메세지기 존재할 경우
             else if(!msg.equals("")) {
                sendMsg(client,socketMap.get(client)+": "+msg);
             }
+
             else {
                System.out.println("빈 내용을 입력하지 말아주세요!");
             }
@@ -157,19 +156,39 @@ class ConnectThread extends Thread {
       }
    }
 
-   // recv 언제 데이터가 들어올지 몰라서 항상 while => 블로킹이 걸려서 => thread
-   // send thread 사용ㄴ
+   //    recv 언제 데이터가 들어올지 몰라서 항상 while => 블로킹이 걸려서 => thread
+   //    send는 thread를 사용하지 않는다.
    public void sendMsg(Socket client, String msg){
       // 현재 참가자들의 소켓에 하나씩 데이터를 보내 줌.
+      String[] arr = {"호랑이","코끼리","독수리"};
+      for(int i=0; i<arr.length; i++) {
+         if(msg.equals("호랑이")) {
+            try {
+
+               DataOutputStream ou = new DataOutputStream(client.getOutputStream());
+               ou.writeUTF("욕을 사용하지 마세요");
+               return;
+            } catch (IOException e) {
+               e.printStackTrace();
+            }
+         }
+      }
+      
       socketList.stream().forEach(so->{
          try {
+
             DataOutputStream ou = new DataOutputStream(so.getOutputStream());
             ou.writeUTF(msg);
          } catch (IOException e) {
             e.printStackTrace();
          }
       });
+
    }
+
+
+
+
 }
 
 // UI켜주는거랑 server 소켓 쓰레드 실행해줌.

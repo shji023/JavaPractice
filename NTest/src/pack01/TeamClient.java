@@ -2,14 +2,18 @@ package pack01;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.ConnectException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Scanner;
+
+import javax.print.attribute.standard.MediaSize.Engineering;
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -17,21 +21,28 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class TeamClient extends Application {
    Socket cs;
    TextArea textArea, textArea2;
    Scene scene1, scene2;
+   Label loginInfo;
+   Stage stage;
 
    @Override
    public void start(Stage stage) throws Exception {
+      this.stage = stage;
       // 
       VBox root = new VBox();
       HBox root2 = new HBox();
@@ -43,6 +54,13 @@ public class TeamClient extends Application {
       Button backButton = new Button("뒤로가기");
       Button stopButton = new Button("접속종료");
       Button sendButton = new Button("전송");
+      Button errorButton = new Button("에러");
+      
+      loginInfo = new Label("");
+      loginInfo.setTextFill(Color.RED);
+      
+      Alert a = new Alert(AlertType.ERROR);
+      a.setContentText("이미 존재하는 아이디입니다.");
 
       win.setPrefSize(400, 300);
       root.setPrefSize(400, 300);
@@ -58,30 +76,34 @@ public class TeamClient extends Application {
 
       TextField textInput = new TextField();
       TextField userName = new TextField();
-      
+
       TextField socketIp = new TextField();
       socketIp.setPromptText("IP를 입력해주세요.");
       TextField socketPort = new TextField();
       socketPort.setPromptText("Port를 입력해주세요.");
-      
+
       userName.setPrefWidth(100);
       userName.setPromptText("닉네임을 입력하세요");
 
       // 서버 접속
       startButton.setOnAction(new EventHandler<ActionEvent>() {
+         Boolean loginCheck = false;
          @Override
          public void handle(ActionEvent arg0) {
             try {
+               System.out.println("화면 띄움");
                // 시작하기 버튼을 누르면 채팅창으로 전환 됨.
-               stage.setScene(scene2);
+//                  stage.setScene(scene2);
                //userName.setDisable(true);
                new Thread() {
                   public void run() {
                      try {
                         String ipNum = socketIp.getText();
                         String portNum = socketPort.getText();
+                        System.out.println("연결 전");
                         cs = new Socket();
-//                        cs.connect(new InetSocketAddress("192.168.1.33", 5002));
+//                              cs.connect(new InetSocketAddress("192.168.55.248", 5002));
+//                              System.out.println("연결 후");
                         cs.connect(new InetSocketAddress(ipNum, Integer.parseInt(portNum)));
                         DataOutputStream os  = new DataOutputStream( cs.getOutputStream());
                         String s = userName.getText();
@@ -91,12 +113,20 @@ public class TeamClient extends Application {
                         }
                         os.writeUTF(s);
                         receive();
-
+                     } catch (ConnectException e) {
+                        System.out.println("123");
+                        Platform.runLater(() -> {
+                           loginInfo.setText("존재하지 않는 소켓입니다.");
+                        });
+                        e.printStackTrace();
                      } catch (Exception e) {
                         e.printStackTrace();
                      }
                   };
                }.start();
+               if (loginCheck) {
+                  stage.setScene(scene2);
+               }
             } catch (Exception e) {
                e.printStackTrace();
             }
@@ -113,7 +143,7 @@ public class TeamClient extends Application {
             try {
                DataOutputStream os  = new DataOutputStream( cs.getOutputStream());
                String s = textInput.getText();
-               
+
                // 서버에 텍스트 전송 
                os.writeUTF(s);
                // 전송 후 텍스트필드 비워 줌.
@@ -137,7 +167,7 @@ public class TeamClient extends Application {
             stopButton.setDisable(true);
          }
       });
-      
+
       // 보내기 버튼
       // 엔터 뿐만아니라 마우스 클릭으로도 데이터를 보내기 위해서 추가 함.
       sendButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -164,15 +194,25 @@ public class TeamClient extends Application {
             stopButton.setDisable(true);
          }
       });
+      
+      errorButton.setOnAction(new EventHandler<ActionEvent>() {
+         
+         @Override
+         public void handle(ActionEvent arg0) {
+            // TODO Auto-generated method stub
+            a.show();
+            
+         }
+      });
 
       backButton.setDisable(true);
 
-      win.getChildren().addAll(socketIp, socketPort, userName, startButton);
+      win.getChildren().addAll(socketIp, socketPort, userName, startButton, loginInfo);
       // 로그인 창에서 객체를 가운데로 정렬 시켜 줌.
       win.setPadding(new Insets(100, 100, 100, 100));
 
 
-      root2.getChildren().addAll(stopButton, backButton);
+      root2.getChildren().addAll(stopButton, backButton, errorButton);
       root3.getChildren().addAll(textInput,sendButton);
       root4.getChildren().addAll(textArea, textArea2);
       root.getChildren().addAll(root2, root4, root3);
@@ -202,6 +242,13 @@ public class TeamClient extends Application {
    }
    // 서버로부터 메시지 받음
    public void receive() {
+      System.out.println("실행 됨?");
+      
+      Platform.runLater(()->{
+         stage.setScene(scene2);
+      });
+      
+//      Boolean nameCheck = true;
       while(true) {
          try {
             DataInputStream in=new DataInputStream(cs.getInputStream());
@@ -225,7 +272,17 @@ public class TeamClient extends Application {
                   textArea2.appendText(message.substring(2));
                }
             });
-         }catch(Exception e) {
+         } catch (EOFException e) {
+            Platform.runLater(() -> {
+               stage.setScene(scene1);
+               Platform.runLater(() -> {
+                  loginInfo.setText("이미 존재하는 아이디입니다.");
+               });
+//               stopButton.setDisable(true);
+            });
+            stopClient();
+         } catch (Exception e) {
+            e.printStackTrace();
             stopClient();
             break;
          }
