@@ -26,37 +26,37 @@ import java.util.Iterator;
 
 //소켓번호는 고유 번호이기 때문에 겹칠 일이 없어 키 값으로 사용하기 용이하다.
 class ConnectThread extends Thread {
+   // 필드 생성
    Socket socket;
-   Scanner sc;
+   // 클라이언트 accept받는 socket
    ServerSocket serverSocket;
    LinkedList<Socket> socketList;
+   // accept받아 생성된 클라이언트 소켓과 소유주 이름을 저장하기위한 해쉬맵
    HashMap<Socket, String> socketMap = new HashMap<Socket, String>();
 
-   Server SPJ;
-   int id;
-   ConnectThread(Server SPJ){
+   TeamServer SPJ;
+   int cnt;
+   ConnectThread(TeamServer SPJ){
       this.SPJ = SPJ;
    }
    @Override
    public void run() {
       try {
-         serverSocket = new ServerSocket(5001); // listen 상태 소켓을 생성
+         serverSocket = new ServerSocket(5002); // listen 상태 소켓을 생성
          socketList = new LinkedList<>();
 
-         id = 0; //아이디
+         cnt = 0; //아이디
          System.out.println("서버 실행");
          while (true) {
             // 클라이언트가 다중으로 접속하기 위한 무한반복문
-
             socket = serverSocket.accept();
             // connect 요청이 들어오면 연결 (올때까지 block)
-
             Platform.runLater(()->{
-               ++id;
-               SPJ.lab.setText("인원수: "+id+"\n");
+               ++cnt;
+               SPJ.lab.setText("인원수: "+cnt+"\n");
             });
-            System.out.println("클라이언트 접속");
-            System.out.println(socket);
+            //            System.out.println("클라이언트 접속");
+            //            System.out.println(socket);
 
             socketList.add(socket);
 
@@ -79,44 +79,51 @@ class ConnectThread extends Thread {
    }
 
    public void revMsg(DataInputStream in,Socket client){
+      // 처음에 이름을 받았는지 확인하기위한 변수
       Boolean nameCheck = true;
 
-
       try {
-
          while (true) {
+            // 여기서 메세지는 클라이언트 이름
             String msg = in.readUTF();
             if(nameCheck) {
-               socketMap.put(client,msg);
+
+               if (msg.length() == 0) {
+                  socketMap.put(client, client.toString().substring(13, 26));
+               } else {
+                  socketMap.put(client,msg);
+               }
                sendMsg(client,socketMap.get(client) + "님이 접속하였습니다.");
-               System.out.println(socketMap.get(client));
-               
-               
+               // buffer를 사용할 경우 String 전체를 수정하지 않아도 됨.
                StringBuffer sb = new StringBuffer();
-               sb.append("#!");
-
-
+               // !# 경우 시스템 메세지 명령어 임.
+               sb.append("!#");
+               // key(Socket), value(name)에서 Socket값만 빼서 
                Set<Socket> keys = socketMap.keySet();
                Iterator<Socket> sk = keys.iterator();
+               // hasNext를 쓰기 위해서 iterator 사용
+               // [1, 2, 3] [김익한, 이권철, 김미현]
                while(sk.hasNext()) {
-//                  socketMap.get(sk.next());
-//                  System.out.println(sk.next());
-//                  System.out.println(socketMap.get(sk.next()));
-                  
+                  // socketmap[1] == 김익한
+                  // socketmap[2] == 이권철
+                  // ...
+                  // 4 번은 존재 하지 않아서 탈출 함.
                   sb.append(socketMap.get(sk.next())+"\n");
                }
+               // sb결과물
+               // !#김익한 
+               // 이권철
+               // 김미현
+               // stringbuffer에서 string으로 변경
                sendMsg(client,sb.toString());
-               System.out.println(sb);
-               
-               
-               
+
+               // 서버쪽 UI 업데이트를 한다.
                Platform.runLater(()->{
-                  //                  System.out.println(SPJ.listView);
-                  //                  System.out.println(SPJ.listView.getItems());
                   SPJ.listView.getItems().add(socketMap.get(client));
                });
                nameCheck = false;
             }
+            // 메세지기 존재할 경우
             else if(!msg.equals("")) {
                sendMsg(client,socketMap.get(client)+": "+msg);
             }
@@ -125,81 +132,49 @@ class ConnectThread extends Thread {
             }
          }
       } catch (IOException e) {
-         if(nameCheck) {
-            System.out.println(client+"님 접속 종료");
+         sendMsg(client,socketMap.get(client) + "님이 접속 종료하였습니다.");
 
-            Platform.runLater(()->{
-               --id;
-               SPJ.lab.setText("인원수: "+id+"\n");
-               socketMap.remove(client);
-               socketList.remove(client);
-            });
-         }else {
-            System.out.println(socketMap.get(client) +"님 접속 종료");
-            sendMsg(client,socketMap.get(client) + "님이 접속 종료하였습니다.");
-            
-//            Set<Socket> keys = socketMap.keySet();
-//            Iterator<Socket> sk = keys.iterator();
-//            StringBuffer sb = new StringBuffer();
-//            sb.append("#!");
+         Platform.runLater(()->{
+            --cnt;
 
-            Platform.runLater(()->{
-               --id;
+            SPJ.listView.getItems().remove(socketMap.get(client));
+            SPJ.lab.setText("인원수: "+cnt+"\n");
+            socketMap.remove(client);
+            socketList.remove(client);
 
-               //               System.out.println(SPJ.listView.getItems().indexOf(socketMap.get(client)));
-               SPJ.listView.getItems().remove(socketMap.get(client));
-               SPJ.lab.setText("인원수: "+id+"\n");
-               socketMap.remove(client);
-               socketList.remove(client);
+            StringBuffer sb = new StringBuffer();
+            sb.append("!#");
 
-               StringBuffer sb = new StringBuffer();
-               sb.append("#!");
-
-
-               Set<Socket> keys = socketMap.keySet();
-               Iterator<Socket> sk = keys.iterator();
-               while(sk.hasNext()) {
-//                  socketMap.get(sk.next());
-//                  System.out.println(sk.next());
-//                  System.out.println(socketMap.get(sk.next()));
-                  
-                  sb.append(socketMap.get(sk.next())+"\n");
-               }
-               sendMsg(client,sb.toString());
-               System.out.println(sb);
-               
-               
-            });
-
-         }
-
-
-
-
-         //         Set<Socket> keys = socketMap.keySet();
-         //         Iterator<Socket> sk = keys.iterator();
-         //         while(sk.hasNext()) {
-         //            //socketMap.get(sk.next());
-         //            System.out.println(socketMap.get(sk.next())+" 화이팅");
-         //         }
+            Set<Socket> keys = socketMap.keySet();
+            Iterator<Socket> sk = keys.iterator();
+            // 나갔을 때 참가자 정보를 갱신하기 위해서 다시 보냄.
+            while(sk.hasNext()) {
+               sb.append(socketMap.get(sk.next())+"\n");
+            }
+            sendMsg(client,sb.toString());
+            System.out.println(sb);
+         });
       }
    }
-   public void sendMsg(Socket client,String msg){
 
+   // recv 언제 데이터가 들어올지 몰라서 항상 while => 블로킹이 걸려서 => thread
+   // send thread 사용ㄴ
+   public void sendMsg(Socket client, String msg){
+      // 현재 참가자들의 소켓에 하나씩 데이터를 보내 줌.
       socketList.stream().forEach(so->{
          try {
-
             DataOutputStream ou = new DataOutputStream(so.getOutputStream());
             ou.writeUTF(msg);
-
          } catch (IOException e) {
+            e.printStackTrace();
          }
       });
    }
-
 }
 
-public class Server extends Application { // 클라이언트를 종료하고 서버를 종료해야한다.
+// UI켜주는거랑 server 소켓 쓰레드 실행해줌.
+public class TeamServer extends Application { // 클라이언트를 종료하고 서버를 종료해야한다.
+   // 참가자 수를 수정할 때, 다른 클래스에서 수정하기 때문에 필드에 선언 했음.
    Label lab;
    Button btn1;
    public ListView<String> listView;
@@ -210,12 +185,13 @@ public class Server extends Application { // 클라이언트를 종료하고 서버를 종료해
       lab = new Label("인원수: 0");
       btn1 = new Button("서버 오픈");
       listView = new ListView<String>();
-      btn1.setOnAction(new EventHandler<ActionEvent>() {
 
+      // 서버를 실행하는 버튼
+      btn1.setOnAction(new EventHandler<ActionEvent>() {
          @Override
          public void handle(ActionEvent arg0) {
             // TODO Auto-generated method stub
-            ConnectThread ct = new ConnectThread(Server.this);
+            ConnectThread ct = new ConnectThread(TeamServer.this);
             ct.start();
          }
       });

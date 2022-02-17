@@ -25,19 +25,20 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-public class Client extends Application {
+public class TeamClient extends Application {
    Socket cs;
    TextArea textArea, textArea2;
    Scene scene1, scene2;
 
    @Override
    public void start(Stage stage) throws Exception {
+      // 
       VBox root = new VBox();
       HBox root2 = new HBox();
       HBox root3 = new HBox();
       HBox root4 = new HBox();
       VBox win = new VBox();
-      
+
       Button startButton = new Button("로그인");
       Button backButton = new Button("뒤로가기");
       Button stopButton = new Button("접속종료");
@@ -50,13 +51,19 @@ public class Client extends Application {
       textArea = new TextArea();
       textArea.setEditable(false);
       textArea.setPrefSize(300, 200);
-      
-      
+
+
       textArea2 = new TextArea();
       textArea2.setPrefSize(100, 200);
 
       TextField textInput = new TextField();
       TextField userName = new TextField();
+      
+      TextField socketIp = new TextField();
+      socketIp.setPromptText("IP를 입력해주세요.");
+      TextField socketPort = new TextField();
+      socketPort.setPromptText("Port를 입력해주세요.");
+      
       userName.setPrefWidth(100);
       userName.setPromptText("닉네임을 입력하세요");
 
@@ -65,16 +72,20 @@ public class Client extends Application {
          @Override
          public void handle(ActionEvent arg0) {
             try {
+               // 시작하기 버튼을 누르면 채팅창으로 전환 됨.
                stage.setScene(scene2);
                //userName.setDisable(true);
                new Thread() {
                   public void run() {
                      try {
+                        String ipNum = socketIp.getText();
+                        String portNum = socketPort.getText();
                         cs = new Socket();
-                        cs.connect(new InetSocketAddress("192.168.0.3",5002));
+//                        cs.connect(new InetSocketAddress("192.168.1.33", 5002));
+                        cs.connect(new InetSocketAddress(ipNum, Integer.parseInt(portNum)));
                         DataOutputStream os  = new DataOutputStream( cs.getOutputStream());
                         String s = userName.getText();
-                        
+
                         if (s.startsWith("!#")) {
                            System.out.println("입력할수 없습니다.");
                         }
@@ -95,43 +106,40 @@ public class Client extends Application {
          }
       });
 
-      // 입력 테스트 전송
+      // 입력 텍스트 전송 기능
       textInput.setOnAction(new EventHandler<ActionEvent>() {
          @Override
          public void handle(ActionEvent arg0) {
-            // 전송할 수 있는 타입은 딱한가지 byte타입
             try {
-
                DataOutputStream os  = new DataOutputStream( cs.getOutputStream());
                String s = textInput.getText();
-
+               
+               // 서버에 텍스트 전송 
                os.writeUTF(s);
+               // 전송 후 텍스트필드 비워 줌.
                textInput.setText("");
-               System.out.println("데이터 보냄");
             } catch (Exception e) {e.printStackTrace();}
-
          }
       });
 
 
-      // 접속 종료
+      // 접속 종료 기능
       stopButton.setOnAction(new EventHandler<ActionEvent>() {
 
          @Override
          public void handle(ActionEvent arg0) {
             try {
-               DataOutputStream os  = new DataOutputStream( cs.getOutputStream());
-               //String s = userName.getText() + "님이 접속 종료했습니다. ";
-
-               //os.writeUTF(s);
+               // 소켓을 닫음.
                cs.close();
             } catch (Exception e) {}
+            // 버튼들 활성화 변경
             backButton.setDisable(false);
             stopButton.setDisable(true);
          }
-         
       });
+      
       // 보내기 버튼
+      // 엔터 뿐만아니라 마우스 클릭으로도 데이터를 보내기 위해서 추가 함.
       sendButton.setOnAction(new EventHandler<ActionEvent>() {
          @Override
          public void handle(ActionEvent arg0) {
@@ -141,15 +149,16 @@ public class Client extends Application {
 
                os.writeUTF(s);
                textInput.setText("");
-               System.out.println("데이터 보냄");
             } catch (Exception e) {   e.printStackTrace(); }
          }
       });
 
       // 뒤로가기 버튼
+      // 다시 socket 접속하는 창으로 넘어 감. => win창으로 넘어감. 
       backButton.setOnAction(new EventHandler<ActionEvent>() {
          @Override
          public void handle(ActionEvent arg0) {
+            // scene1은 socket 접속(로그인) 창 임.
             stage.setScene(scene1);
             userName.setText("");
             stopButton.setDisable(true);
@@ -158,7 +167,8 @@ public class Client extends Application {
 
       backButton.setDisable(true);
 
-      win.getChildren().addAll(userName, startButton);
+      win.getChildren().addAll(socketIp, socketPort, userName, startButton);
+      // 로그인 창에서 객체를 가운데로 정렬 시켜 줌.
       win.setPadding(new Insets(100, 100, 100, 100));
 
 
@@ -167,12 +177,14 @@ public class Client extends Application {
       root4.getChildren().addAll(textArea, textArea2);
       root.getChildren().addAll(root2, root4, root3);
 
+      // 로그인 창
       scene1 = new Scene(win);
+      // 메인 창
       scene2 = new Scene(root);
 
       //Scene scene = new Scene(root);
       stage.setScene(scene1);
-      stage.setTitle("17점 드가자");
+      stage.setTitle("");
       stage.show();
 
    }
@@ -195,14 +207,21 @@ public class Client extends Application {
             DataInputStream in=new DataInputStream(cs.getInputStream());
             String message = in.readUTF();
 
-            System.out.println(message);
             Platform.runLater(()->{
+               // 데이터 입력에서 !#이붙으면
+               // textArea2(참가자 리스트)로 보냄.
                if ( message.startsWith("!#") == false) {   
                   textArea.appendText(message);
                   textArea.appendText("\n");
                }
                else {   
+                  // 김익한
+                  // ===
+                  // 김익한
+                  // 이권철
+                  // 값이 업데이트 될때마다 리셋
                   textArea2.setText("");
+                  // !#을 때고 나머지를 출력
                   textArea2.appendText(message.substring(2));
                }
             });
