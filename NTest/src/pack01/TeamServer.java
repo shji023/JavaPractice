@@ -6,6 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -46,10 +47,7 @@ class ConnectThread extends Thread {
             // 클라이언트가 다중으로 접속하기 위한 무한반복문
             socket = serverSocket.accept();
             // connect 요청이 들어오면 연결 (올때까지 block)
-            Platform.runLater(()->{
-               ++cnt;
-               SPJ.lab.setText("인원수: "+cnt+"\n");
-            });
+
             //            System.out.println("클라이언트 접속");
             //            System.out.println(socket);
 
@@ -78,37 +76,66 @@ class ConnectThread extends Thread {
       Boolean nameCheck = true;
 
       try {
+         Set<Socket> keys;
+         Iterator<Socket> sk;
          while (true) {
             // 여기서 메세지는 클라이언트 이름
             String msg = in.readUTF();
             if(nameCheck) {
-
+               keys = socketMap.keySet();
+               sk = keys.iterator();
+               while(sk.hasNext()) {
+                  // socketmap[1] == 김철수
+                  // socketmap[2] == 김민수
+                  // ...
+                  // 4 번은 존재 하지 않아서 탈출 함.
+                  try {
+                     if(msg.equals(socketMap.get(sk.next()))) {
+                        client.close();
+                        return;
+                     }
+                  }
+                  //밑의 캐치로 가는 것을 막기위해
+                  catch(Exception e){
+                     return;
+                  }
+               }
                if (msg.length() == 0) {
                   socketMap.put(client, client.toString().substring(13, 26));
                } else {
                   socketMap.put(client,msg);
                }
+               Platform.runLater(()->{
+                  ++cnt;
+                  SPJ.lab.setText("인원수: "+cnt+"\n");
+               });
                sendMsg(client,socketMap.get(client) + "님이 접속하였습니다.");
                // buffer를 사용할 경우 String 전체를 수정하지 않아도 됨.
+
+               keys = socketMap.keySet();
+               sk = keys.iterator();
+
                StringBuffer sb = new StringBuffer();
                // !# 경우 시스템 메세지 명령어 임.
+
+
                sb.append("!#");
                // key(Socket), value(name)에서 Socket값만 빼서 
-               Set<Socket> keys = socketMap.keySet();
-               Iterator<Socket> sk = keys.iterator();
+               //               Set<Socket> keys = socketMap.keySet();
+               //               Iterator<Socket> sk = keys.iterator();
                // hasNext를 쓰기 위해서 iterator 사용
-               // [1, 2, 3] [김익한, 이권철, 김미현]
+               // [1, 2, 3] [최수림, 박지현, 민정은]
                while(sk.hasNext()) {
-                  // socketmap[1] == 김익한
-                  // socketmap[2] == 이권철
+                  // socketmap[1] == 김타수
+                  // socketmap[2] == 김배수
                   // ...
                   // 4 번은 존재 하지 않아서 탈출 함.
                   sb.append(socketMap.get(sk.next())+"\n");
                }
                // sb결과물
-               // !#김익한 
-               // 이권철
-               // 김미현
+               // !#김최수 
+               // 김배수
+               // 김준오
                // stringbuffer에서 string으로 변경
                sendMsg(client,sb.toString());
 
@@ -118,7 +145,7 @@ class ConnectThread extends Thread {
                });
                nameCheck = false;
             }
-            else if (msg.equals("호랑이")) {
+            else if (msg.startsWith("/w")) {
                sendMsg(client,msg);
             }
             // 메세지기 존재할 경우
@@ -143,9 +170,10 @@ class ConnectThread extends Thread {
 
             StringBuffer sb = new StringBuffer();
             sb.append("!#");
-
-            Set<Socket> keys = socketMap.keySet();
-            Iterator<Socket> sk = keys.iterator();
+            Set<Socket> keys;
+            Iterator<Socket> sk;
+            keys = socketMap.keySet();
+            sk = keys.iterator();
             // 나갔을 때 참가자 정보를 갱신하기 위해서 다시 보냄.
             while(sk.hasNext()) {
                sb.append(socketMap.get(sk.next())+"\n");
@@ -156,24 +184,64 @@ class ConnectThread extends Thread {
       }
    }
 
+
+
+   public static <K, V> K getKey(Map<K, V> map, V value) {
+
+      for (K key : map.keySet()) {
+         if (value.equals(map.get(key))) {
+            return key;
+         }
+      }
+      return null;
+   }
+
+
+
+
+
    //    recv 언제 데이터가 들어올지 몰라서 항상 while => 블로킹이 걸려서 => thread
    //    send는 thread를 사용하지 않는다.
    public void sendMsg(Socket client, String msg){
       // 현재 참가자들의 소켓에 하나씩 데이터를 보내 줌.
-      String[] arr = {"호랑이","코끼리","독수리"};
-      for(int i=0; i<arr.length; i++) {
-         if(msg.equals("호랑이")) {
-            try {
 
-               DataOutputStream ou = new DataOutputStream(client.getOutputStream());
-               ou.writeUTF("욕을 사용하지 마세요");
-               return;
-            } catch (IOException e) {
-               e.printStackTrace();
+
+      String mstmp;
+
+      if(msg.startsWith("/w")) {
+         try {
+            //System.out.println("귓말");
+
+            //ww[클라이언트 닉네임].소켓에다가 전달
+            //상대방 클라이언트 한테 보내야함
+
+            mstmp=msg.substring(msg.indexOf("[")+1,msg.indexOf("]"));
+            System.out.println(mstmp);
+            if(getKey(socketMap,mstmp)!=null) {
+               DataOutputStream ou = new DataOutputStream(getKey(socketMap,mstmp).getOutputStream());
+               ou.writeUTF("(귓속말)"+socketMap.get(client)+": "+ msg.substring(msg.indexOf("]")+1));
             }
+            else {
+               DataOutputStream ou = new DataOutputStream(client.getOutputStream());
+               ou.writeUTF("귓속말 보내려는 사람이 접속 중이 아닙니다.");
+               return;
+            }
+            //DataOutputStream ou = new DataOutputStream(client.getOutputStream());
+            //DataOutputStream ou = new DataOutputStream(.getOutputStream());
+            //ou.writeUTF("귓말모드");
+
+            //client.writeUTF(msg);
+
+            return;
+
+         } catch (IOException e) {
+            e.printStackTrace();
+            return;
          }
+
       }
-      
+
+
       socketList.stream().forEach(so->{
          try {
 

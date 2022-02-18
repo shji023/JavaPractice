@@ -3,17 +3,13 @@ package pack01;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+
 import java.net.ConnectException;
 import java.net.InetSocketAddress;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.util.HashMap;
-import java.util.Scanner;
 
-import javax.print.attribute.standard.MediaSize.Engineering;
+import java.net.Socket;
+
+
 
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -27,7 +23,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -262,10 +257,10 @@ public class TeamClient extends Application {
                   textArea.appendText("\n");
                }
                else {   
-                  // ±èÀÍÇÑ
+                  // ±è¹ÎÃ¶
                   // ===
-                  // ±èÀÍÇÑ
-                  // ÀÌ±ÇÃ¶
+                  // ±è¹ÎÃ¶
+                  // ±èÃ¶¼ö
                   // °ªÀÌ ¾÷µ¥ÀÌÆ® µÉ¶§¸¶´Ù ¸®¼Â
                   textArea2.setText("");
                   // !#À» ¶§°í ³ª¸ÓÁö¸¦ Ãâ·Â
