@@ -24,17 +24,26 @@ public class HelloServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("doGet Call"); // 웹 브라우저의 요청이 있으면 자바 코드를 호출한다!
 		// out을 이용해서 html을 만든다
+		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter out = response.getWriter();
-		out.println("<html>");
-			out.println("<head>");
-			out.println("</head>");
-			out.println("<body>");
-				out.println("<h1>Monkey</h1>");
-			out.println("</body>");
-		out.println("</html>");
+//		out.println("<html>");
+//			out.println("<head>");
+//			out.println("</head>");
+//			out.println("<body>");
+//				out.println("<h1>몽키</h1>");
+//			out.println("</body>");
+//		out.println("</html>");
+		// 동적으로 만들 수 있게되었지만 html만드는 과정이 매우 불편
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		// 하나의 프린트 문에서 문자열 연결
+		out.println(
+				"<html>"+
+					"<head>"+"</head>"+
+				    "<body>"+"<h1>monkey</h1>"+"</body>"
+		        +"</html>");
+		out.close(); //원칙
 	}
-
+	
 //	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		doGet(request, response);
 //	}
