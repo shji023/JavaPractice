@@ -9,9 +9,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-//http://localhost:8080/Web01/ -> html 호출
-//http://localhost:8080/Web01/hello -> 현재 클래스 호출
-@WebServlet("/hello")
+// http://localhost:8080/Web01/ -> html 호출
+// http://localhost:8080/Web01/hello -> 현재 클래스 호출
+// @WebServlet("/") - index가리킴
+// @WebServlet("/hello") 
+// 1.@WebServlet("/tiger")
+// 2.
+// <servlet-name>tiger</servlet-name>
+// <servlet-class>Pack.HelloServlet</servlet-class>
+// 1과 2 동일. 둘중 뭐를 사용할까? 디자이너(xml)가 설정할것이냐 프로그래머(java)가 설정할 것이냐 
+// 2를 정석 코드로 취급 
 public class HelloServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
