@@ -19,9 +19,9 @@ public class DeleteServlet extends HttpServlet{
 		Connection con = null;
 		PreparedStatement pstmt=null;
 		int n=0;
-		request.setCharacterEncoding("euc-kr");
+		request.setCharacterEncoding("UTF-8");
 		String id=request.getParameter("idx");
-		response.setContentType("text/html;charset=euc-kr");
+		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter pw = response.getWriter();
 		try{
 			Class.forName("com.mysql.jdbc.Driver");

@@ -21,7 +21,7 @@ public class UpdateServlet extends HttpServlet{
 		String idx=req.getParameter("idx");
 		//String id=req.getParameter("id");
 		// 2. id에 해당하는 정보를 db에서 조회해서 출력.
-		resp.setContentType("text/html;charset=euc-kr");
+		resp.setContentType("text/html;charset=UTF-8");
 		PrintWriter pw = resp.getWriter();
 		pw.println("<html>");
 		pw.println("<head></head>");

@@ -21,7 +21,7 @@ public class ListServlet extends HttpServlet{
 		Connection con=null;
 		PreparedStatement pstmt=null;
 		ResultSet rs = null;
-		response.setContentType("text/html;charset=euc-kr");
+		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter pw = response.getWriter();
 		pw.println("<html>");
 		pw.println("<head></head>");

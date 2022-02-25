@@ -22,7 +22,7 @@ public class InsertServlet extends HttpServlet {
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("euc-kr");
+		request.setCharacterEncoding("UTF-8");
 		String id = request.getParameter("id");
 		String pwd= request.getParameter("pwd");
 		String email = request.getParameter("email");
@@ -35,7 +35,7 @@ public class InsertServlet extends HttpServlet {
 			Class.forName("com.mysql.jdbc.Driver");
 			String url = "jdbc:mysql://13.125.251.30:3307/db01?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC";
 			con = DriverManager.getConnection(url, "lion", "1234");
-			String sql = "insert into user values(null,?,?,?,?,sysdate)";
+			String sql = "insert into user values(null,?,?,?,?,sysdate())";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
 			pstmt.setString(2, pwd);
@@ -54,7 +54,7 @@ public class InsertServlet extends HttpServlet {
 				System.out.println(se.getMessage());
 			}
 		}
-		response.setContentType("text/html;charset=euc-kr");
+		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter pw = response.getWriter();
 		pw.println("<html>");
 		pw.println("<head></head>");
