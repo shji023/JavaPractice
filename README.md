@@ -19,7 +19,7 @@
 ## StaticWeb01, Web01 
 - dynamic web project 프로젝트 생성
 
-## Join
+## Join, web
 ![image](https://user-images.githubusercontent.com/60960130/156959149-a20051ae-1387-4659-8dfe-179332f4cca0.png)
 
 ![image](https://user-images.githubusercontent.com/60960130/156959159-23ceb72b-39e4-4899-90b4-2b1cd68f1564.png)
