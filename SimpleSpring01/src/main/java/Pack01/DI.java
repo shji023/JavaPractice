@@ -20,6 +20,7 @@ class Orange {
 //		this.apple = apple;
 //	}
 	// 생성자 뿐 만 아니라 setter함수 사용하여 주입가능
+	@Autowired // 자동으로 위에 애플 객체 쓸 수 있게함
 	// 세터 주입(수정자 주입)
 	void setApple(Apple apple) {
 		this.apple = apple;
@@ -37,9 +38,10 @@ class AppConfig {
 	@Bean()
 	Orange orange() {
 		//return new Orange(apple()); // 원래의 apple을 그대로 쓰고있다. singleton
-		Orange o = new Orange();
-		o.setApple(apple());
-		return o;
+		// Orange o = new Orange();
+		// o.setApple(apple());
+		return new Orange();// setApple Autowired
+		// return o;
 		//return new Orange(); // Autowired
 	}
 
