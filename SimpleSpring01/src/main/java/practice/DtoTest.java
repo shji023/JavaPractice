@@ -4,62 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 
-// VO class
-class RegisterRequest {
-	String name;
-	RegisterRequest(String name){
-		// 데이터 검증 코드가 상당부분 생략되었다. 
-		this.name = name + "독수리";
-	}
-}
-
-// Entity 클래스
-class Member {
-	int id;
-	String name;
-}
-class MemberDao {
-	boolean insert(Member member) {
-		// 커리 문장을 사용하는 코드이지만
-		System.out.println(member.name + "DB에 저장하였습니다.");
-		return true;
-	}
-}
-// 서비스 클래스
-class MemberRegisterService {
-	MemberDao memberDao;
-	MemberRegisterService(MemberDao memberDao) {
-		this.memberDao = memberDao;
-	}
-	// vo -> entity
-	void register(RegisterRequest rr) {
-		Member member = new Member();
-		member.id = 1000;
-		member.name=rr.name;
-		if(memberDao.insert(member)==true) {
-			System.out.println("모든 작업이 정상입니다.");
-		}
-		
-	}
-}
-// config역할
-class Assemble {
-	MemberRegisterService f1() {
-		MemberRegisterService mrs = 
-				new MemberRegisterService(new MemberDao());
-		return mrs;
-	}
-}
-public class DtoTest {
-	public static void main(String[] args) {
-
-		Assemble a = new Assemble();
-		MemberRegisterService mrs = a.f1();
-		mrs.register(new RegisterRequest("홍길동"));
-	}
-}
-
-/*
 // ex1)
 class FormDTO {
 	String name;
@@ -396,4 +340,3 @@ public class DtoTest {
 		mrs.register(new RegisterRequest("홍길동"));
 	}
 }
- */
