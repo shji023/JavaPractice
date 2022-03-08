@@ -3,6 +3,7 @@ package Pack;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 
 class Apple {
 	void f1() {
@@ -10,18 +11,26 @@ class Apple {
 	}
 }
 
-// ½ºÇÁ¸µ¿¡°Ô °´Ã¼¸¦ »ı¼ºÇÒ È¯°æ¼³Á¤ÇÏ´Â Å¬·¡½º¶ó´Â°ÍÀ» ¾Ë¸°´Ù. 
+// ìŠ¤í”„ë§ì—ê²Œ ê°ì²´ë¥¼ ìƒì„±í•  í™˜ê²½ì„¤ì •í•˜ëŠ” í´ë˜ìŠ¤ë¼ëŠ”ê²ƒì„ ì•Œë¦°ë‹¤. 
+// @configurationì´ ìˆì–´ì•¼ ì‹±ê¸€í†¤ ìœ ì§€
 @Configuration
 class AppConfig {
-// ¿©±â¾È¿¡¼­ °´Ã¼¸¦ »ı¼º½ÃÅ²´Ù.
+// ì—¬ê¸°ì•ˆì—ì„œ ê°ì²´ë¥¼ ìƒì„±ì‹œí‚¨ë‹¤.
 	
-	// ºó °´Ã¼
-	// ½ºÇÁ¸µÀÌ »ı¼º½ÃÅ² °´Ã¼¸¦ ºóÀÌ¶ó°í ÇÑ´Ù.
-	// @BeanÀÌ ÀÖÀ¸¸é ¾È¿¡ ÄÚµå°¡ ¾ø¾îµµ ºó °´Ã¼°¡ ¸¸µé¾îÁ³´Ù°í »ı°¢
-	// ÀÚ¹Ù ÆÄÀÏ¾È¿¡ public  ÇÑ°³¸¸ ÀÖ¾î¾ßÇÏ±â ¶§¹®¿¡ public ¸ø ºÙÀÓ
+	// ë¹ˆ ê°ì²´
+	// ìŠ¤í”„ë§ì´ ìƒì„±ì‹œí‚¨ ê°ì²´ë¥¼ ë¹ˆì´ë¼ê³  í•œë‹¤.
+	// @Beanì´ ìˆìœ¼ë©´ ì•ˆì— ì½”ë“œê°€ ì—†ì–´ë„ ë¹ˆ ê°ì²´ê°€ ë§Œë“¤ì–´ì¡Œë‹¤ê³  ìƒê°
+	// ìë°” íŒŒì¼ì•ˆì— public  í•œê°œë§Œ ìˆì–´ì•¼í•˜ê¸° ë•Œë¬¸ì— public ëª» ë¶™ì„
 	@Bean
+	//@Scope("singleton") // ê°ì²´ë¥¼ ìƒì„±ì‹œí‚¤ëŠ”ë° ë‘ê°œ ìƒì„±ì‹œí‚¤ì§€ ì•ŠìŒ
+	// ìŠ¤í”„ë§ì€ ê¸°ë³¸ì ìœ¼ë¡œ ì‹±ê¸€í†¤ ë² ì´ìŠ¤
+	//Scope("prototype")
 	Apple apple() {
 		System.out.println(1000);
+		return new Apple();
+	}
+	@Bean
+	Apple applebanana() {
 		return new Apple();
 	}
 	@Bean
@@ -44,21 +53,34 @@ public class Hello {
 
 	public static void main(String[] args) {
 		Greeter g = new Greeter();
-		g.setFormat("¾È³çÇÏ¼¼¿ä");
-		System.out.println(g.greet("È£¶ûÀÌ"));
+		g.setFormat("ì•ˆë…•í•˜ì„¸ìš”");
+		System.out.println(g.greet("í˜¸ë‘ì´"));
 		
 		AnnotationConfigApplicationContext ctx = 
 				new AnnotationConfigApplicationContext(AppConfig.class);
-		// ¾Æ·¡ ÄÚµå´Â ³»°¡ °´Ã¼¸¦ »ı¼ºÇÏ´Â °Í
+		// ì•„ë˜ ì½”ë“œëŠ” ë‚´ê°€ ê°ì²´ë¥¼ ìƒì„±í•˜ëŠ” ê²ƒ
 		// Apple apple = new Apple();
 		// Apple apple = ctx.getBean("apple",Apple.class);
-		Apple apple = ctx.getBean(Apple.class); // À§ ÄÚµå¿Í °°Àº ÀÇ¹Ì
+		Apple apple = ctx.getBean(Apple.class); // ìœ„ ì½”ë“œì™€ ê°™ì€ ì˜ë¯¸
 		apple.f1();
 		System.out.println(apple.hashCode());
 		
 		Greeter g1 = ctx.getBean(Greeter.class);
-		g1.setFormat("%s½Ä»çÇÏ¼¼¿ä");
+		g1.setFormat("%sì‹ì‚¬í•˜ì„¸ìš”");
+		
+		Apple a1 = ctx.getBean("apple", Apple.class);
+		Apple a2 = ctx.getBean("apple", Apple.class);
+		
+		System.out.println(a2.hashCode());
+		System.out.println(a2.hashCode());
+		System.out.println(a1==a2);
+		
+		Apple a3 = ctx.getBean("applebanana", Apple.class);
 		ctx.close();
+		
+		
 	}
-
+// ìŠ¤í”„ë§ì€ ê°ì²´ë¥¼ ê´€ë¦¬í•˜ëŠ” ì»¨í…Œì´ë„ˆë‹¤
+// xmlê³¼ ìœ„ ì½”ë“œ ë¹„êµ
+	
 }
