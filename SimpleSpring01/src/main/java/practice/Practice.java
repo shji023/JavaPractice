@@ -12,6 +12,8 @@ import org.springframework.context.support.GenericXmlApplicationContext;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
+
+/*
 // 1. 스프링없이 주입시키는 방법(생성자 주입)
 class Apple {
 	void f1() {
@@ -552,12 +554,13 @@ class Apple{
 }
 public class Practice {
 	public static void main(String[] args) {
-		/*		AnnotationConfigApplicationContext ctx = 
+		AnnotationConfigApplicationContext ctx = 
 						new AnnotationConfigApplicationContext(AppConfig.class);
-				ctx.close();*/
+				ctx.close();
 		GenericXmlApplicationContext ctx = new GenericXmlApplicationContext("classpath:Context.xml");
 		Apple apple = ctx.getBean("apple",Apple.class);
 		apple.f1();
 		ctx.close();
 	}
 }
+*/
