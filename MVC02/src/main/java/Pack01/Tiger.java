@@ -12,4 +12,11 @@ public class Tiger {
 		// TigerView.jsp를 찾음
 		return "TigerView";
 	}
+	@RequestMapping("/t2")
+	// t1
+	String func02() {
+		System.out.println("호랑이2");
+		// TigerView.jsp를 찾음
+		return "TigerView";
+	}
 }

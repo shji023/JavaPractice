@@ -9,7 +9,7 @@
 
 <body>
 	<%=new Date()%>
-	<h2>Hello World</h2>
+	<h2>여기는 web02</h2>
 	<!-- t1 controller로 이동 -->
 	<a href="t1">링크1</a>
 	<br />
