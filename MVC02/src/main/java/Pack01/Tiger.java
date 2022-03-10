@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class Tiger {
@@ -61,7 +62,7 @@ public class Tiger {
 	}
 	
 	@RequestMapping("/t7")
-	// t6, 클라이언트에서 값 전달
+	// t7, 클라이언트에서 값 전달
 	String func07(Model model,
 			@RequestParam(value="name")String name,
 			@RequestParam(value="age")String age) {
@@ -70,4 +71,54 @@ public class Tiger {
 		model.addAttribute("age",age);
 		return "TigerView";
 	}
+	
+	@RequestMapping("/t8")
+	// t8
+	ModelAndView func08() {
+		System.out.println("func08 call");
+		String s = null;
+		if (true) {
+			s = "TigerView";
+		} else  {
+			s = "LionView";
+		}
+		ModelAndView mv = new ModelAndView(s);
+		mv.addObject("name", "앵무새");
+		mv.addObject("age", 400);
+		return mv;
+	}
+	
+	@RequestMapping("/t10")
+	// t10
+	String func10(Person person) {
+		// 속성이 10개를 보냈다고 했을 때 
+		// 10개를 객체로 한꺼번에 받으려고 한다
+		// DTO(커맨드 객체)
+		// VO클래스가 있어야함 -> DTO가공하기 위해
+		// VO >> Entity
+		System.out.println("func10 call");
+		System.out.println(person.getId());
+		System.out.println(person.getPwd());
+		return "TigerView";
+	}
+}
+
+// 커맨드 객체
+class Person {
+	String id;
+	int pwd;
+	Person() {}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public int getPwd() {
+		return pwd;
+	}
+	public void setPwd(int pwd) {
+		this.pwd = pwd;
+	}
+	
 }

@@ -9,12 +9,12 @@
 <body>
 	<h3>¿©±â´Â TigerView</h3>
 	<h3>${name} ${age}</h3>
-	<%
+	<%-- <%
 		// String nn = request.getParameter("name");
 		String nn =(String)request.getAttribute("name");
 		String aa =(String)request.getAttribute("age");
 	%>
 	<%=nn %>
-	<%=aa %>
+	<%=aa %> --%>
 </body>
 </html>

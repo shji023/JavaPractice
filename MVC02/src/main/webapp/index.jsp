@@ -19,4 +19,13 @@
 	<a href="t5?name=apple&age=30">링크5</a><br />
 	<a href="t6">링크6</a><br />
 	<a href="t7?name=banana&age=300">링크7</a><br />
+	<a href="t8">링크8</a><br />
+	<!-- // 꼭 Controller를 건드려야하나? --> 
+	<!-- 설정 파일에서 바꿔 주어야함 - dispatcher 수정 -->
+	<a href="t9">링크9</a><br />
+	<form method="post" action="t10">
+		<input type="text" name="id" value="textInput" />
+		<input type=number name="pwd" value=500 />
+		<input type="submit" value="전송" />	
+	</form>
 </body>
