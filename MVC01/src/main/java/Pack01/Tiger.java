@@ -8,7 +8,15 @@ public class Tiger {
 	@RequestMapping("/t1")
 	// t1
 	String func01() {
-		System.out.println("호랑이");
+		System.out.println("호랑이1");
+		// TigerView.jsp를 찾음
+		return "TigerView";
+	}
+	
+	@RequestMapping("/t2")
+	// t12
+	String func02() {
+		System.out.println("호랑이2");
 		// TigerView.jsp를 찾음
 		return "TigerView";
 	}
