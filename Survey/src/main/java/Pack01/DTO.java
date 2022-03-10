@@ -4,11 +4,18 @@ public class DTO {
 	String name;
 	int age;
 	String phone;
-	String living_region;
+	String region;
 	String role;
 	String tool;
 	String wts;
-	DTO(){}
+	DTO(String name, int age, String phone, String region, String role, String tool, String wts) {
+		this.name = name;
+		this.age = age;
+		this.phone = phone;
+		this.region = region;
+		this.role = role;
+		this.tool = tool;
+		this.wts = wts;}
 	public String getName() {
 		return name;
 	}
@@ -27,11 +34,11 @@ public class DTO {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public String getLiving_region() {
-		return living_region;
+	public String getRegion() {
+		return region;
 	}
-	public void setLiving_region(String living_region) {
-		this.living_region = living_region;
+	public void setLRegion(String region) {
+		this.region = region;
 	}
 	public String getRole() {
 		return role;

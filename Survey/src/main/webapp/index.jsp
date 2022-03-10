@@ -20,7 +20,7 @@
       <input type="text" name="phone" value=""/><br/>
       
       <h3>4. 응답자 거주지</h3><br/>   
-      <input type="text" name="living_region" value=""/><br/>
+      <input type="text" name="region" value=""/><br/>
       
       <h3>5. 당신의 역할은 무엇입니까?</h3><br/>      
       <input type="radio" name="role" value="서버" checked="checked">서버

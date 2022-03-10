@@ -29,10 +29,19 @@ public class SurveyControl {
 	}*/
 	
 	@RequestMapping("/survey")
-	String func01(DTO dto) {
+	String func01(Model model,
+			@RequestParam(value="name")String name,
+			@RequestParam(value="age")int age,
+			@RequestParam(value="phone")String phone,
+			@RequestParam(value="living_region")String living_region,
+			@RequestParam(value="role")String role,
+			@RequestParam(value="tool")String tool,
+			@RequestParam(value="wts")String wts) {
 		Dao aut = new Dao();
+		DTO dto = new DTO(name, age, phone, living_region, role, tool, wts);
 		Boolean tt = aut.setSurvey(dto);
 		if (tt == true) {
+			model.addAttribute("surveyList", aut.getSurveyList());
 			return "SurveyResultView";
 		}
 		return null;
