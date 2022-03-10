@@ -28,4 +28,5 @@
 		<input type=number name="pwd" value=500 />
 		<input type="submit" value="전송" />	
 	</form>
+	<a href="t11">링크11</a><br />
 </body>

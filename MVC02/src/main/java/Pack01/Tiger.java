@@ -1,5 +1,7 @@
 package Pack01;
 
+import java.util.LinkedList;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -101,24 +103,48 @@ public class Tiger {
 		System.out.println(person.getPwd());
 		return "TigerView";
 	}
-}
-
-// 커맨드 객체
-class Person {
-	String id;
-	int pwd;
-	Person() {}
-	public String getId() {
-		return id;
+	@RequestMapping("/t11")
+	// t11
+	String func11(Model model) {
+		int num = 10;
+		// 1. 정수
+		model.addAttribute("num", num);
+		
+		// 2. String
+		String str = "문자열";
+		model.addAttribute("str", str);
+		
+		// 3. Array 전달
+		int[] ar = {10, 20, 30};
+		model.addAttribute("ar", ar);
+		
+		// 4. 객체 전송
+		//Person person = new Person();
+		//person.setId("소나무");
+		//person.setPwd(1234);
+		//model.addAttribute("person", person);
+		
+		// 5. Collection 전송(Int)
+		LinkedList<Integer> list01 = new LinkedList<Integer>();
+		list01.add(40);
+		list01.add(50);
+		list01.add(60);
+		model.addAttribute("list01", list01);
+		
+		// 6. Collection 전송(String)
+		LinkedList<String> list02 = new LinkedList<String>();
+		list02.add("독수리0");
+		list02.add("독수리1");
+		list02.add("독수리2");
+		model.addAttribute("list02", list02);
+		
+		// 7. Collection 전송(객체)
+		LinkedList<Person> list03 = new LinkedList<Person>();
+		list03.add(new Person("독수리3", 10));
+		list03.add(new Person("독수리4", 20));
+		list03.add(new Person("독수리5", 30));
+		model.addAttribute("list03", list03);
+		return "LionView";
+		
 	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	public int getPwd() {
-		return pwd;
-	}
-	public void setPwd(int pwd) {
-		this.pwd = pwd;
-	}
-	
 }
