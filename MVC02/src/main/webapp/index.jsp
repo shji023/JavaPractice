@@ -11,6 +11,12 @@
 	<%=new Date()%>
 	<h2>여기는 web02</h2>
 	<!-- t1 controller로 이동 -->
-	<a href="t1">링크1</a>
-	<br />
+	<a href="t1">링크1</a><br />
+	<a href="t2">링크2</a><br />
+	<!-- client에서 controller로 데이터 전송 -->
+	<a href="t3?name=apple">링크3</a><br />
+	<a href="t4?name=apple&age=30">링크4</a><br />
+	<a href="t5?name=apple&age=30">링크5</a><br />
+	<a href="t6">링크6</a><br />
+	<a href="t7?name=banana&age=300">링크7</a><br />
 </body>
