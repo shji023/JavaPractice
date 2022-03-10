@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class Tiger {
 	@RequestMapping("/t1")
 	// t1
-	void func01() {
+	String func01() {
 		System.out.println("호랑이");
+		// TigerView.jsp를 찾음
+		return "TigerView";
 	}
 }
