@@ -23,65 +23,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-//ex10) 프록시 테스트 스프링4 example
-interface Ai {
-	void play();
-}
-
-class AlphaGo implements Ai {
-	public void play() {
-		System.out.println("알파고");
-	}
-}
-
-class BetaGo implements Ai {
-	public void play() {
-		System.out.println("베타고");
-	}
-}
-@Aspect
-class ProxyBaduk {
-	@Pointcut("execution(public void sample.*.*(..))")
-	void something() {}
-	@Around("something()") 
-	void common(ProceedingJoinPoint joinpoint) throws Throwable{
-		System.out.println("대국을 시작합니다.");
-		joinpoint.proceed(); 
-		
-		System.out.println("end"); 
-		System.out.println("---------------------"); 
-	}
-}
-
-@Configuration
-@EnableAspectJAutoProxy
-class AppConfig {
-	@Bean
-	Ai alphaGo() {
-		return new AlphaGo();
-	}
-	@Bean
-	Ai betaGo() {
-		return new BetaGo();
-	}
-	@Bean
-	ProxyBaduk proxtTest() {
-		return new ProxyBaduk();
-	}
-}
-public class Test {
-	public static void main(String[] args) {
-		AnnotationConfigApplicationContext ctx = 
-				new AnnotationConfigApplicationContext(AppConfig.class);
-		Ai a = ctx.getBean("alphaGo", Ai.class); 
-		a.play();
-		Ai b = ctx.getBean("betaGo",Ai.class);
-		b.play();
-		ctx.close();
-	}
-}
-
-/* 
 // ex01)
 @Configuration
 class AppConfig {
@@ -679,4 +620,61 @@ public class Test {
 		ctx.close();
 	}
 }
-*/
+
+//ex10) 프록시 테스트 스프링4 example
+interface Ai {
+	void play();
+}
+
+class AlphaGo implements Ai {
+	public void play() {
+		System.out.println("알파고");
+	}
+}
+
+class BetaGo implements Ai {
+	public void play() {
+		System.out.println("베타고");
+	}
+}
+@Aspect
+class ProxyBaduk {
+	@Pointcut("execution(public void sample.*.*(..))")
+	void something() {}
+	@Around("something()") 
+	void common(ProceedingJoinPoint joinpoint) throws Throwable{
+		System.out.println("대국을 시작합니다.");
+		joinpoint.proceed(); 
+		
+		System.out.println("end"); 
+		System.out.println("---------------------"); 
+	}
+}
+
+@Configuration
+@EnableAspectJAutoProxy
+class AppConfig {
+	@Bean
+	Ai alphaGo() {
+		return new AlphaGo();
+	}
+	@Bean
+	Ai betaGo() {
+		return new BetaGo();
+	}
+	@Bean
+	ProxyBaduk proxtTest() {
+		return new ProxyBaduk();
+	}
+}
+public class Test {
+	public static void main(String[] args) {
+		AnnotationConfigApplicationContext ctx = 
+				new AnnotationConfigApplicationContext(AppConfig.class);
+		Ai a = ctx.getBean("alphaGo", Ai.class); 
+		a.play();
+		Ai b = ctx.getBean("betaGo",Ai.class);
+		b.play();
+		ctx.close();
+	}
+}
