@@ -17,33 +17,23 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-
-
-//ex06)
-
-class Tiger implements InitializingBean, DisposableBean{
-	Tiger() {
-		System.out.println(2);
-	}
-	public void afterPropertiesSet() throws Exception {
-		System.out.println(3);
-	}
-	public void destroy() throws Exception {
-		System.out.println(7);
-	}
+// 트랜잭션 
+// 준비하세요 -> 변경되지 않는 공퉁 코드
+// 저장 -> 변동되는 부분에 끼워넣는 것. 관심의 대상(AOP, Aspect O P)
+// 완료되었습니다. -> 변경되지 않는 공퉁 코드
+//ex08)
+class Tiger{
 	void f1() {
-		System.out.println(5);
+		System.out.println("start"); // 변경되지 않는 공퉁 코드 (advice)
+		//System.out.println("아침먹자"); // 핵심 코드
+		System.out.println("점심먹자"); // 핵심 코드
+		//System.out.println("저녁먹자");// 핵심 코드
+		System.out.println("end"); // 공통코드 (advice)
 	}
 }
 
 @Configuration
 class AppConfig {
-	@Bean
-	Tiger tiger() {
-		return new Tiger();
-	}
-	
-	
 }
 
 public class Test {
@@ -60,6 +50,7 @@ public class Test {
 		System.out.println(8);
 	}
 }
+
 
 
 /* 
@@ -241,4 +232,89 @@ public class Test {
 		ctx.close();
 	}
 }
+
+//ex06)
+class Tiger implements InitializingBean, DisposableBean{
+	Tiger() {
+		System.out.println(2);
+	}
+	public void afterPropertiesSet() throws Exception {
+		System.out.println(3);
+		// 네트워크 접속
+	}
+	public void destroy() throws Exception {
+		System.out.println(7);
+		// 접속 종료..
+	}
+	void f1() {
+		System.out.println(5);
+	}
+}
+
+@Configuration
+class AppConfig {
+	@Bean
+	Tiger tiger() {
+		return new Tiger();
+	}
+	
+	
+}
+
+public class Test {
+	public static void main(String[] args) {
+		System.out.println(1); 
+		AnnotationConfigApplicationContext ctx=
+				new AnnotationConfigApplicationContext(AppConfig.class);
+		//System.out.println(3); // 1,2,3 출력
+		System.out.println(4);
+		Tiger t = ctx.getBean("tiger",Tiger.class);
+		t.f1();
+		System.out.println(6);
+		ctx.close();
+		System.out.println(8);
+	}
+}
+
+//ex07)
+class Tiger{
+	Tiger() {
+		System.out.println(2);
+	}
+	public void connect() {
+		System.out.println(3);
+		// 네트워크 접속
+	}
+	public void disconnet() {
+		System.out.println(7);
+		// 접속 종료..
+	}
+	void f1() {
+		System.out.println(5);
+	}
+}
+
+@Configuration
+class AppConfig {
+	@Bean (initMethod="connect", destroyMethod="disconnect")
+	Tiger tiger() {
+		return new Tiger();
+	}
+}
+
+public class Test {
+	public static void main(String[] args) {
+		System.out.println(1); 
+		AnnotationConfigApplicationContext ctx=
+				new AnnotationConfigApplicationContext(AppConfig.class);
+		//System.out.println(3); // 1,2,3 출력
+		System.out.println(4);
+		Tiger t = ctx.getBean("tiger",Tiger.class);
+		t.f1();
+		System.out.println(6);
+		ctx.close();
+		System.out.println(8);
+	}
+}
+
 */
