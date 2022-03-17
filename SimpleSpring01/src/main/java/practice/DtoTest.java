@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 
+/*
 // ex1)
 class FormDTO {
 	String name;
@@ -340,3 +341,4 @@ public class DtoTest {
 		mrs.register(new RegisterRequest("홍길동"));
 	}
 }
+ */
