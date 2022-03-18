@@ -23,7 +23,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-/* 
 // ex01)
 @Configuration
 class AppConfig {
@@ -679,4 +678,3 @@ public class Test {
 		ctx.close();
 	}
 }
-*/
