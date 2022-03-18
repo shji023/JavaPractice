@@ -11,4 +11,9 @@ public class Tiger {
       System.out.println("곧 index.jsp 실행");
       return "index";
    }
+   @RequestMapping("t1")
+   public String f1() {
+	   System.out.println("곧 TigerView.jsp");
+	   return "TigerView";
+   }
 }
