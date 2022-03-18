@@ -12,5 +12,8 @@
 	<a href="t2?name=tiger">傅农2</a><br/>
 	<a href="t3/1000">傅农3</a><br/>
 	<a href="t4">傅农4</a><br/>
+	<a href="t4/2000">傅农5</a><br/>
+	<a href="t4/t5/3000">傅农6</a><br/>
+	<a href="t6">傅农7</a><br/>
 </body>
 </html> 
