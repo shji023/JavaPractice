@@ -2,6 +2,7 @@ package Pack01;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -9,32 +10,21 @@ import org.springframework.stereotype.Service;
 
 @Service("tiger")
 class Tiger {
-	Tiger(){
-		System.out.println("생성자 콜");
-	}
+	Tiger(){}
 	void f1() {
-		System.out.println("f1 콜");
+		
 	}
 }
 @SpringBootTest
-class Msa01ApplicationTests implements ApplicationContextAware{
-	ApplicationContext applicationContext;
-	public void setApplicationContext(
-			ApplicationContext applicationContext)
-					throws BeansException{
-		System.out.println("setApplicationContext");
-		this.applicationContext = applicationContext;
-	}
-	
+class Msa01ApplicationTests{
+	@Autowired // 객체가 있으면 자동주입
+	Tiger t;
+	// Tiger t = new Tiger(); >> new로 생성한 객체는 스프링이 관리 안함
 	@Test
 	void test01() {
-		System.out.println(100);
-		try {
-		Tiger t = applicationContext.getBean("tiger",Tiger.class);
+		System.out.println("start");
 		System.out.println(t.hashCode());
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
+		t.f1();
 	}
 	
 }
