@@ -9,50 +9,36 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
-
-class A {
-	int a,b;
-	A(int a, int b){
-		this.a = a;
-		this.b = b;
+class  Multiplication {
+	int factorA, factorB;
+	int result;
+	Multiplication(int factorA, int factorB){
+		this.factorA = factorA;
+		this.factorB = factorB;
+		this.result = factorA*factorB;
 	}
-	int getResult() {
-		return a*b;
-	}
-}
-interface B {
-	int getNum();
-}
-@Service
-class BImpl implements B{
+	int getFactorA() {return factorA;}
+	int getFactorB() {return factorB;}
+	int getResult() {return result;}
 	@Override
-	public int getNum() {
-		return new Random().nextInt(10);
+	public String toString() {
+		return "Multiplication [factorA=" + factorA + ", factorB=" + factorB + ", result=" + result + "]";
 	}
-}
-
-interface C{
-	A f1();
-}
-@Service
-class CImpl implements C{
-	@Autowired
-	B b;
 	
-	@Override
-	public A f1() {
-		return new A(b.getNum(), b.getNum());
-	}
+	
 }
 @SpringBootTest
 class Msa01ApplicationTests{
-	@Autowired
-	C c;
-	
 	@Test
 	void test01() {
-		A a = c.f1();
-		System.out.println(a.a+" "+a.b);
-		System.out.println(a.getResult());
+		Multiplication m = new Multiplication(3, 4);
+		System.out.println(m.toString());
 	}
 }
+
+
+
+// @Service
+// @Component
+// @Controller
+// @Repository
