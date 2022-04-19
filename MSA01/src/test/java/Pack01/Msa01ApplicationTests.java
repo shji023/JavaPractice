@@ -10,7 +10,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
-
+import static org.mockito.BDDMockito.*;
 // Multiplication
 // RandomGeneratorService
 // RandomGeneratorServiceImpl
@@ -68,6 +68,25 @@ class MultiplicationServiceImpl implements MultiplicationService{
 	}
 }
 
+interface AAA {
+	int getRandomNum();
+}
+interface BBB {
+	int get();
+}
+@Service
+class BBBImpl implements BBB {
+	@Autowired
+	AAA aaa;
+	
+	public int get() {
+		System.out.println(aaa.getRandomNum());
+		System.out.println(aaa.getRandomNum());
+		System.out.println(aaa.getRandomNum());
+		System.out.println(aaa.getRandomNum());
+		return aaa.getRandomNum();
+	}
+}
 @SpringBootTest
 class Msa01ApplicationTests{
 //	@MockBean
@@ -76,10 +95,25 @@ class Msa01ApplicationTests{
 	@Autowired
 	MultiplicationServiceImpl multiplicationServiceImpl;
 	
+	@ MockBean
+	AAA aaa;
+	
+	@Autowired
+	BBB bbb;
 	@Test
 	void test01() {
-		Multiplication m = multiplicationServiceImpl.createRandomMultiplication();
-		System.out.println(m.toString());
+//		Multiplication m = multiplicationServiceImpl.createRandomMultiplication();
+//		System.out.println(m.toString());
+		// 랜덤한 2개의 숫자를 뽑는다. 
+		given(aaa.getRandomNum()).willReturn(10, 20, 30, 40);
+		bbb.get();
+		System.out.println("end");
+		// 1. 회사에서 시험 문제를 출제한다.
+		// 2. 시험문제는 램덤한 2개의 숫자이다.
+		// 3. 2개의 숫자를 사용자가 곱한다.
+		// 4. 곱한 결과를 회사에 다시 제출한다.
+		// 5. 제출된 결과를 채점한다.
+		// 6. 채점결과를 사용자에게 다시 돌려준다.
 	}
 }
 
