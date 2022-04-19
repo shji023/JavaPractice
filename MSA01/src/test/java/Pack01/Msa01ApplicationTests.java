@@ -8,23 +8,25 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
-@Service("tiger")
-class Tiger {
-	Tiger(){}
+@Service
+class A {
 	void f1() {
-		
+		System.out.println("call 1");
+	}
+}
+class B {
+	@Autowired
+	A a;
+	void f2() {
+		System.out.println("call 2");
+		System.out.println(a);
 	}
 }
 @SpringBootTest
 class Msa01ApplicationTests{
-	@Autowired // 객체가 있으면 자동주입
-	Tiger t;
-	// Tiger t = new Tiger(); >> new로 생성한 객체는 스프링이 관리 안함
 	@Test
 	void test01() {
-		System.out.println("start");
-		System.out.println(t.hashCode());
-		t.f1();
+		B b = new B();
+		b.f2();
 	}
-	
 }
