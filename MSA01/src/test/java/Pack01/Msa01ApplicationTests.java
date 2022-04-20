@@ -31,6 +31,7 @@ interface RandomGenService {
 	int getGenRandom();
 }
 // 난수 생성 서비스
+@Service
 class RandomGenServiceImpl implements RandomGenService{
 	public int getGenRandom() {
 		return new Random().nextInt(10);
@@ -41,9 +42,11 @@ interface MultipleService{
 	Multiple getMultiple();
 }
 // 곱셈 생성 서비스
+@Service
 class MultipleServiceImpl implements MultipleService {
+	@Autowired
+	RandomGenService rnd;
 	public Multiple getMultiple() {
-		RandomGenService rnd = new RandomGenServiceImpl();
 		int a = rnd.getGenRandom();
 		int b = rnd.getGenRandom();
 		a = 3;
@@ -51,11 +54,13 @@ class MultipleServiceImpl implements MultipleService {
 		return new Multiple(a, b);
 	}
 }
+
 @SpringBootTest
 class Msa01ApplicationTests{
+	@Autowired
+	MultipleService multipleService;
 	@Test
 	void test01() {
-		MultipleService multipleService = new MultipleServiceImpl();
 		Multiple multiple = multipleService.getMultiple();
 		multiple.show();
 	}
