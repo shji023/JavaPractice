@@ -22,6 +22,17 @@
 			s2.textContent = data.factorB;
 		});
 	}
+	function f2(){
+		let formData = {a:'monkey',b:100};
+		console.log(formData);
+		$.ajax({
+			url:"http://localhost:8081/t2",
+			type:"POST",
+			data:formData
+		}).then(function(data){
+			console.log(data);
+		});
+	}
 </script>
 <body>
 	<h1>I want to go home.</h1>
@@ -29,5 +40,11 @@
 	<button onClick="f1()">문제요청</button>
 	<span id="span1"></span>곱하기
 	<span id="span2"></span>는 ?
+	
+	<form id="form1" name="form1" method="post">
+		별칭 : <input type="text" name="alias" value="tiger"/>
+		정답 : <input type="text" name="attempt" value="200"/>
+		<input type="button" value="전송" onClick="f2();" />
+	</form>
 </body>
 </html>

@@ -31,4 +31,10 @@ public class Tiger {
 		System.out.println("들어옴");
 		return new Multiplication(3, 4);
 	}
+	
+	@RequestMapping("/t2")
+	boolean f2() {
+		System.out.println(" f2들어옴");
+		return true;
+	}
 }
