@@ -4,6 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.*;
+
 //@Controller
 //public class Tiger {
 //	@RequestMapping("/t1")
@@ -12,13 +14,21 @@ import org.springframework.web.bind.annotation.RestController;
 //		return "TigerView";
 //	}
 //}
-
-
+@RequiredArgsConstructor
+@Getter
+@ToString
+class Multiplication {
+	final int factorA;
+	final int factorB;
+	Multiplication(){
+		this(0,0);
+	}
+}
 @RestController
 public class Tiger {
 	@RequestMapping("/t1")
-	String f1() {
+	Multiplication f1() {
 		System.out.println("들어옴");
-		return "호랑이";
+		return new Multiplication(3, 4);
 	}
 }

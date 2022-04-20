@@ -14,13 +14,20 @@
 			url:"http://localhost:8081/t1",
 			type:"GET"
 		}).then(function(data){
-			console.log(data);
+			console.log(data.factorA);
+			console.log(data.factorB);
+			let s1 = document.getElementById("span1");
+			let s2 = document.getElementById("span2");
+			s1.textContent = data.factorA;
+			s2.textContent = data.factorB;
 		});
 	}
 </script>
 <body>
 	<h1>I want to go home.</h1>
 	<a href="t1">기본 컨트롤러 확인</a>
-	<button onClick="f1()">클릭 확인용</button>
+	<button onClick="f1()">문제요청</button>
+	<span id="span1"></span>곱하기
+	<span id="span2"></span>는 ?
 </body>
 </html>
