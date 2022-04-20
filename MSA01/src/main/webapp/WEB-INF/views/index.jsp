@@ -23,15 +23,46 @@
 		});
 	}
 	function f2(){
-		let formData = {a:'monkey',b:100};
+		// 곱할 수 2개
+		let a = $("#span1").text();
+		let b = $("#span2").text();
+		console.log(a, b);
+		
+		// 닉네임
+		let alias4 = $('input[name=alias]').val();
+		console.log(alias4);
+		
+		// 답안
+		let attempt4 = $('input[name=attempt]').val();
+		console.log(attempt4);
+		
+		let formData = {
+			user:{alias:alias4},
+			multiplication:{factorA:a, factorB:b},
+			resultAttempt:attempt4
+		};
 		console.log(formData);
+		console.log(typeof formData);
+		
+		//user
+		//alias
+		// multiplication
+		// resultAttempt
+		
+		
+		let temp = JSON.stringify(formData);
+		console.log(JSON.stringify(formData));
+		console.log(typeof temp);
+		
 		$.ajax({
 			url:"http://localhost:8081/t2",
 			type:"POST",
-			data:formData
+			data:JSON.stringify(formData),
+			datatype:"json",
+			contentType:"application/json",
 		}).then(function(data){
 			console.log(data);
-		});
+		}); 
 	}
 </script>
 <body>
