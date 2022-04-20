@@ -61,7 +61,8 @@
 			datatype:"json",
 			contentType:"application/json",
 		}).then(function(data){
-			console.log(data);
+			let s3 = document.getElementById("span3");
+			s3.textContent = data;
 		}); 
 	}
 </script>
@@ -77,5 +78,6 @@
 		정답 : <input type="text" name="attempt" value="200"/>
 		<input type="button" value="전송" onClick="f2();" />
 	</form>
+	<span id="span3"></span>ㅎㅎ
 </body>
 </html>
