@@ -14,27 +14,16 @@ import org.springframework.stereotype.Service;
 import lombok.*;
 
 import static org.mockito.BDDMockito.*;
-@Setter
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
+@RequiredArgsConstructor // 변수자체가 final이라는 말
 class Tiger {
-	String name;
-	int age;
-//	@Override
-//	public String toString() {
-//		return "Tiger [name=" + name + ", age=" + age + "]";
-//	}
-	
+	final String name;
+	final int age;
 }
 @SpringBootTest
 class Msa01ApplicationTests{
 	@Test
 	void test01() {
-		Tiger t1 = new Tiger();
 		Tiger t2 = new Tiger("호랑이",10);
-		System.out.println(t1.toString());
 		System.out.println(t2.toString());
 	}
 }
