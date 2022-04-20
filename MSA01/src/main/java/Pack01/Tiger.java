@@ -48,15 +48,26 @@ class MultiplicationResultAttempt {
 	Multiplication multiplication;
 	int resultAttempt;
 }
+//interface RandomGenService{
+//	int getGenRandom();
+//}
+@Service
+class RandomGenServiceImpl{
+	public int getGenRandom() {
+		return new Random().nextInt(10);
+	}
+}
 //interface MultiplicationService {
 //	Multiplication createRandomMultiplication();
 //}
 @Service
 class MultiplicationServiceImpl {
+	@Autowired
+	RandomGenServiceImpl t;
 	public Multiplication createRandomMultiplication() {
-		Random rnd = new Random();
-		int factorA = rnd.nextInt(10);
-		int factorB = rnd.nextInt(10);
+		
+		int factorA = t.getGenRandom();
+		int factorB = t.getGenRandom();
 		return new Multiplication(factorA,factorB);
 	}
 	// 채점 서비스
