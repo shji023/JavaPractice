@@ -59,9 +59,14 @@ class MultiplicationServiceImpl {
 		int factorB = rnd.nextInt(10);
 		return new Multiplication(factorA,factorB);
 	}
+	// 채점 서비스
+	boolean checkAttempt(final MultiplicationResultAttempt mra) {
+		return mra.getResultAttempt()==
+				mra.getMultiplication().getFactorA()*
+				mra.getMultiplication().getFactorB();
+ 	}
 }
 // 문제 출제서비스
-// 채점 서비스
 @RestController
 public class Tiger {
 	@Autowired
@@ -85,6 +90,7 @@ public class Tiger {
 		System.out.println(mra.multiplication.factorB); //0
 		System.out.println(mra.resultAttempt); //200
 		System.out.println(" f2들어옴");
-		return true;
+		// return true;
+		return ms.checkAttempt(mra);
 	}
 }
