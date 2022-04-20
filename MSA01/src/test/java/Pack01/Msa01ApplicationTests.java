@@ -14,21 +14,31 @@ import org.springframework.stereotype.Service;
 import lombok.*;
 
 import static org.mockito.BDDMockito.*;
-@Getter
-@Setter
-@RequiredArgsConstructor // 변수자체가 final이라는 말
-@ToString
-@EqualsAndHashCode
-@Data //>> 위에 모든 @ 기능, final 변수 써야하기에 사용에 유의
+
+//class Tiger {
+//	final String name;
+//	final int age;
+//	Tiger(){
+//		this("",0);
+//	}
+//	Tiger(String name, int age){
+//		this.name = name;
+//		this.age = age;
+//	}
+//}
+@RequiredArgsConstructor
 class Tiger {
 	final String name;
 	final int age;
-
+	Tiger(){
+		this("",0);
+	}
 }
 @SpringBootTest
 class Msa01ApplicationTests{
 	@Test
 	void test01() {
+		Tiger t1 = new Tiger();
 		Tiger t2 = new Tiger("호랑이",10);
 		System.out.println(t2.toString());
 	}
