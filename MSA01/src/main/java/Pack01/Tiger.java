@@ -1,6 +1,10 @@
 package Pack01;
 
+import java.util.Random;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,22 +44,43 @@ class User {
 @Setter
 @EqualsAndHashCode
 class MultiplicationResultAttempt {
-	User user;
+	private User user;
 	Multiplication multiplication;
 	int resultAttempt;
 }
+//interface MultiplicationService {
+//	Multiplication createRandomMultiplication();
+//}
+@Service
+class MultiplicationServiceImpl {
+	public Multiplication createRandomMultiplication() {
+		Random rnd = new Random();
+		int factorA = rnd.nextInt(10);
+		int factorB = rnd.nextInt(10);
+		return new Multiplication(factorA,factorB);
+	}
+}
+// 문제 출제서비스
+// 채점 서비스
 @RestController
 public class Tiger {
+	@Autowired
+	MultiplicationServiceImpl ms;
+	
 	@RequestMapping("/t1")
 	Multiplication f1() {
 		System.out.println("들어옴");
-		return new Multiplication(3, 4);
+//		Multiplication m =ms.createRandomMultiplication();
+//		System.out.println(m.getFactorA());
+//		System.out.println(m.getFactorB());
+		//return new Multiplication(3, 4);
+		return ms.createRandomMultiplication();
 	}
 	
 	@RequestMapping("/t2")
 	boolean f2(@RequestBody MultiplicationResultAttempt mra) {
 		System.out.println(mra);//Pack01.MultiplicationResultAttempt@bcf30dd9
-		System.out.println(mra.user.alias);// tiger
+		System.out.println(mra.getUser().getAlias());// tiger
 		System.out.println(mra.multiplication.factorA); //0
 		System.out.println(mra.multiplication.factorB); //0
 		System.out.println(mra.resultAttempt); //200
