@@ -38,7 +38,15 @@ class RandomGenServiceImpl implements RandomGenService{
 		return new Random().nextInt(10);
 	}
 }
+@RequiredArgsConstructor
+@ToString
 class MultiplicationResultAttempt {
+	final User user;
+	final Multiple multiple;
+	final int resultAttempt;
+	public MultiplicationResultAttempt(){
+		this(null,null,0);
+	}
 	
 }
 interface MultipleService {
@@ -73,12 +81,19 @@ class User{
 }
 @SpringBootTest
 class Msa01ApplicationTests{
+	@Autowired
+	MultipleService multipleService;
+	
 	@Test
 	void test01() {
-		User user1 = new User("호랑이");
-		User user2 = new User("호랑이");
-		System.out.println(user1.toString());
-		System.out.println(user1.getAlias());
+		MultiplicationResultAttempt attemp = new MultiplicationResultAttempt(
+				new User("tiger"), multipleService.getMultiple(),3000
+				);
+		multipleService.checkAttempt(attemp);
+		System.out.println(attemp.toString());
+	    System.out.println(multipleService.checkAttempt(attemp));
+
+				
 	}
 }
 
