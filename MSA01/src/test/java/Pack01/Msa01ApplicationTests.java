@@ -12,7 +12,15 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 import static org.mockito.BDDMockito.*;
 
-
+interface RandomGenService{
+	int getGenRandom();
+}
+class RandomGenServiceImpl implements RandomGenService{
+	@Override
+	public int getGenRandom() {
+		return new Random().nextInt(10);
+	}
+}
 @SpringBootTest
 class Msa01ApplicationTests{
 	@Test
