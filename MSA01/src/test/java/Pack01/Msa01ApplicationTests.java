@@ -27,18 +27,25 @@ class Multiple {
 		System.out.println("result:"+result);
 	}
 }
+interface RandomGenService {
+	int getGenRandom();
+}
 // 난수 생성 서비스
-class RandomGenService{
-	int getGenRandom() {
+class RandomGenServiceImpl implements RandomGenService{
+	public int getGenRandom() {
 		return new Random().nextInt(10);
 	}
+	
+}
+interface MultipleService{
+	Multiple getMultiple();
 }
 // 곱셈 생성 서비스
-class MultipleService {
-	Multiple getMultiple() {
-		RandomGenService rnd = new RandomGenService();
-		int a = new Random().nextInt(10);
-		int b = new Random().nextInt(10);
+class MultipleServiceImpl implements MultipleService {
+	public Multiple getMultiple() {
+		RandomGenService rnd = new RandomGenServiceImpl();
+		int a = rnd.getGenRandom();
+		int b = rnd.getGenRandom();
 		a = 3;
 		b = 4;
 		return new Multiple(a, b);
@@ -46,10 +53,9 @@ class MultipleService {
 }
 @SpringBootTest
 class Msa01ApplicationTests{
-
 	@Test
 	void test01() {
-		MultipleService multipleService = new MultipleService();
+		MultipleService multipleService = new MultipleServiceImpl();
 		Multiple multiple = multipleService.getMultiple();
 		multiple.show();
 	}
