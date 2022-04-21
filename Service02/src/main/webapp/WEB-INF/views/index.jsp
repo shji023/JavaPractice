@@ -8,6 +8,8 @@
 </head>
 <body>
 	<h1>service02</h1>
-	<a href="t1">傅农1</a>
+	<a href="t1">傅农1</a><br/>
+	<a href="bpp/1000">bpp 夸没</a><br/>
+	<a href="dpp/1000">dpp 夸没</a>
 </body>
 </html>
