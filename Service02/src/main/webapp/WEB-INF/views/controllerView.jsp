@@ -7,8 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>여기가 index</h1>
-	<a href="t1">링크1</a>
-	<a href="app/1000">링크2</a><br/>
+<h1>여기는 컨트롤러뷰</h1>
 </body>
 </html>
