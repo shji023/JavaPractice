@@ -11,6 +11,6 @@ public class bppController {
 	@GetMapping("/{bppNum}")
 	public String f1(@PathVariable String bppNum) {
 		System.out.println(111);
-		return "호랑이";
+		return "bppController : "+bppNum;
 	}
 }
