@@ -116,3 +116,14 @@ class bppController8 {
 		return li;
 	}
 }
+
+@RestController
+@RequestMapping("/s9")
+class bppController9 {
+	@GetMapping("/{num}")
+	public String f1(@PathVariable String num) {
+		System.out.println(num);
+		
+		return num + " ";
+	}
+}
