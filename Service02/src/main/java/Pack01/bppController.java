@@ -1,6 +1,8 @@
 package Pack01;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -135,5 +137,18 @@ class bppController10 {
 	public String f1(@PathVariable String n1,@PathVariable String n2) {
 		
 		return n1 + " "+n2;
+	}
+}
+
+@RestController
+@RequestMapping("/s11")
+class bppController11 {
+	@GetMapping("/{n1}")
+	public Map<String, String> f1(@PathVariable String n1) {
+		Map<String, String>map = new HashMap<>();
+		map.put("key1","value1");
+		map.put("key2","value2");
+		map.put("key3","value3");
+		return map;
 	}
 }

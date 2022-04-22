@@ -1,5 +1,8 @@
 package Pack01;
 
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -203,4 +206,38 @@ class appController10 {
 			);
 		return "appController : "+"<br/>"+data;
 	}
+}
+
+@RestController
+@RequestMapping("/t11")
+class AppController11 {
+   @SuppressWarnings("unchecked")
+   @GetMapping("/{num}")
+   public String f1(@PathVariable String num ) {
+      System.out.println(num);
+      
+      RestTemplate rt = new RestTemplate();
+      // Collection은 다른 데이터와 다르게 가져온다.
+      ResponseEntity<Map> data = rt.getForEntity(
+            "http://localhost:8082/s11/11000",
+            Map.class
+      );
+      
+      Map<String, String> map = data.getBody();
+      System.out.println(map);
+      String result = "";
+      
+      Set<String> keys = map.keySet();
+      for(String key : keys) {
+         result += key + " : " + map.get(key) + ", ";
+      }
+      System.out.println(keys);
+      
+      System.out.println(map.get("key1"));
+      System.out.println(map.get("key2"));
+      System.out.println(map.get("key3"));
+      
+      return "AppController : " +  
+            "<br/>" + result;
+   }
 }
