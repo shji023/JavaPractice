@@ -1,6 +1,7 @@
 package Pack01;
 
 import org.apache.jasper.tagplugins.jstl.core.ForEach;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -121,6 +122,27 @@ class appController6 {
 		for (People item : data) {
 			result += (item.getName()+item.getAge()+" ");
 		}
+		return "appController : "+"<br/>"+result;
+	}
+}
+
+@RestController
+@RequestMapping("/t7")
+class appController7 {
+	// href="app/1000"
+	@GetMapping("/{num}")
+	public String f1(@PathVariable String num) {
+		System.out.println(num);
+		RestTemplate rt = new RestTemplate();
+		ResponseEntity<Integer[]> data = rt.getForEntity(
+				"http://localhost:8082/s7/2000",
+				Integer[].class
+			);
+		String result ="";
+		for(Integer item: data.getBody()) {
+			result +=(item+" ");
+		}
+
 		return "appController : "+"<br/>"+result;
 	}
 }

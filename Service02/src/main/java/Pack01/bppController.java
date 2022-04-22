@@ -1,5 +1,7 @@
 package Pack01;
 
+import java.util.LinkedList;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -84,5 +86,19 @@ class bppController6 {
 				new People("홍길동3",30)
 		};
 		return ar;
+	}
+}
+
+@RestController
+@RequestMapping("/s7")
+class bppController7 {
+	@GetMapping("/{num}")
+	public LinkedList<Integer> f1(@PathVariable String num) {
+		System.out.println(num);
+		LinkedList<Integer> li = new LinkedList<Integer>();
+		li.add(100);
+		li.add(200);
+		li.add(300);
+		return li;
 	}
 }
