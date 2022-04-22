@@ -71,3 +71,18 @@ class bppController5 {
 		return ar;
 	}
 }
+
+@RestController
+@RequestMapping("/s6")
+class bppController6 {
+	@GetMapping("/{num}")
+	public People[] f1(@PathVariable String num) {
+		System.out.println(num);
+		People[] ar = {
+				new People("홍길동1",10),
+				new People("홍길동2",20),
+				new People("홍길동3",30)
+		};
+		return ar;
+	}
+}
