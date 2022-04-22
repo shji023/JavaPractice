@@ -21,3 +21,19 @@ public class appController {
 		return "appController : "+"<br/>"+data;
 	}
 }
+
+@RestController
+@RequestMapping("/t2")
+class appController2 {
+	// href="app/1000"
+	@GetMapping("/{num}")
+	public String f1(@PathVariable String num) {
+		System.out.println(num);
+		RestTemplate rt = new RestTemplate();
+		String data = rt.getForObject(
+				"http://localhost:8082/s2/2000",
+				String.class
+			);
+		return "appController : "+"<br/>"+data;
+	}
+}

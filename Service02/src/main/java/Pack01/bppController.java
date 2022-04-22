@@ -15,3 +15,14 @@ public class bppController {
 		return result;
 	}
 }
+
+@RestController
+@RequestMapping("/s2")
+class bppController2 {
+	@GetMapping("/{num}")
+	public String f1(@PathVariable String num) {
+		System.out.println(num);
+		String result = "문자열";
+		return result;
+	}
+}
