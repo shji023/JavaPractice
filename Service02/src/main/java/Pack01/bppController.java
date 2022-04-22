@@ -127,3 +127,13 @@ class bppController9 {
 		return num + " ";
 	}
 }
+
+@RestController
+@RequestMapping("/s10")
+class bppController10 {
+	@GetMapping("/{n1}/{n2}")
+	public String f1(@PathVariable String n1,@PathVariable String n2) {
+		
+		return n1 + " "+n2;
+	}
+}

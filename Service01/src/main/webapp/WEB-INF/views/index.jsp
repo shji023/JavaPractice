@@ -18,5 +18,6 @@
 	<a href="t7/1000">collection(Integer)요청</a><br/>
 	<a href="t8/1000">collection객체요청</a><br/>
 	<a href="t9/1000">문법확인</a><br/>
+	<a href="t10/1000">문법확인2</a><br/>
 </body>
 </html>

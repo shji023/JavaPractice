@@ -178,9 +178,28 @@ class appController9 {
 		int test = 777+Integer.parseInt(num);
 		RestTemplate rt = new RestTemplate();
 		Integer data = rt.getForObject(
-				"http://localhost:8082/s1/{apple}",
+				"http://localhost:8082/s9/{apple}",
 				Integer.class,
 				test
+			);
+		return "appController : "+"<br/>"+data;
+	}
+}
+
+@RestController
+@RequestMapping("/t10")
+class appController10 {
+	// href="app/1000"
+	@GetMapping("/{num}")
+	public String f1(@PathVariable String num) {
+		System.out.println(num);
+
+		RestTemplate rt = new RestTemplate();
+		String data = rt.getForObject(
+				"http://localhost:8082/s10/{apple}/{banana}",
+//				"http://localhost:8082/s10/777/888"
+				String.class,
+				777,888
 			);
 		return "appController : "+"<br/>"+data;
 	}
