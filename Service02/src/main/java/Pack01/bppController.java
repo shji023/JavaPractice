@@ -152,3 +152,14 @@ class bppController11 {
 		return map;
 	}
 }
+
+@RestController
+@RequestMapping("/s12")
+class bppController12 {
+	@GetMapping("/{num}")
+	public String f1(@PathVariable String num) {
+		System.out.println(num);
+		String result = "하하";
+		return result;
+	}
+}

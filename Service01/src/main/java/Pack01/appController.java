@@ -10,14 +10,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import lombok.*;
+import reactor.core.publisher.Mono;
 
 
 @RestController
 @RequestMapping("/t1")
 public class appController {
-	// href="app/1000"
 	@GetMapping("/{num}")
 	public String f1(@PathVariable String num) {
 		System.out.println(num);
@@ -240,4 +241,19 @@ class AppController11 {
       return "AppController : " +  
             "<br/>" + result;
    }
+}
+
+
+@RestController
+@RequestMapping("/t12")
+class appController12 {
+	@GetMapping("/{num}")
+
+	public Mono<String> f1(@PathVariable String num) {
+		WebClient client = WebClient.create();
+		return client.get()
+				.uri("http://localhost:8082/s12/2000")
+				.retrieve()
+				.bodyToMono(String.class);
+	}
 }
