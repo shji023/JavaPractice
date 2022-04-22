@@ -60,3 +60,14 @@ class bppController4 {
 		return ar;
 	}
 }
+
+@RestController
+@RequestMapping("/s5")
+class bppController5 {
+	@GetMapping("/{num}")
+	public String[] f1(@PathVariable String num) {
+		System.out.println(num);
+		String[] ar = {"호","랑","이"};
+		return ar;
+	}
+}

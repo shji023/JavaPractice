@@ -84,3 +84,23 @@ class appController4 {
 		return "appController : "+"<br/>"+result;
 	}
 }
+
+@RestController
+@RequestMapping("/t5")
+class appController5 {
+	// href="app/1000"
+	@GetMapping("/{num}")
+	public String f1(@PathVariable String num) {
+		System.out.println(num);
+		RestTemplate rt = new RestTemplate();
+		String[] data = rt.getForObject(
+				"http://localhost:8082/s5/2000",
+				String[].class
+			);
+		String result = "";
+		for (String item : data) {
+			result += item+" ";
+		}
+		return "appController : "+"<br/>"+result;
+	}
+}
