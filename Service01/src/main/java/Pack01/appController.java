@@ -7,17 +7,17 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
-@RequestMapping("/app")
+@RequestMapping("/t1")
 public class appController {
 	// href="app/1000"
-	@GetMapping("/{appNum}")
-	public String f1(@PathVariable String appNum) {
-		System.out.println(appNum);
+	@GetMapping("/{num}")
+	public String f1(@PathVariable String num) {
+		System.out.println(num);
 		RestTemplate rt = new RestTemplate();
-		String str = rt.getForObject(
-				"http://localhost:8082/bpp/2000",
-				String.class
+		Integer data = rt.getForObject(
+				"http://localhost:8082/s1/2000",
+				Integer.class
 			);
-		return "appController : "+appNum+"<br/>"+str;
+		return "appController : "+"<br/>"+data;
 	}
 }

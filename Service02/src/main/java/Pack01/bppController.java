@@ -6,11 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/bpp")
+@RequestMapping("/s1")
 public class bppController {
-	@GetMapping("/{bppNum}")
-	public String f1(@PathVariable String bppNum) {
-		System.out.println(111);
-		return "bppController : "+bppNum;
+	@GetMapping("/{num}")
+	public Integer f1(@PathVariable String num) {
+		System.out.println(num);
+		Integer result = Integer.parseInt(num);
+		return result;
 	}
 }
