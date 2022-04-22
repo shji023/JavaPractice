@@ -146,3 +146,24 @@ class appController7 {
 		return "appController : "+"<br/>"+result;
 	}
 }
+
+@RestController
+@RequestMapping("/t8")
+class appController8 {
+	// href="app/1000"
+	@GetMapping("/{num}")
+	public String f1(@PathVariable String num) {
+		System.out.println(num);
+		RestTemplate rt = new RestTemplate();
+		ResponseEntity<People[]> data = rt.getForEntity(
+				"http://localhost:8082/s8/2000",
+				People[].class
+			);
+		String result ="";
+		for(People item: data.getBody()) {
+			result +=(item.getName()+" "+item.getAge());
+		}
+
+		return "appController : "+"<br/>"+result;
+	}
+}

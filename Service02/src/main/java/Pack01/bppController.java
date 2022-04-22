@@ -102,3 +102,17 @@ class bppController7 {
 		return li;
 	}
 }
+
+@RestController
+@RequestMapping("/s8")
+class bppController8 {
+	@GetMapping("/{num}")
+	public LinkedList<People> f1(@PathVariable String num) {
+		System.out.println(num);
+		LinkedList<People> li = new LinkedList<People>();
+		li.add(new People("앵두1",10));
+		li.add(new People("앵두1",10));
+		li.add(new People("앵두1",10));
+		return li;
+	}
+}
