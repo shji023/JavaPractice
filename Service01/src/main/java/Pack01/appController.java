@@ -257,3 +257,88 @@ class appController12 {
 				.bodyToMono(String.class);
 	}
 }
+
+@RestController
+@RequestMapping("/t13")
+class AppController13 {
+
+   @GetMapping("/{num}")
+   public String f1(@PathVariable String num) {
+      
+      WebClient client = WebClient.create();
+      
+      String str = client.get()
+            .uri("http://localhost:8082/s12/2000")
+            .retrieve()
+            .bodyToMono(String.class)
+            .block();
+      
+      return str;
+   }
+}
+
+@RestController
+@RequestMapping("/t14")
+class AppController14 {
+
+   @GetMapping("/{num}")
+   public String f1(@PathVariable String num) {
+      
+      WebClient client = WebClient.create();
+      
+      People p = client.get()
+            .uri("http://localhost:8082/s3/2000")
+            .retrieve()
+            .bodyToMono(People.class)
+            .block();
+      
+      String result = "";
+      result += p.getName() + " " + p.getAge() + " ";
+      return result;
+   }
+}
+
+@RestController
+@RequestMapping("/t15")
+class AppController15 {
+
+   @GetMapping("/{num}")
+   public String f1(@PathVariable String num) {
+      
+      WebClient client = WebClient.create();
+      
+      Integer[] data = client.get()
+            .uri("http://localhost:8082/s4/2000")
+            .retrieve()
+            .bodyToMono(Integer[].class)
+            .block();
+      
+      String result = "";
+      for (Integer item : data) {
+         result += ( item + " ");
+      }
+      return result;
+   }
+}
+
+
+@RestController
+@RequestMapping("/t16")
+class appController16 {
+	@GetMapping("/{num}")
+	public void f1(@PathVariable String num) {
+		// 비동기 함수를 호출해서 결과가 끝났을 때 
+		// 리턴값을 받아서 새로운 페이지를 만든다.
+		Mono<String> result = f2();
+		result.subscribe(v -> {
+			System.out.println(v);
+		});
+	}
+	public Mono<String> f2() {
+		WebClient client = WebClient.create();
+		return client.get()
+				.uri("http://localhost:8082/s12/2000")
+				.retrieve()
+				.bodyToMono(String.class);
+	}
+}
