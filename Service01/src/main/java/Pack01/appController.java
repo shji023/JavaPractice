@@ -1,5 +1,6 @@
 package Pack01;
 
+import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -61,5 +62,25 @@ class appController3 {
 				People.class
 			);
 		return "appController : "+"<br/>"+data.getName()+data.getAge();
+	}
+}
+
+@RestController
+@RequestMapping("/t4")
+class appController4 {
+	// href="app/1000"
+	@GetMapping("/{num}")
+	public String f1(@PathVariable String num) {
+		System.out.println(num);
+		RestTemplate rt = new RestTemplate();
+		Integer[] data = rt.getForObject(
+				"http://localhost:8082/s4/2000",
+				Integer[].class
+			);
+		String result = "";
+		for (Integer item : data) {
+			result += item+" ";
+		}
+		return "appController : "+"<br/>"+result;
 	}
 }

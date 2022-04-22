@@ -49,3 +49,14 @@ class bppController3 {
 		return result;
 	}
 }
+
+@RestController
+@RequestMapping("/s4")
+class bppController4 {
+	@GetMapping("/{num}")
+	public Integer[] f1(@PathVariable String num) {
+		System.out.println(num);
+		Integer[] ar = {10,20,30};
+		return ar;
+	}
+}
