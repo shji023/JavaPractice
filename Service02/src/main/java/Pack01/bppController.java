@@ -5,6 +5,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @RestController
 @RequestMapping("/s1")
 public class bppController {
@@ -23,6 +28,24 @@ class bppController2 {
 	public String f1(@PathVariable String num) {
 		System.out.println(num);
 		String result = "문자열";
+		return result;
+	}
+}
+@NoArgsConstructor
+@AllArgsConstructor
+@Setter
+@Getter
+class People{
+	String name;
+	int age; 
+}
+@RestController
+@RequestMapping("/s3")
+class bppController3 {
+	@GetMapping("/{num}")
+	public People f1(@PathVariable String num) {
+		System.out.println(num);
+		People result = new People("호랑이",20);
 		return result;
 	}
 }

@@ -11,5 +11,6 @@
 	<a href="t1">傅农1</a><br/>
 	<a href="t1/1000">Integer 夸没</a><br/>
 	<a href="t2/1000">String 夸没</a><br/>
+	<a href="t3/1000">Object 夸没</a><br/>
 </body>
 </html>
