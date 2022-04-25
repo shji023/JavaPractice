@@ -28,7 +28,7 @@ class RecvModule{
 	@RabbitListener(
 		bindings = @QueueBinding(
 				exchange = @Exchange(name="exchange01",type=ExchangeTypes.TOPIC),
-				value=@Queue(name="banana1"), // 받는키
+				value=@Queue(name="queue01"), // 받는키
 				key="routingKey01")			  // 주는키
 		)
 	public void receiver(String msg) {
