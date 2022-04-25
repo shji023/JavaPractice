@@ -10,5 +10,6 @@
 	<h1>여기가 index</h1>
 	<a href="t1">링크1</a>
 	<a href="t2">문자열 전송</a><br />
+	<a href="t3">객체 전송</a><br />
 </body>
 </html>
