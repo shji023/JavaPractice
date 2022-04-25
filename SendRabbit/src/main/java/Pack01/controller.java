@@ -15,7 +15,6 @@ public class controller {
 	@RequestMapping("/t1")
 	public String f1() {
 		System.out.println("f1 call");
-		
 		return "controllerView";
 		// return "redirect:/";
 	}

@@ -27,7 +27,7 @@ public class controller {
 class RecvModule{
 	@RabbitListener(
 		bindings = @QueueBinding(
-				exchange = @Exchange(name="time",type=ExchangeTypes.TOPIC),
+				exchange = @Exchange(name="exchange01",type=ExchangeTypes.TOPIC),
 				value=@Queue(name="banana1"), // 받는키
 				key="routingKey01")			  // 주는키
 		)
