@@ -14,15 +14,15 @@ public class controller {
 	}
 	
 	@Autowired
-	RabbitTemplate rabbitTemplate;
+	RabbitTemplate template;
 	 
 	static int count = 0;
 	@RequestMapping("/t1")
 	public String f1() {
 		System.out.println("f1 call");
 		String msg = "ㄲ"+count++;
+		template.convertAndSend("helloQueue", msg);
 		// return "controllerView";
 		return "redirect:/";
 	}
-	
 }
