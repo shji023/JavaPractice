@@ -1,6 +1,10 @@
 package Pack01;
 
+import org.springframework.amqp.core.ExchangeTypes;
+import org.springframework.amqp.rabbit.annotation.Exchange;
+import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
@@ -27,22 +31,36 @@ public class controller {
 	}
 }
 @Component
-@RabbitListener(queues="helloQueue")
 class Tut1Receiver{
-	@RabbitHandler
+	@RabbitListener(
+			// exchange 설정, Queue 설정, key는 설정안함
+			bindings = @QueueBinding(
+			exchange = @Exchange(value = "ex01", type = ExchangeTypes.FANOUT),
+			value = @Queue(value = "helloQueue") 
+			)
+	)
 	// public void receive(String in) {
-	public void receive(String in, 
-			Channel channel, 
-			Message msg) {
-		System.out.println(channel.toString());
-		try {Thread.sleep(5000);}catch(Exception e) {}
+	public void receive(String in) {
 		System.out.println(in);
-		long tag = msg.getMessageProperties().getDeliveryTag();
-		// 작업이 완료되었음을 Rabbit에게 알림.
-		try {
-			channel.basicAck(tag, false);	
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
 	}
 }
+//@Component
+//@RabbitListener(queues="helloQueue")
+//class Tut1Receiver{
+//	@RabbitHandler
+//	// public void receive(String in) {
+//	public void receive(String in, 
+//			Channel channel, 
+//			Message msg) {
+//		System.out.println(channel.toString());
+//		try {Thread.sleep(5000);}catch(Exception e) {}
+//		System.out.println(in);
+//		long tag = msg.getMessageProperties().getDeliveryTag();
+//		// 작업이 완료되었음을 Rabbit에게 알림.
+//		try {
+//			channel.basicAck(tag, false);	
+//		}catch(Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
+//}

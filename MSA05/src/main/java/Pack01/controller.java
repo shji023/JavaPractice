@@ -1,5 +1,9 @@
 package Pack01;
 
+import org.springframework.amqp.core.ExchangeTypes;
+import org.springframework.amqp.rabbit.annotation.Exchange;
+import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
@@ -17,18 +21,22 @@ public class controller {
 	@RequestMapping("/t1")
 	public String f1() {
 		System.out.println("f1 call");
-		
 		return "controllerView";
 		// return "redirect:/";
 	}
 }
 
 @Component
-@RabbitListener(queues="helloQueue")
 class Tut1Receiver{
-	@RabbitHandler
+	@RabbitListener(
+			// exchange 설정, Queue 설정, key는 설정안함
+			bindings = @QueueBinding(
+			exchange = @Exchange(value = "ex01", type = ExchangeTypes.FANOUT),
+			value = @Queue(value = "queue01") 
+			)
+	)
+	// public void receive(String in) {
 	public void receive(String in) {
 		System.out.println(in);
 	}
 }
-

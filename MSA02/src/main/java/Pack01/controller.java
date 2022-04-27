@@ -25,11 +25,25 @@ public class controller {
 		// return "controllerView";
 		return "redirect:/";
 	}
+	
 	@RequestMapping("/t2")
 	public String f2() {
 		System.out.println("f2 call");
 		String msg = "ㄲ"+count++;
 		template.convertAndSend("helloQueue", msg);
+		// return "controllerView";
+		return "redirect:/";
+	}
+	
+	@RequestMapping("/t3")
+	public String f3() {
+		System.out.println("f3 call");
+		String msg = "ㄲ"+count++;
+		// 보내는 쪽에서는 큐 설정을 하지 않는다.
+		template.convertAndSend(
+				"ex01", // exchange 설정
+				"", // key
+				msg);
 		// return "controllerView";
 		return "redirect:/";
 	}
