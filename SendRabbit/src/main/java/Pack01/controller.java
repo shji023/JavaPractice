@@ -148,15 +148,15 @@ public class controller {
       // 들어온 데이터 확인
       System.out.println(mra);
       System.out.println(mra.user.alias);
-      System.out.println(mra.multiplication.factorA);
-      System.out.println(mra.multiplication.factorB);
-      System.out.println(mra.resultAttempt);
+//      System.out.println(mra.multiplication.factorA);
+//      System.out.println(mra.multiplication.factorB);
+//      System.out.println(mra.resultAttempt);
       System.out.println(mra.result);
       
       // rabbitMq(대시보드) 쪽으로 데이터를 전송한다.
       rabbitTemplate.convertAndSend(
          "exchange01", // 교환소
-         "routingKey02", // 전달자(Producer) 키
+         "routingKey01", // 전달자(Producer) 키
          mra // 전송할 데이터
       );
       
@@ -206,4 +206,5 @@ class MultiplicationResultAttempt {
    Multiplication multiplication; // 문제
    int resultAttempt; // 답안
    boolean result;
+   int questionId;
 }
