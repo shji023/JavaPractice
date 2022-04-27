@@ -19,5 +19,6 @@
 	<a href="t6_1">error</a>
 	<a href="t6_2">info</a>
 	<a href="t6_3">warning</a>
+	<a href="t7">topic</a>
 </body>
 </html>

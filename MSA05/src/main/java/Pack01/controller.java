@@ -30,9 +30,9 @@ class Tut1Receiver1{
 	@RabbitListener(
 			// exchange 설정, Queue 설정, key는 설정안함
 			bindings = @QueueBinding(
-			exchange = @Exchange(value = "ex01", type = ExchangeTypes.DIRECT),
+			exchange = @Exchange(value = "ex01", type = ExchangeTypes.TOPIC),
 			value = @Queue(value = "queue02"),
-			key = {"black", "info","warning"} 
+			key = {"*.*.rabbit", "lazy.#"} 
 			)
 	)
 	// public void receive(String in) {
@@ -40,7 +40,6 @@ class Tut1Receiver1{
 		System.out.println(in);
 	}
 }
-
 //@Component
 //class Tut1Receiver2{
 //	@RabbitListener(

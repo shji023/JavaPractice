@@ -153,4 +153,26 @@ public class controller {
 		// return "controllerView";
 		return "redirect:/";
 	}
+	@RequestMapping("/t7")
+	public String f7() {
+		System.out.println("f7 call");
+		String msg = "topic"+count++;
+		// 보내는 쪽에서는 큐 설정을 하지 않는다.
+		// q1, q2
+		//		template.convertAndSend("ex01","quick.orange.rabbit",msg);
+		// q1, q2
+		//		template.convertAndSend("ex01","lazy.orange.elephant",msg);
+		// q1
+		//		template.convertAndSend("ex01","quick.orange.fox",msg);
+		// q2
+		//		template.convertAndSend("ex01","lazy.brown.fox",msg);
+		// q2 한번만 들어간다
+		//		template.convertAndSend("ex01","lazy.pink.fox",msg);
+		template.convertAndSend(
+				"ex01", // exchange 설정
+				"quick.orange.fox", // key
+				msg);
+		// return "controllerView";
+		return "redirect:/";
+	}
 }
