@@ -117,4 +117,40 @@ public class controller {
 		// return "controllerView";
 		return "redirect:/";
 	}
+	@RequestMapping("/t6_1")
+	public String f61() {
+		System.out.println("f61 call");
+		String msg = "error"+count++;
+		// 보내는 쪽에서는 큐 설정을 하지 않는다.
+		template.convertAndSend(
+				"ex01", // exchange 설정
+				"error", // key
+				msg);
+		// return "controllerView";
+		return "redirect:/";
+	}
+	@RequestMapping("/t6_2")
+	public String f62() {
+		System.out.println("f62 call");
+		String msg = "info"+count++;
+		// 보내는 쪽에서는 큐 설정을 하지 않는다.
+		template.convertAndSend(
+				"ex01", // exchange 설정
+				"info", // key
+				msg);
+		// return "controllerView";
+		return "redirect:/";
+	}
+	@RequestMapping("/t6_3")
+	public String f63() {
+		System.out.println("f63 call");
+		String msg = "warning"+count++;
+		// 보내는 쪽에서는 큐 설정을 하지 않는다.
+		template.convertAndSend(
+				"ex01", // exchange 설정
+				"warning", // key
+				msg);
+		// return "controllerView";
+		return "redirect:/";
+	}
 }
