@@ -35,8 +35,9 @@ class Tut1Receiver{
 	@RabbitListener(
 			// exchange 설정, Queue 설정, key는 설정안함
 			bindings = @QueueBinding(
-			exchange = @Exchange(value = "ex01", type = ExchangeTypes.FANOUT),
-			value = @Queue(value = "helloQueue") 
+			exchange = @Exchange(value = "ex01", type = ExchangeTypes.DIRECT),
+			value = @Queue(value = "queue01"),
+			key = "orange"
 			)
 	)
 	// public void receive(String in) {
@@ -44,6 +45,20 @@ class Tut1Receiver{
 		System.out.println(in);
 	}
 }
+//@Component
+//class Tut1Receiver{
+//	@RabbitListener(
+//			// exchange 설정, Queue 설정, key는 설정안함
+//			bindings = @QueueBinding(
+//			exchange = @Exchange(value = "ex01", type = ExchangeTypes.FANOUT),
+//			value = @Queue(value = "helloQueue") 
+//			)
+//	)
+//	// public void receive(String in) {
+//	public void receive(String in) {
+//		System.out.println(in);
+//	}
+//}
 //@Component
 //@RabbitListener(queues="helloQueue")
 //class Tut1Receiver{

@@ -11,5 +11,9 @@
 	<a href="t1">링크1</a>
 	<a href="t2">링크2</a>
 	<a href="t3">링크3</a>
+	<a href="t4_1">orange</a>
+	<a href="t4_2">black</a>
+	<a href="t4_3">green</a>
+	<a href="t4_4">All Send</a>
 </body>
 </html>
