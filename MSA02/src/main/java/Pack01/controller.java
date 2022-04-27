@@ -25,4 +25,12 @@ public class controller {
 		// return "controllerView";
 		return "redirect:/";
 	}
+	@RequestMapping("/t2")
+	public String f2() {
+		System.out.println("f2 call");
+		String msg = "ㄲ"+count++;
+		template.convertAndSend("helloQueue", msg);
+		// return "controllerView";
+		return "redirect:/";
+	}
 }

@@ -27,6 +27,7 @@ public class controller {
 class Tut1Receiver{
 	@RabbitHandler
 	public void receive(String in) {
+		try {Thread.sleep(2000);}catch(Exception e) {}
 		System.out.println(in);
 	}
 }
