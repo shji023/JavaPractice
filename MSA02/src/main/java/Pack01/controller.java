@@ -104,4 +104,17 @@ public class controller {
 				msg);
 		return "redirect:/";
 	}
+	
+	@RequestMapping("/t5")
+	public String f5() {
+		System.out.println("f43 call");
+		String msg = "블랙"+count++;
+		// 보내는 쪽에서는 큐 설정을 하지 않는다.
+		template.convertAndSend(
+				"ex01", // exchange 설정
+				"black", // key
+				msg);
+		// return "controllerView";
+		return "redirect:/";
+	}
 }

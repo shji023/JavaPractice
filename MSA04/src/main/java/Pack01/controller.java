@@ -37,7 +37,7 @@ class Tut1Receiver{
 			bindings = @QueueBinding(
 			exchange = @Exchange(value = "ex01", type = ExchangeTypes.DIRECT),
 			value = @Queue(value = "queue01"),
-			key = "orange"
+			key = "black"
 			)
 	)
 	// public void receive(String in) {
