@@ -52,6 +52,15 @@
 ## MSA01, BackupSpring, Service01, Service02
 - MSA project
 
+## Kafka Test, Kafka React
+### kafka 활용 곱셈 채점 프로그램
+- Kafka Test
+  - Msa01: SpringBoot, 1~100 사이 랜덤 넘버 생성 후 정답/오답 체크 기능 서버, 사용자 정답, 점수 kafka에 전달 
+  - MulRankingBoard: SpringBoot, Kafka에서 전달받은 데이터 DB에 저장 후 화면에 전달
+- Kafka React
+  - Multi-Test: React, 사용자 input 입력받아 Msa01 서버에 전달 및 정답 여부 출력
+  - 0426: React, 사용자 랭킹 MulRankingBoard에서 조회하여 출력 
+  
 ## ZzzSend, EuServer, ZzzRecvApp, ZzzRecvBpp01, ZzzRecvBpp02, Zuul
 
 ![image](https://user-images.githubusercontent.com/60960130/167830366-dbb1a3fc-2efd-4bdc-ab16-4b426ae427a3.png)<br />
